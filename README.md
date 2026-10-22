@@ -2,6 +2,8 @@
 
 Small, dependency-free things that each do one job. No build step, no bundler, no framework — open the file and it runs.
 
+**Live:** <https://patelpb96.github.io/smallapps/>
+
 | App | What it does |
 |---|---|
 | [`apps/agent-plan`](apps/agent-plan/) | Plans agentic workflows against published standards: autonomy tier, sandbox floor, tool contracts, oversight design, evaluation gates. |
@@ -24,8 +26,10 @@ Everything is derived from a rule catalog that cites a standard, spec, or paper.
 
 ### Run it
 
+Either use the hosted copy at <https://patelpb96.github.io/smallapps/apps/agent-plan/>, or run it locally:
+
 ```bash
-# Web UI (recommended)
+# Web UI
 node scripts/serve.js          # → http://localhost:4173/
 
 # CLI
