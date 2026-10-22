@@ -12,6 +12,7 @@ import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 import { HEURISTICS, SOURCES, QUESTIONS, PRESETS } from '../src/agent-plan/index.js';
+import { checkPersonalData, checkCommitIdentity } from './checks/personal-data.js';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const problems = [];
@@ -140,6 +141,11 @@ for (const rel of [...await walk('src'), ...await walk('apps'), ...await walk('s
     problems.push(`${rel}:${line} contains ${count} control character(s) — a \\b that became a backspace silently breaks a regex`);
   }
 }
+
+// 10. PERSONAL DATA must not enter tracked files. This repo is public, and an
+//     absolute path in a doc leaks silently. See AGENTS.md.
+await checkPersonalData(ROOT, problems);
+await checkCommitIdentity(ROOT, notes);
 
 // ── Report ────────────────────────────────────────────────────────────────
 for (const n of notes) process.stdout.write(`note: ${n}\n`);

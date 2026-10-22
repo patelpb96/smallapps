@@ -4,6 +4,8 @@ Small, dependency-free things that each do one job. No build step, no bundler, n
 
 **Live:** <https://patelpb96.github.io/smallapps/>
 
+Working on this repo? Read [`AGENTS.md`](AGENTS.md) first — it holds the two rules that are not negotiable here (no device-identifying content in a public repo, and the Flow portability contract).
+
 | App | What it does |
 |---|---|
 | [`apps/flow`](apps/flow/) | Turns a description of a workflow into an editable swimlane diagram, with structural risks drawn on it. |
