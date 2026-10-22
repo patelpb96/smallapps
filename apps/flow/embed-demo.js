@@ -14,6 +14,10 @@ import { HARNESS_BUNDLE, STATUS_SCRIPT } from './fixtures/harness-topology.js';
 const $ = (s) => document.querySelector(s);
 const params = new URLSearchParams(location.search);
 
+// Resolved once, so the dropdown label can never point somewhere other than the
+// port the demo is actually using.
+const API_BASE = (params.get('api') || 'http://localhost:4300').replace(/\/+$/, '');
+
 const host = {
   theme: document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light',
   mode: 'live',
@@ -28,8 +32,7 @@ const host = {
 
 function makePort() {
   if (host.portKind === 'http') {
-    const base = params.get('api') || 'http://localhost:4300';
-    return new HttpPort({ base: `${base.replace(/\/+$/, '')}/v1/flow` });
+    return new HttpPort({ base: `${API_BASE}/v1/flow` });
   }
   host.memoryPort = new MemoryPort({ bundle: HARNESS_BUNDLE });
   return host.memoryPort;
@@ -179,6 +182,7 @@ async function mountFlow() {
 // ── Controls ───────────────────────────────────────────────────────────────
 
 $('#port-select').value = host.portKind;
+$('#port-select').querySelector('option[value="http"]').textContent = `HttpPort (→ ${API_BASE})`;
 $('#port-select').addEventListener('change', (e) => {
   host.portKind = e.target.value;
   mountFlow();
