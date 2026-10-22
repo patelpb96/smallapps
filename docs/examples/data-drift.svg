@@ -15,35 +15,35 @@
     <rect x="0" y="34" width="2438" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="34" width="196" height="102" fill="#fcfcfa"/>
     <line x1="196" y1="34" x2="196" y2="136" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="82" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="82" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
     <text x="18" y="98" font-size="13" font-weight="600" fill="#1b1b19">Trigger</text>
   </g>
 <g class="lane" data-lane="pipeline">
     <rect x="0" y="144" width="2438" height="102" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="144" width="196" height="102" fill="#f6f6f2"/>
     <line x1="196" y1="144" x2="196" y2="246" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="192" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="192" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
     <text x="18" y="208" font-size="13" font-weight="600" fill="#1b1b19">Pipeline</text>
   </g>
 <g class="lane" data-lane="agent">
     <rect x="0" y="254" width="2438" height="136" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="254" width="196" height="136" fill="#fcfcfa"/>
     <line x1="196" y1="254" x2="196" y2="390" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="319" font-size="9" font-weight="700" letter-spacing="0.8" fill="#1d4ed8" opacity="0.8">MODEL</text>
+    <text x="18" y="319" font-size="9" font-weight="700" letter-spacing="0.8" fill="#1d4ed8" opacity="0.9">MODEL</text>
     <text x="18" y="335" font-size="13" font-weight="600" fill="#1b1b19">Agent</text>
   </g>
 <g class="lane" data-lane="engineer">
     <rect x="0" y="398" width="2438" height="102" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="398" width="196" height="102" fill="#f6f6f2"/>
     <line x1="196" y1="398" x2="196" y2="500" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="446" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.8">HUMAN</text>
+    <text x="18" y="446" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.9">HUMAN</text>
     <text x="18" y="462" font-size="13" font-weight="600" fill="#1b1b19">Engineer</text>
   </g>
 <g class="lane" data-lane="system">
     <rect x="0" y="508" width="2438" height="120" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="508" width="196" height="120" fill="#fcfcfa"/>
     <line x1="196" y1="508" x2="196" y2="628" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="565" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="565" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
     <text x="18" y="581" font-size="13" font-weight="600" fill="#1b1b19">System</text>
   </g>
 <g class="edge" data-edge="e1">
@@ -60,7 +60,7 @@
   </g>
 <g class="edge" data-edge="e4">
     <path d="M 1187 307.3 L 1208.6 307.3 Q 1216 307.3 1216 314.6 L 1216 314.6 Q 1216 322 1223.4 322 L 1245 322" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
-    <g class="edge-label"><rect x="1188.7" y="299.3" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1201.5" y="310.3" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
+    <g class="edge-label"><rect x="1188.7" y="299.3" width="25.6" height="15" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8"/><text x="1201.5" y="310.3" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
   </g>
 <g class="edge" data-edge="e5">
     <path d="M 1478 322 L 1498 322 Q 1507 322 1507 331 L 1507 440 Q 1507 449 1516 449 L 1536 449" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
@@ -79,26 +79,26 @@
     
   </g>
 <g class="node" data-node="n1" data-shape="pill" transform="translate(146,56)">
-    <rect x="1" y="1" width="143" height="56" rx="28" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
+    <rect x="1" y="1" width="143" height="56" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.4a5.6 5.6 0 1 0 0 11.2A5.6 5.6 0 1 0 8 2.4M8 5v3.3l2.3 1.4"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Every hour</tspan></text>
-    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#7c3aed" opacity="0.85">SCHEDULE</text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#7c3aed" opacity="0.9">SCHEDULE</text>
     
     
   </g>
 <g class="node" data-node="n2" data-shape="rect" transform="translate(349,166)">
-    <rect x="1" y="1" width="271" height="56" rx="9" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <rect x="1" y="1" width="271" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 4.4c0-1 2.1-1.7 4.6-1.7s4.6.7 4.6 1.7v7.2c0 1-2.1 1.7-4.6 1.7s-4.6-.7-4.6-1.7Z M3.4 4.4c0 1 2.1 1.7 4.6 1.7s4.6-.7 4.6-1.7"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Reads rows from the warehouse</tspan></text>
-    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.85">READ / QUERY</text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">READ / QUERY</text>
     <circle cx="266" cy="7" r="2.6" fill="#0e7490"><title>reads sensitive data</title></circle>
     
   </g>
 <g class="node" data-node="n3" data-shape="round" transform="translate(680,285)">
-    <rect x="1" y="1" width="251" height="72" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <rect x="1" y="1" width="251" height="72" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/><rect x="5" y="5" width="243" height="64" fill="none" stroke="#1d4ed8" stroke-width="1" opacity="0.45"/>
     <g transform="translate(14,20.0) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 4.8h9.4 M3 8h9.4 M3 11.2h6"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="28.0">Summarises the metrics and</tspan><tspan x="41" y="43.0">compares them to yesterday</tspan></text>
-    <text x="41" y="60.0" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">SUMMARISE</text>
+    <text x="41" y="60.0" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.9">SUMMARISE</text>
     
     
   </g>
@@ -111,10 +111,10 @@
     
   </g>
 <g class="node" data-node="n5" data-shape="round" transform="translate(1245,293)">
-    <rect x="1" y="1" width="231" height="56" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <rect x="1" y="1" width="231" height="56" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/><rect x="5" y="5" width="223" height="48" fill="none" stroke="#1d4ed8" stroke-width="1" opacity="0.45"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Drafts an incident note</tspan></text>
-    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">LLM STEP</text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.9">LLM STEP</text>
     
     
   </g>
@@ -122,23 +122,23 @@
     <path d="M 18 1 H 134 L 151 29 L 134 57 H 18 L 1 29 Z" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 8.3 6.5 11.3 12.6 4.5"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Approves it</tspan></text>
-    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#b45309" opacity="0.85">APPROVAL GATE</text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#b45309" opacity="0.9">APPROVAL GATE</text>
     
     
   </g>
 <g class="node" data-node="n7" data-shape="rect" transform="translate(1746,293)">
-    <rect x="1" y="1" width="177" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
+    <rect x="1" y="1" width="177" height="56" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.2 8 13.2 2.8 10 13.2 7.5 8.6Z"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Writes an alert</tspan></text>
-    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.85">SEND MESSAGE</text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.9">SEND MESSAGE</text>
     <circle cx="172" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle>
     
   </g>
 <g class="node" data-node="n8" data-shape="rect" transform="translate(1983,293)">
-    <rect x="1" y="1" width="231" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
+    <rect x="1" y="1" width="231" height="56" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.2 8 13.2 2.8 10 13.2 7.5 8.6Z"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Emails the on-call rota</tspan></text>
-    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.85">SEND MESSAGE</text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.9">SEND MESSAGE</text>
     <circle cx="226" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle>
     
   </g>

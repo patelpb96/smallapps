@@ -40,7 +40,7 @@ node bin/plan.js --answers my-answers.json --format json
 node bin/plan.js --list-presets
 
 # Checks
-npm test                       # 82 behavioural + integrity tests
+npm test                       # 85 behavioural + integrity tests
 npm run check                  # tests + referential integrity + doc freshness
 ```
 
@@ -152,9 +152,13 @@ flags: critical:trifecta, medium:no-error-path
 | Pan / zoom | space-drag or wheel · ⌘/ctrl-wheel zooms at the cursor |
 | Keyboard | `⌘Z` / `⇧⌘Z` · `⌘D` duplicate · `⌘↵` generate · arrows nudge · `Del` |
 
-Exports PNG (2×), SVG, the JSON spec, and the LLM prompt. `?demo=0..3` in the URL loads an example.
+Everything is square-cornered by design — no rounded rectangles anywhere. Shapes that need to read differently do it with geometry (diamond, hexagon, parallelogram, cylinder, ellipse) or a double border, not by being softer than their neighbours.
 
-Worked examples are checked in at [`docs/examples/`](docs/examples/) as both SVG and JSON — regenerate with `node scripts/flow-render.js --examples docs/examples`.
+**The canvas follows the page's colour scheme.** Both the SVG and every exported PNG are rendered from a theme object, so a diagram drawn on a dark background is dark — not a white sheet dropped onto it. `?theme=dark|light` overrides the OS setting when you want to render for a specific background.
+
+Exports PNG (2×), SVG, the JSON spec, and the LLM prompt. `?demo=0..3` in the URL loads an example, `?select=<node>` focuses one.
+
+Worked examples are checked in at [`docs/examples/`](docs/examples/) as SVG, JSON, and both light and dark PNGs — regenerate with `node scripts/flow-render.js --examples docs/examples` and `--theme dark` for the dark set.
 
 ---
 

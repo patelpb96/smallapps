@@ -404,6 +404,38 @@ test('renderSVG escapes text rather than injecting it', () => {
   assert.ok(svg.includes('&amp;'));
 });
 
+test('no rounded corners survive in any shape', () => {
+  const { spec } = fromText(PROSE);
+  const svg = renderSVG(spec);
+  const rounded = [...svg.matchAll(/<rect[^>]*rx="([1-9][0-9.]*)"/g)].map((m) => m[0]);
+  assert.deepEqual(rounded, [], `rounded rects remain: ${rounded.slice(0, 3).join(' | ')}`);
+});
+
+test('light and dark themes produce different, valid documents', () => {
+  const { spec, size } = fromText(PROSE);
+  const light = renderSVG(spec, { width: size.w, height: size.h, theme: 'light' });
+  const dark = renderSVG(spec, { width: size.w, height: size.h, theme: 'dark' });
+  assert.notEqual(light, dark);
+  for (const svg of [light, dark]) {
+    assert.ok(!svg.includes('NaN') && !svg.includes('undefined'));
+    assert.equal((svg.match(/class="node"/g) || []).length, spec.nodes.length);
+  }
+  // The dark canvas must not be painted white.
+  assert.match(dark, /<rect width="\d+" height="\d+" fill="#101010"\/>/);
+  assert.match(light, /<rect width="\d+" height="\d+" fill="#ffffff"\/>/);
+});
+
+test('the dark theme keeps node fills dark and text light', () => {
+  const { spec } = normalizeSpec({
+    lanes: [{ id: 'l', name: 'L' }],
+    nodes: [{ id: 'a', primitive: 'llm', lane: 'l', label: 'Step' }],
+    edges: [],
+  });
+  const svg = renderSVG(layout(spec).spec, { theme: 'dark' });
+  assert.match(svg, /fill="#1b1b1a"/, 'expected the dark node fill');
+  assert.match(svg, /fill="#ececea"/, 'expected the dark ink colour');
+});
+
 test('esc handles the usual suspects', () => {
   assert.equal(esc('<&>"\''), '&lt;&amp;&gt;&quot;&#39;');
 });

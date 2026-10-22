@@ -29,8 +29,7 @@
   --sans: ui-sans-serif, -apple-system, "Segoe UI", Inter, Roboto, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+:root[data-theme="dark"] {
     --bg:        #101010;
     --bg-raise:  #181817;
     --bg-sunken: #0c0c0c;
@@ -50,8 +49,10 @@
     --ok:          #5ec48f;
 
     --canvas-bg:   #141413;
-  }
 }
+
+/* Theme is set on <html> by the inline script in index.html, so the media query
+   lives in one place instead of being duplicated for the override. */
 
 * { box-sizing: border-box; }
 

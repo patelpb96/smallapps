@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow — workflow diagrams — smallapps</title>
 <meta name="description" content="Describe a workflow in prose, get an editable swimlane diagram with the risks drawn on it.">
+<script>
+  // Resolve the theme before first paint: the CSS keys off this attribute, so
+  // there is no flash of the wrong background.
+  (function () {
+    try {
+      var forced = new URLSearchParams(location.search).get('theme');
+      var dark = forced === 'dark'
+        || (forced !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>
 <link rel="stylesheet" href="./app.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌗</text></svg>">
 </head>

@@ -50,7 +50,7 @@ Once approved the agent writes an alert and emails the on-call rota.`,
 ];
 
 function parseArgs(argv) {
-  const out = { demos: false, out: null, text: null, file: null, json: false };
+  const out = { demos: false, out: null, text: null, file: null, json: false, theme: 'light' };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--text' || a === '-t') out.text = argv[++i];
@@ -59,15 +59,16 @@ function parseArgs(argv) {
     else if (a === '--out' || a === '-o') out.out = argv[++i];
     else if (a === '--examples') out.examples = argv[++i];
     else if (a === '--json') out.json = true;
+    else if (a === '--theme') out.theme = argv[++i] === 'dark' ? 'dark' : 'light';
     else if (a === '--help' || a === '-h') out.help = true;
   }
   return out;
 }
 
-function build(text, name) {
+function build(text, name, theme = 'light') {
   const { spec, size, issues } = fromText(text);
   if (name) spec.title = name;
-  const svg = renderSVG(spec, { width: size.w, height: size.h });
+  const svg = renderSVG(spec, { width: size.w, height: size.h, theme });
   return { spec, size, svg, issues, analysis: analyze(spec) };
 }
 
@@ -95,7 +96,7 @@ async function main() {
     const dir = join(ROOT, args.examples);
     await mkdir(dir, { recursive: true });
     for (const demo of DEMOS) {
-      const built = build(demo.text, demo.slug.replace(/-/g, ' '));
+      const built = build(demo.text, demo.slug.replace(/-/g, ' '), args.theme);
       await writeFile(join(dir, `${demo.slug}.svg`), built.svg, 'utf8');
       if (args.json) await writeFile(join(dir, `${demo.slug}.json`), `${JSON.stringify(built.spec, null, 2)}\n`, 'utf8');
       process.stdout.write(`${demo.slug}.svg\n`);
@@ -117,7 +118,7 @@ async function main() {
     return;
   }
 
-  const built = build(text, name);
+  const built = build(text, name, args.theme);
   if (args.out) {
     await writeFile(join(ROOT, args.out), built.svg, 'utf8');
     process.stderr.write(report(built));

@@ -11,7 +11,7 @@
  */
 
 import {
-  renderNode, renderEdge, renderLane, renderDefs,
+  renderNode, renderEdge, renderLane, renderDefs, themeOf,
 } from '../../src/flow/render.js';
 import {
   rectOf, pointInRect, snap, nearestPort,
@@ -44,6 +44,8 @@ export class DiagramEditor {
     this.redoStack = [];
     this._drag = null;
     this.spaceHeld = false;
+    // Follows the page's colour scheme; see setTheme().
+    this.theme = 'light';
 
     this._build();
     this._bind();
@@ -56,7 +58,9 @@ export class DiagramEditor {
     this.svg.setAttribute('xmlns', SVG_NS);
 
     const defs = document.createElementNS(SVG_NS, 'g');
-    defs.innerHTML = renderDefs();
+    defs.setAttribute('class', 'defs');
+    defs.innerHTML = renderDefs(this.theme);
+    this.gDefs = defs;
 
     this.viewport = document.createElementNS(SVG_NS, 'g');
     this.viewport.setAttribute('class', 'viewport');
@@ -70,6 +74,14 @@ export class DiagramEditor {
     this.viewport.append(this.gLanes, this.gEdges, this.gNodes, this.gOverlay);
     this.svg.append(defs, this.viewport);
     this._applyView();
+  }
+
+  /** Match the canvas to the surrounding UI. */
+  setTheme(name) {
+    const next = name === 'dark' ? 'dark' : 'light';
+    if (next === this.theme) return;
+    this.theme = next;
+    this.render();
   }
 
   _applyView() {
@@ -144,11 +156,14 @@ export class DiagramEditor {
   // ── Render ──────────────────────────────────────────────────────────────
 
   render() {
+    const theme = this.theme;
+    const t = themeOf(theme);
+    if (this.gDefs) this.gDefs.innerHTML = renderDefs(theme);
     const byId = nodeById(this.spec);
     const width = this.spec.width || 1200;
 
     this.gLanes.innerHTML = this.spec.lanes
-      .map((l, i) => renderLane(l, i, width))
+      .map((l, i) => renderLane(l, i, width, theme))
       .join('');
 
     this.gEdges.innerHTML = this.spec.edges.map((e) => {
@@ -158,14 +173,14 @@ export class DiagramEditor {
       return renderEdge(e, from, to, {
         selected: this.selectedEdge === e.id,
         highlighted: this.warnEdges.has(e.id),
+        theme,
       });
     }).join('');
 
     this.gNodes.innerHTML = this.spec.nodes.map((n) => renderNode(n, {
       selected: this.selection.has(n.id),
       connectable: this.selection.size <= 1,
-      warn: this.warnNodes.has(n.id),
-      shape: getPrimitive(n.primitive).shape,
+      theme,
     })).join('');
 
     // Warning halos drawn under the node bodies.
@@ -174,7 +189,7 @@ export class DiagramEditor {
         .filter((n) => this.warnNodes.has(n.id))
         .map((n) => {
           const r = rectOf(n);
-          return `<rect x="${r.x - 5}" y="${r.y - 5}" width="${r.w + 10}" height="${r.h + 10}" rx="14" fill="none" stroke="#b42318" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.75"/>`;
+          return `<rect x="${r.x - 5}" y="${r.y - 5}" width="${r.w + 10}" height="${r.h + 10}" fill="none" stroke="${t.danger}" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.85"/>`;
         }).join('');
       this.gNodes.insertAdjacentHTML('beforeend', halos);
     }
@@ -539,6 +554,7 @@ export class DiagramEditor {
   _onMove(e) {
     if (!this._drag) return;
     const d = this._drag;
+    const t = themeOf(this.theme);
 
     if (d.type === 'pan') {
       this.view.x = d.origin.x + (e.clientX - d.start.x);
@@ -555,7 +571,7 @@ export class DiagramEditor {
       const sx = r.x + r.w;
       const sy = r.y + r.h / 2;
       const mid = (sx + to.x) / 2;
-      this.gOverlay.innerHTML = `<path d="M ${sx} ${sy} C ${mid} ${sy}, ${mid} ${to.y}, ${to.x} ${to.y}" fill="none" stroke="#3b5bdb" stroke-width="2" stroke-dasharray="5 4"/>`;
+      this.gOverlay.innerHTML = `<path d="M ${sx} ${sy} C ${mid} ${sy}, ${mid} ${to.y}, ${to.x} ${to.y}" fill="none" stroke="${t.select}" stroke-width="2" stroke-dasharray="5 4"/>`;
       return;
     }
 
@@ -586,7 +602,7 @@ export class DiagramEditor {
         x: Math.min(d.start.x, pt.x), y: Math.min(d.start.y, pt.y),
         w: Math.abs(pt.x - d.start.x), h: Math.abs(pt.y - d.start.y),
       };
-      this.gOverlay.innerHTML = `<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="#3b5bdb" fill-opacity="0.06" stroke="#3b5bdb" stroke-width="1" stroke-dasharray="4 3"/>`;
+      this.gOverlay.innerHTML = `<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="${t.select}" fill-opacity="0.08" stroke="${t.select}" stroke-width="1" stroke-dasharray="4 3"/>`;
       return;
     }
   }

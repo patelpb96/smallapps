@@ -11,7 +11,7 @@ import { normalizeSpec, cloneSpec, nextId } from '../../src/flow/spec.js';
 import {
   PRIMITIVES, CATEGORY, EFFECT_LABELS, getPrimitive, primitivesByCategory, effectsOf,
 } from '../../src/flow/primitives.js';
-import { renderSVG, PALETTE } from '../../src/flow/render.js';
+import { renderSVG, accentFor } from '../../src/flow/render.js';
 import { SOURCES } from '../../src/agent-plan/sources.js';
 import { DiagramEditor } from './editor.js';
 import { buildPrompt, interpretWithLLM, DEFAULT_SETTINGS, SPEC_CONTRACT } from './llm.js';
@@ -76,8 +76,20 @@ function download(filename, data, type = 'application/octet-stream') {
 const slug = () => (state.spec?.title || 'workflow')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'workflow';
 
+/** Accent for a primitive in whatever theme the canvas is currently in. */
 function accentOf(primitiveId) {
-  return PALETTE[CATEGORY[getPrimitive(primitiveId).category].accent] || PALETTE.slate;
+  return accentFor(primitiveId, editor?.theme || pageTheme());
+}
+
+/**
+ * Follow the OS/browser colour scheme, which is what the page CSS follows.
+ * ?theme=dark|light overrides it, so a diagram can be exported for whichever
+ * background it is going into.
+ */
+function pageTheme() {
+  const forced = new URLSearchParams(location.search).get('theme');
+  if (forced === 'dark' || forced === 'light') return forced;
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 // ── Persistence ─────────────────────────────────────────────────────────────
@@ -117,7 +129,7 @@ function renderPalette() {
     const items = groups[key] || [];
     if (!items.length) continue;
     const group = el('div', { class: 'pal-group' });
-    group.style.setProperty('--dot', PALETTE[cat.accent]);
+    group.style.setProperty('--dot', accentOf(items[0].id));
 
     const wrap = el('div', { class: 'pal-items' });
     for (const p of items) {
@@ -422,7 +434,7 @@ function renderLanesSection(root) {
   const box = el('div', { class: 'field', style: 'margin-top:20px;border-top:1px solid var(--line-soft);padding-top:12px' });
   box.append(el('label', {}, 'Lanes'));
 
-  for (const lane of state.spec.lanes) {
+  for (const lane of state.spec?.lanes || []) {
     const row = el('div', { style: 'display:flex;align-items:center;gap:5px;margin-bottom:4px' });
     row.append(el('input', {
       type: 'text', value: lane.name, style: 'flex:1',
@@ -489,7 +501,7 @@ function inlineEdit(node, commit, nodeEl) {
 
 function exportSVG() {
   const spec = editor.getSpec();
-  const svg = renderSVG(spec, { width: spec.width, height: spec.height });
+  const svg = renderSVG(spec, { width: spec.width, height: spec.height, theme: editor.theme });
   download(`${slug()}.svg`, svg, 'image/svg+xml');
 }
 
@@ -497,7 +509,7 @@ async function exportPNG() {
   const spec = editor.getSpec();
   const width = spec.width || 1200;
   const height = spec.height || 600;
-  const svg = renderSVG(spec, { width, height });
+  const svg = renderSVG(spec, { width, height, theme: editor.theme });
 
   const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }));
   try {
@@ -513,7 +525,7 @@ async function exportPNG() {
     canvas.width = Math.round(width * scale);
     canvas.height = Math.round(height * scale);
     const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = editor.theme === 'dark' ? '#141413' : '#ffffff';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
@@ -569,6 +581,23 @@ function init() {
     onEditLabel: (node, commit, nodeEl) => inlineEdit(node, commit, nodeEl),
   });
   editor.onViewChange = () => { $('#zoom-level').textContent = `${Math.round(editor.view.k * 100)}%`; };
+
+  const applyTheme = () => {
+    const theme = pageTheme();
+    document.documentElement.dataset.theme = theme;
+    editor.setTheme(theme);
+    renderPalette();
+    // init calls applyTheme before a spec exists; the inspector is rendered
+    // again once one does.
+    if (state.spec) renderInspector(editor.selectionPayload());
+  };
+  applyTheme();
+  window.matchMedia?.('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => {
+      // An explicit ?theme= wins over the OS, so do not clobber it.
+      if (new URLSearchParams(location.search).has('theme')) return;
+      applyTheme();
+    });
 
   renderPalette();
   renderExamples();
