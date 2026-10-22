@@ -86,6 +86,25 @@ for (const id of Object.keys(SOURCES)) {
   }
 }
 
+// 8. Numeric claims in the README must match reality. Stale marketing numbers
+//    are the most common way a README starts lying.
+const readme = await readFile(join(ROOT, 'README.md'), 'utf8');
+const paperCount = (await readdir(join(ROOT, 'docs/papers'))).filter((f) => f.endsWith('.pdf')).length;
+const claims = [
+  [/(\d+) heuristics/, HEURISTICS.length, 'heuristics'],
+  [/(\d+) entries/, Object.keys(SOURCES).length, 'source entries'],
+  [/(\d+) downloaded/, paperCount, 'downloaded papers'],
+  [/(\d+) papers, checked in/, paperCount, 'checked-in papers'],
+  [/(\d+) questions/, QUESTIONS.length, 'questions'],
+];
+for (const [re, actual, label] of claims) {
+  for (const m of readme.matchAll(new RegExp(re, 'g'))) {
+    if (Number(m[1]) !== actual) {
+      problems.push(`README claims ${m[1]} ${label}, actual is ${actual}`);
+    }
+  }
+}
+
 // ── Report ────────────────────────────────────────────────────────────────
 for (const n of notes) process.stdout.write(`note: ${n}\n`);
 if (problems.length) {

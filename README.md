@@ -39,7 +39,7 @@ node bin/plan.js --answers my-answers.json --format json
 node bin/plan.js --list-presets
 
 # Checks
-npm test                       # 25 behavioural + integrity tests
+npm test                       # 30 behavioural + integrity tests
 npm run check                  # tests + referential integrity + doc freshness
 ```
 
@@ -100,7 +100,7 @@ scripts/              serve, generate docs, lint references
 docs/
   HEURISTICS.md       generated reference
   SOURCES.md          generated annotated bibliography
-  papers/             12 papers, checked in
+  papers/             11 papers, checked in
 ```
 
 `src/` has no knowledge of the UI. Adding an output format means touching `render.js`, never a heuristic.
@@ -109,7 +109,7 @@ docs/
 
 ## Sources
 
-30 entries, 12 downloaded to [`docs/papers/`](docs/papers/). The four that most shaped the design:
+30 entries, 11 downloaded to [`docs/papers/`](docs/papers/). The four that most shaped the design:
 
 - **AWS Agentic AI Security Scoping Matrix** — gave the autonomy ladder its vocabulary, and the core claim that deterministic controls outside the model are the starting point, not prompting.
 - **OWASP Top 10 for Agentic Applications 2026** + **AISVS C09** — the most testable requirement set available; most of the `authority` and `budget` rules trace here.
