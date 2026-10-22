@@ -158,6 +158,8 @@ Everything is square-cornered by design — no rounded rectangles anywhere. Shap
 
 Exports PNG (2×), SVG, the JSON spec, and the LLM prompt. `?demo=0..3` in the URL loads an example, `?select=<node>` focuses one.
 
+[`docs/examples/workflows/`](docs/examples/workflows/) has four diagrams of workflows that actually run on this machine — a destructive-action gate, a supervised worker loop, a two-agent handoff protocol, and a game death/recovery race — each with the prose it was built from.
+
 Worked examples are checked in at [`docs/examples/`](docs/examples/) as SVG, JSON, and both light and dark PNGs — regenerate with `node scripts/flow-render.js --examples docs/examples` and `--theme dark` for the dark set.
 
 ---

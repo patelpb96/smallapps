@@ -179,7 +179,8 @@ export function analyze(spec) {
   // ── 6. Code execution without a declared isolation boundary ──
   for (const node of spec.nodes.filter((n) => hasEffect(n, 'exec-code'))) {
     const isolation = String(node.props?.isolation || '').toLowerCase();
-    const weak = !isolation || ['none', 'host', 'bare', 'process'].includes(isolation);
+    const firstWord = isolation.split(/[^a-z]/)[0];
+    const weak = !isolation || ['none', 'host', 'bare', 'process', 'unconfined', 'user'].includes(firstWord);
     if (!weak) continue;
     push({
       id: 'sandbox-floor',

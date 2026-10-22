@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2795" height="636" viewBox="0 0 2795 636" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
+<defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b9b93"/>
+    </marker>
+    <marker id="arrow-select" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b5bdb"/>
+    </marker>
+    <marker id="arrow-danger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b42318"/>
+    </marker>
+  </defs>
+<rect width="2795" height="636" fill="#ffffff"/>
+<g class="lane" data-lane="player">
+    <rect x="0" y="34" width="2795" height="120" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="34" width="196" height="120" fill="#fcfcfa"/>
+    <line x1="196" y1="34" x2="196" y2="154" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="91" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.9">HUMAN</text>
+    <text x="18" y="107" font-size="13" font-weight="600" fill="#1b1b19">Player</text>
+  </g>
+<g class="lane" data-lane="world">
+    <rect x="0" y="162" width="2795" height="330" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="162" width="196" height="330" fill="#f6f6f2"/>
+    <line x1="196" y1="162" x2="196" y2="492" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="324" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
+    <text x="18" y="340" font-size="13" font-weight="600" fill="#1b1b19">World</text>
+  </g>
+<g class="lane" data-lane="others">
+    <rect x="0" y="500" width="2795" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="500" width="196" height="102" fill="#fcfcfa"/>
+    <line x1="196" y1="500" x2="196" y2="602" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="548" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
+    <text x="18" y="564" font-size="13" font-weight="600" fill="#1b1b19">Players &amp; NPCs</text>
+  </g>
+<g class="edge" data-edge="e1">
+    <path d="M 298 94 L 318 94 Q 327 94 327 103 L 327 318 Q 327 327 336 327 L 356 327" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e2">
+    <path d="M 615 327 L 644 327 L 644 327 L 673 327" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e3">
+    <path d="M 899 327 L 919 327 Q 928 327 928 318 L 928 103 Q 928 94 937 94 L 957 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e4">
+    <path d="M 1129 94 L 1149 94 Q 1158 94 1158 103 L 1158 204 Q 1158 213 1167 213 L 1187 213" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e5">
+    <path d="M 1129 94 L 1160 94 Q 1169 94 1169 103 L 1169 280 Q 1169 289 1178 289 L 1208 289" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e6">
+    <path d="M 1129 94 L 1166 94 Q 1175 94 1175 103 L 1175 356 Q 1175 365 1184 365 L 1221 365" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e7">
+    <path d="M 1129 94 L 1156 94 Q 1165 94 1165 103 L 1165 432 Q 1165 441 1174 441 L 1201 441" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e8">
+    <path d="M 1440 213 L 1460 213 Q 1469 213 1469 204 L 1469 103 Q 1469 94 1478 94 L 1498 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e9">
+    <path d="M 1420 289 L 1450 289 Q 1459 289 1459 280 L 1459 103 Q 1459 94 1468 94 L 1498 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e10">
+    <path d="M 1407 365 L 1444 365 Q 1453 365 1453 356 L 1453 103 Q 1453 94 1462 94 L 1498 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e11">
+    <path d="M 1427 441 L 1454 441 Q 1463 441 1463 432 L 1463 103 Q 1463 94 1472 94 L 1498 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e12">
+    <path d="M 1634 94 L 1654 94 Q 1663 94 1663 103 L 1663 318 Q 1663 327 1672 327 L 1692 327" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e13">
+    <path d="M 1902 313.6 L 1932 313.6 Q 1941 313.6 1941 304.6 L 1941 103 Q 1941 94 1950 94 L 1980 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1928.2" y="195.8" width="25.6" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="1941.0" y="206.8" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">yes</text></g>
+  </g>
+<g class="edge" data-edge="e14">
+    <path d="M 1902 345.5 L 1922 345.5 Q 1931 345.5 1931 354.5 L 1931 542 Q 1931 551 1940 551 L 1960 551" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1920.8" y="440.2" width="20.4" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="1931.0" y="451.2" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">no</text></g>
+  </g>
+<g class="edge" data-edge="e15">
+    <path d="M 2206 551 L 2226 551 Q 2235 551 2235 542 L 2235 336 Q 2235 327 2244 327 L 2264 327" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e16">
+    <path d="M 2186 94 L 2381 94 L 2381 94 L 2575 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e17">
+    <path d="M 2517 327 L 2537 327 Q 2546 327 2546 318 L 2546 103 Q 2546 94 2555 94 L 2575 94" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="node" data-node="d0" data-shape="pill" transform="translate(146,65)">
+    <rect x="1" y="1" width="150" height="56" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M9.2 2 4.3 9.1H7.8L6.8 14l5-7.2H8.2Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Player dies</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#7c3aed" opacity="0.9">EVENT / WEBHOOK</text>
+    <circle cx="145" cy="7" r="2.6" fill="#be123c"><title>untrusted input</title></circle>
+    
+  </g>
+<g class="node" data-node="d1" data-shape="rect" transform="translate(356,298)">
+    <rect x="1" y="1" width="257" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.9 13.1 3.7 10 11 2.7l2.3 2.3L6 12.3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Drop gear into a death pile</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">WRITE RECORD</text>
+    
+    
+  </g>
+<g class="node" data-node="d2" data-shape="pill" transform="translate(673,298)">
+    <rect x="1" y="1" width="224" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.4a5.6 5.6 0 1 0 0 11.2A5.6 5.6 0 1 0 8 2.4M8 5v3.3l2.3 1.4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">15-minute timer starts</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">WAIT / DELAY</text>
+    
+    
+  </g>
+<g class="node" data-node="d3" data-shape="rect" transform="translate(957,65)">
+    <rect x="1" y="1" width="170" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.8 8h3.4 M6.2 8 9.4 4.4h3.4 M6.2 8l3.2 3.6h3.4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Pick transport</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">PARALLEL FORK</text>
+    
+    
+  </g>
+<g class="node" data-node="d4" data-shape="rect" transform="translate(1187,184)">
+    <rect x="1" y="1" width="251" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Subway: cheap, fixed stops</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="d5" data-shape="rect" transform="translate(1208,260)">
+    <rect x="1" y="1" width="210" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Train: long distance</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="d6" data-shape="rect" transform="translate(1221,336)">
+    <rect x="1" y="1" width="184" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Bus: dense, slow</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="d7" data-shape="rect" transform="translate(1201,412)">
+    <rect x="1" y="1" width="224" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Uber: anywhere, pricey</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="d8" data-shape="rect" transform="translate(1498,65)">
+    <rect x="1" y="1" width="134" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.8 4.6h3.4L9.4 8h3.4 M2.8 11.4h3.4L9.4 8"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Arrive</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">JOIN</text>
+    
+    
+  </g>
+<g class="node" data-node="d9" data-shape="diamond" transform="translate(1692,285)">
+    <path d="M 105 1 L 209 42 L 105 83 L 1 42 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="105" y="39.5" text-anchor="middle">Beat the timer?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="d10" data-shape="rect" transform="translate(1960,522)">
+    <rect x="1" y="1" width="244" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.9 13.1 3.7 10 11 2.7l2.3 2.3L6 12.3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Anyone nearby can loot it</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">WRITE RECORD</text>
+    
+    
+  </g>
+<g class="node" data-node="d11" data-shape="rect" transform="translate(1980,65)">
+    <rect x="1" y="1" width="204" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 4.4c0-1 2.1-1.7 4.6-1.7s4.6.7 4.6 1.7v7.2c0 1-2.1 1.7-4.6 1.7s-4.6-.7-4.6-1.7Z M3.4 4.4c0 1 2.1 1.7 4.6 1.7s4.6-.7 4.6-1.7"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Recover the loadout</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">READ / QUERY</text>
+    <circle cx="199" cy="7" r="2.6" fill="#0e7490"><title>reads sensitive data</title></circle>
+    
+  </g>
+<g class="node" data-node="d12" data-shape="rect" transform="translate(2264,298)">
+    <rect x="1" y="1" width="251" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.9 13.1 3.7 10 11 2.7l2.3 2.3L6 12.3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Flat loss: buy cheap again</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">WRITE RECORD</text>
+    
+    
+  </g>
+<g class="node" data-node="d13" data-shape="circle" transform="translate(2575,56)">
+    <ellipse cx="96" cy="38" rx="95" ry="37" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,28.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5 5h6v6H5Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="36.5">Back in the world</tspan></text>
+    <text x="41" y="53.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#57606a" opacity="0.9">DONE</text>
+    
+    
+  </g>
+</svg>

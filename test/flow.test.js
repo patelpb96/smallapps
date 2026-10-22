@@ -356,6 +356,14 @@ test('code execution without a declared isolation boundary is flagged', () => {
   });
   assert.ok(analyze(flagged).flags.some((f) => f.id === 'sandbox-floor'));
 
+  // A value that merely starts with a weak word must not read as a boundary.
+  const smuggled = normalizeSpec({
+    lanes: [{ id: 'l', name: 'L' }],
+    nodes: [{ id: 'a', primitive: 'tool-exec', lane: 'l', props: { isolation: 'none: runs as the user' } }],
+    edges: [],
+  }).spec;
+  assert.ok(analyze(smuggled).flags.some((f) => f.id === 'sandbox-floor'), '"none: ..." was accepted as an isolation boundary');
+
   const { spec: fine } = normalizeSpec({
     lanes: [{ id: 'l', name: 'L' }],
     nodes: [{ id: 'a', primitive: 'tool-exec', lane: 'l', props: { isolation: 'microVM' } }],

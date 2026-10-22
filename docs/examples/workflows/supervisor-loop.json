@@ -1,0 +1,316 @@
+{
+  "version": 1,
+  "title": "Supervised worker loop (worker / CTO / harness)",
+  "lanes": [
+    {
+      "id": "human",
+      "name": "Human",
+      "kind": "human",
+      "y": 34,
+      "height": 120
+    },
+    {
+      "id": "cto",
+      "name": "Argon (CTO)",
+      "kind": "agent",
+      "y": 162,
+      "height": 102
+    },
+    {
+      "id": "worker",
+      "name": "DeepSeek (worker)",
+      "kind": "agent",
+      "y": 272,
+      "height": 102
+    },
+    {
+      "id": "harness",
+      "name": "Harness scripts",
+      "kind": "system",
+      "y": 382,
+      "height": 212
+    }
+  ],
+  "nodes": [
+    {
+      "id": "s0",
+      "primitive": "trigger-manual",
+      "label": "Brief + constraints",
+      "lane": "human",
+      "props": {},
+      "w": 206,
+      "h": 76,
+      "x": 146,
+      "y": 56
+    },
+    {
+      "id": "s1",
+      "primitive": "llm",
+      "label": "CTO plans the next step",
+      "lane": "cto",
+      "props": {
+        "budget": "one step, names what would make it wrong"
+      },
+      "w": 233,
+      "h": 58,
+      "x": 410,
+      "y": 184
+    },
+    {
+      "id": "s2",
+      "primitive": "llm",
+      "label": "Worker executes the step",
+      "lane": "worker",
+      "props": {},
+      "w": 239,
+      "h": 58,
+      "x": 701,
+      "y": 294
+    },
+    {
+      "id": "s3",
+      "primitive": "subprocess",
+      "label": "Guard destructive steps",
+      "lane": "harness",
+      "props": {},
+      "w": 233,
+      "h": 58,
+      "x": 998,
+      "y": 459
+    },
+    {
+      "id": "s4",
+      "primitive": "subprocess",
+      "label": "Judge: exit code, schema, hash",
+      "lane": "harness",
+      "props": {},
+      "w": 280,
+      "h": 58,
+      "x": 1289,
+      "y": 459
+    },
+    {
+      "id": "s5",
+      "primitive": "decision",
+      "label": "Judge passes?",
+      "lane": "harness",
+      "props": {},
+      "w": 196,
+      "h": 84,
+      "x": 1627,
+      "y": 446
+    },
+    {
+      "id": "s6",
+      "primitive": "llm",
+      "label": "CTO reviews the digest",
+      "lane": "cto",
+      "props": {
+        "budget": "ok / drift / violation, quotes evidence"
+      },
+      "w": 226,
+      "h": 58,
+      "x": 1881,
+      "y": 184
+    },
+    {
+      "id": "s7",
+      "primitive": "classify",
+      "label": "Flag repeats vs restatements",
+      "lane": "worker",
+      "props": {
+        "rule": "a repeat is a spec, not a prompt to try harder"
+      },
+      "w": 266,
+      "h": 58,
+      "x": 2165,
+      "y": 294
+    },
+    {
+      "id": "s8",
+      "primitive": "decision",
+      "label": "Verdict ok?",
+      "lane": "harness",
+      "props": {},
+      "w": 196,
+      "h": 84,
+      "x": 2489,
+      "y": 446
+    },
+    {
+      "id": "s9",
+      "primitive": "error",
+      "label": "Retarget: fix the input",
+      "lane": "harness",
+      "props": {},
+      "w": 233,
+      "h": 58,
+      "x": 2743,
+      "y": 404
+    },
+    {
+      "id": "s10",
+      "primitive": "decision",
+      "label": "Budget or stop_case hit?",
+      "lane": "harness",
+      "props": {
+        "until": "verdict ok, stop_case, or budget spent",
+        "max": "step and spend cap"
+      },
+      "w": 202,
+      "h": 92,
+      "x": 2759,
+      "y": 480
+    },
+    {
+      "id": "s11",
+      "primitive": "escalate",
+      "label": "Stop and report",
+      "lane": "cto",
+      "props": {},
+      "w": 179,
+      "h": 58,
+      "x": 3034,
+      "y": 184
+    },
+    {
+      "id": "s12",
+      "primitive": "end",
+      "label": "Findings + handoff note",
+      "lane": "human",
+      "props": {},
+      "w": 233,
+      "h": 76,
+      "x": 3271,
+      "y": 56
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s0",
+      "to": "s1"
+    },
+    {
+      "id": "e2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s1",
+      "to": "s2"
+    },
+    {
+      "id": "e3",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s2",
+      "to": "s3"
+    },
+    {
+      "id": "e4",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s3",
+      "to": "s4"
+    },
+    {
+      "id": "e5",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s4",
+      "to": "s5"
+    },
+    {
+      "id": "e6",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "s5",
+      "to": "s6"
+    },
+    {
+      "id": "e7",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "s5",
+      "to": "s9"
+    },
+    {
+      "id": "e8",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s6",
+      "to": "s7"
+    },
+    {
+      "id": "e9",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s7",
+      "to": "s8"
+    },
+    {
+      "id": "e10",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "s8",
+      "to": "s10"
+    },
+    {
+      "id": "e11",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "s8",
+      "to": "s9"
+    },
+    {
+      "id": "e12",
+      "kind": "loop",
+      "label": "retarget",
+      "fromPort": "out",
+      "from": "s9",
+      "to": "s1"
+    },
+    {
+      "id": "e13",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "s10",
+      "to": "s11"
+    },
+    {
+      "id": "e14",
+      "kind": "loop",
+      "label": "no",
+      "fromPort": "false",
+      "from": "s10",
+      "to": "s1"
+    },
+    {
+      "id": "e15",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "s11",
+      "to": "s12"
+    }
+  ],
+  "meta": {
+    "source": "",
+    "interpreter": "authored"
+  },
+  "width": 3532,
+  "height": 628
+}

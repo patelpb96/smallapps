@@ -1,0 +1,341 @@
+{
+  "version": 1,
+  "title": "Destructive-action gate (guard.py)",
+  "lanes": [
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "kind": "system",
+      "y": 34,
+      "height": 102
+    },
+    {
+      "id": "gate",
+      "name": "guard.py",
+      "kind": "system",
+      "y": 144,
+      "height": 227
+    },
+    {
+      "id": "cto",
+      "name": "Argon (no tools)",
+      "kind": "agent",
+      "y": 379,
+      "height": 102
+    },
+    {
+      "id": "human",
+      "name": "Human",
+      "kind": "human",
+      "y": 489,
+      "height": 102
+    }
+  ],
+  "nodes": [
+    {
+      "id": "g0",
+      "primitive": "trigger-event",
+      "label": "Destructive action proposed",
+      "lane": "trigger",
+      "props": {},
+      "w": 259,
+      "h": 58,
+      "x": 146,
+      "y": 56
+    },
+    {
+      "id": "g1",
+      "primitive": "decision",
+      "label": "Routed via guard.py?",
+      "lane": "gate",
+      "props": {
+        "condition": "the reviewed path is also the lazy path"
+      },
+      "w": 196,
+      "h": 92,
+      "x": 463,
+      "y": 212
+    },
+    {
+      "id": "g2",
+      "primitive": "subprocess",
+      "label": "Unreviewed bypass, logged",
+      "lane": "gate",
+      "props": {},
+      "w": 246,
+      "h": 58,
+      "x": 717,
+      "y": 191
+    },
+    {
+      "id": "g3",
+      "primitive": "subprocess",
+      "label": "Build bounded prompt",
+      "lane": "gate",
+      "props": {},
+      "w": 212,
+      "h": 58,
+      "x": 734,
+      "y": 267
+    },
+    {
+      "id": "g4",
+      "primitive": "llm",
+      "label": "Argon: allow / deny / escalate",
+      "lane": "cto",
+      "props": {
+        "budget": "no tools, JSON only",
+        "limits": "cannot see a file you did not paste"
+      },
+      "w": 280,
+      "h": 58,
+      "x": 1021,
+      "y": 401
+    },
+    {
+      "id": "g5",
+      "primitive": "decision",
+      "label": "Valid JSON reply?",
+      "lane": "gate",
+      "props": {},
+      "w": 196,
+      "h": 92,
+      "x": 1359,
+      "y": 212
+    },
+    {
+      "id": "g6",
+      "primitive": "error",
+      "label": "Fail closed: deny (3)",
+      "lane": "gate",
+      "props": {},
+      "w": 219,
+      "h": 58,
+      "x": 1613,
+      "y": 178
+    },
+    {
+      "id": "g7",
+      "primitive": "decision",
+      "label": "Allow?",
+      "lane": "gate",
+      "props": {},
+      "w": 196,
+      "h": 84,
+      "x": 1625,
+      "y": 254
+    },
+    {
+      "id": "g8",
+      "primitive": "escalate",
+      "label": "Deny: stop (1)",
+      "lane": "gate",
+      "props": {},
+      "w": 172,
+      "h": 58,
+      "x": 1902,
+      "y": 166
+    },
+    {
+      "id": "g9",
+      "primitive": "decision",
+      "label": "In project, blast radius known?",
+      "lane": "gate",
+      "props": {},
+      "w": 196,
+      "h": 107,
+      "x": 1890,
+      "y": 242
+    },
+    {
+      "id": "g10",
+      "primitive": "escalate",
+      "label": "Escalate: human decides (2)",
+      "lane": "human",
+      "props": {},
+      "w": 259,
+      "h": 58,
+      "x": 2144,
+      "y": 511
+    },
+    {
+      "id": "g11",
+      "primitive": "tool-write",
+      "label": "Log to argon-guard.jsonl",
+      "lane": "gate",
+      "props": {},
+      "w": 239,
+      "h": 58,
+      "x": 2154,
+      "y": 229
+    },
+    {
+      "id": "g12",
+      "primitive": "tool-exec",
+      "label": "Execute the command (0)",
+      "lane": "gate",
+      "props": {
+        "isolation": "none: runs with the user permissions"
+      },
+      "w": 233,
+      "h": 58,
+      "x": 2461,
+      "y": 229
+    },
+    {
+      "id": "g13",
+      "primitive": "end",
+      "label": "Recorded",
+      "lane": "gate",
+      "props": {},
+      "w": 136,
+      "h": 76,
+      "x": 2752,
+      "y": 220
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "g0",
+      "to": "g1"
+    },
+    {
+      "id": "e2",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "g1",
+      "to": "g2"
+    },
+    {
+      "id": "e3",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "g1",
+      "to": "g3"
+    },
+    {
+      "id": "e4",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "g3",
+      "to": "g4"
+    },
+    {
+      "id": "e5",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "g4",
+      "to": "g5"
+    },
+    {
+      "id": "e6",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "g5",
+      "to": "g6"
+    },
+    {
+      "id": "e7",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "g5",
+      "to": "g7"
+    },
+    {
+      "id": "e8",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "g7",
+      "to": "g8"
+    },
+    {
+      "id": "e9",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "g7",
+      "to": "g9"
+    },
+    {
+      "id": "e10",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "g9",
+      "to": "g10"
+    },
+    {
+      "id": "e11",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "g9",
+      "to": "g11"
+    },
+    {
+      "id": "e12",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "g11",
+      "to": "g12"
+    },
+    {
+      "id": "e13",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "g12",
+      "to": "g13"
+    },
+    {
+      "id": "e14",
+      "kind": "async",
+      "label": "",
+      "fromPort": "out",
+      "from": "g2",
+      "to": "g13"
+    },
+    {
+      "id": "e15",
+      "kind": "error",
+      "label": "",
+      "fromPort": "out",
+      "from": "g6",
+      "to": "g13"
+    },
+    {
+      "id": "e16",
+      "kind": "error",
+      "label": "",
+      "fromPort": "out",
+      "from": "g8",
+      "to": "g13"
+    },
+    {
+      "id": "e17",
+      "kind": "error",
+      "label": "",
+      "fromPort": "out",
+      "from": "g10",
+      "to": "g13"
+    }
+  ],
+  "meta": {
+    "source": "",
+    "interpreter": "authored"
+  },
+  "width": 2916,
+  "height": 625
+}

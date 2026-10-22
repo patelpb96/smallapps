@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3532" height="628" viewBox="0 0 3532 628" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
+<defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6f6f67"/>
+    </marker>
+    <marker id="arrow-select" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8dabff"/>
+    </marker>
+    <marker id="arrow-danger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff8a7a"/>
+    </marker>
+  </defs>
+<rect width="3532" height="628" fill="#101010"/>
+<g class="lane" data-lane="human">
+    <rect x="0" y="34" width="3532" height="120" fill="#171716" stroke="#30302c" stroke-width="1"/>
+    <rect x="0" y="34" width="196" height="120" fill="#171716"/>
+    <line x1="196" y1="34" x2="196" y2="154" stroke="#30302c" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="91" font-size="9" font-weight="700" letter-spacing="0.8" fill="#f0b35e" opacity="0.9">HUMAN</text>
+    <text x="18" y="107" font-size="13" font-weight="600" fill="#ececea">Human</text>
+  </g>
+<g class="lane" data-lane="cto">
+    <rect x="0" y="162" width="3532" height="102" fill="#1c1c1b" stroke="#30302c" stroke-width="1"/>
+    <rect x="0" y="162" width="196" height="102" fill="#1c1c1b"/>
+    <line x1="196" y1="162" x2="196" y2="264" stroke="#30302c" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="210" font-size="9" font-weight="700" letter-spacing="0.8" fill="#8dabff" opacity="0.9">MODEL</text>
+    <text x="18" y="226" font-size="13" font-weight="600" fill="#ececea">Argon (CTO)</text>
+  </g>
+<g class="lane" data-lane="worker">
+    <rect x="0" y="272" width="3532" height="102" fill="#171716" stroke="#30302c" stroke-width="1"/>
+    <rect x="0" y="272" width="196" height="102" fill="#171716"/>
+    <line x1="196" y1="272" x2="196" y2="374" stroke="#30302c" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="320" font-size="9" font-weight="700" letter-spacing="0.8" fill="#8dabff" opacity="0.9">MODEL</text>
+    <text x="18" y="336" font-size="13" font-weight="600" fill="#ececea">DeepSeek (worker)</text>
+  </g>
+<g class="lane" data-lane="harness">
+    <rect x="0" y="382" width="3532" height="212" fill="#1c1c1b" stroke="#30302c" stroke-width="1"/>
+    <rect x="0" y="382" width="196" height="212" fill="#1c1c1b"/>
+    <line x1="196" y1="382" x2="196" y2="594" stroke="#30302c" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="485" font-size="9" font-weight="700" letter-spacing="0.8" fill="#9ba3ae" opacity="0.9">SYSTEM</text>
+    <text x="18" y="501" font-size="13" font-weight="600" fill="#ececea">Harness scripts</text>
+  </g>
+<g class="edge" data-edge="e1">
+    <path d="M 352 94 L 372 94 Q 381 94 381 103 L 381 204 Q 381 213 390 213 L 410 213" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e2">
+    <path d="M 643 213 L 663 213 Q 672 213 672 222 L 672 314 Q 672 323 681 323 L 701 323" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e3">
+    <path d="M 940 323 L 960 323 Q 969 323 969 332 L 969 479 Q 969 488 978 488 L 998 488" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e4">
+    <path d="M 1231 488 L 1260 488 L 1260 488 L 1289 488" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e5">
+    <path d="M 1569 488 L 1598 488 L 1598 488 L 1627 488" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e6">
+    <path d="M 1823 474.6 L 1843 474.6 Q 1852 474.6 1852 465.6 L 1852 222 Q 1852 213 1861 213 L 1881 213" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1839.2" y="335.8" width="25.6" height="15" fill="#1b1b1a" stroke="#6f6f67" stroke-width="0.8"/><text x="1852.0" y="346.8" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6f6f67">yes</text></g>
+  </g>
+<g class="edge" data-edge="e7">
+    <path d="M 1823 506.5 L 2274 506.5 Q 2283 506.5 2283 497.5 L 2283 442 Q 2283 433 2292 433 L 2743 433" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="2042.8" y="498.5" width="20.4" height="15" fill="#1b1b1a" stroke="#6f6f67" stroke-width="0.8"/><text x="2053.0" y="509.5" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6f6f67">no</text></g>
+  </g>
+<g class="edge" data-edge="e8">
+    <path d="M 2107 213 L 2127 213 Q 2136 213 2136 222 L 2136 314 Q 2136 323 2145 323 L 2165 323" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e9">
+    <path d="M 2431 323 L 2451 323 Q 2460 323 2460 332 L 2460 479 Q 2460 488 2469 488 L 2489 488" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e10">
+    <path d="M 2685 474.6 L 2713 474.6 Q 2722 474.6 2722 483.6 L 2722 517 Q 2722 526 2731 526 L 2759 526" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="2709.2" y="492.3" width="25.6" height="15" fill="#1b1b1a" stroke="#6f6f67" stroke-width="0.8"/><text x="2722.0" y="503.3" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6f6f67">yes</text></g>
+  </g>
+<g class="edge" data-edge="e11">
+    <path d="M 2685 506.5 L 2705 506.5 Q 2714 506.5 2714 497.5 L 2714 442 Q 2714 433 2723 433 L 2743 433" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="2703.8" y="461.7" width="20.4" height="15" fill="#1b1b1a" stroke="#6f6f67" stroke-width="0.8"/><text x="2714.0" y="472.7" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6f6f67">no</text></g>
+  </g>
+<g class="edge" data-edge="e12">
+    <path d="M 2976 433 L 2993 433 Q 3002 433 3002 424 L 3002 332 Q 3002 323 2993 323 L 393 323 Q 384 323 384 314 L 384 222 Q 384 213 393 213 L 410 213" fill="none" stroke="#f0b35e" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1667.2" y="315.0" width="51.6" height="15" fill="#1b1b1a" stroke="#f0b35e" stroke-width="0.8"/><text x="1693.0" y="326.0" text-anchor="middle" font-size="9.5" font-weight="600" fill="#f0b35e">retarget</text></g>
+  </g>
+<g class="edge" data-edge="e13">
+    <path d="M 2961 511.3 L 2989 511.3 Q 2998 511.3 2998 502.3 L 2998 222 Q 2998 213 3007 213 L 3034 213" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="2985.2" y="354.1" width="25.6" height="15" fill="#1b1b1a" stroke="#6f6f67" stroke-width="0.8"/><text x="2998.0" y="365.1" text-anchor="middle" font-size="9.5" font-weight="600" fill="#6f6f67">yes</text></g>
+  </g>
+<g class="edge" data-edge="e14">
+    <path d="M 2961 546.2 L 2978 546.2 Q 2987 546.2 2987 537.2 L 2987 389 Q 2987 380 2978 380 L 393 380 Q 384 380 384 371 L 384 222 Q 384 213 393 213 L 410 213" fill="none" stroke="#f0b35e" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1675.3" y="372.0" width="20.4" height="15" fill="#1b1b1a" stroke="#f0b35e" stroke-width="0.8"/><text x="1685.5" y="383.0" text-anchor="middle" font-size="9.5" font-weight="600" fill="#f0b35e">no</text></g>
+  </g>
+<g class="edge" data-edge="e15">
+    <path d="M 3213 213 L 3233 213 Q 3242 213 3242 204 L 3242 103 Q 3242 94 3251 94 L 3271 94" fill="none" stroke="#6f6f67" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="node" data-node="s0" data-shape="circle" transform="translate(146,56)">
+    <ellipse cx="103" cy="38" rx="102" ry="37" fill="#1b1b1a" stroke="#a78bfa" stroke-width="1.4"/>
+    <g transform="translate(14,28.5) scale(0.86)" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5.5 3.2 12.5 8 5.5 12.8Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="36.5">Brief + constraints</tspan></text>
+    <text x="41" y="53.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#a78bfa" opacity="0.9">MANUAL START</text>
+    
+    
+  </g>
+<g class="node" data-node="s1" data-shape="round" transform="translate(410,184)">
+    <rect x="1" y="1" width="231" height="56" fill="#1b1b1a" stroke="#8dabff" stroke-width="1.4"/><rect x="5" y="5" width="223" height="48" fill="none" stroke="#8dabff" stroke-width="1" opacity="0.45"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#8dabff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">CTO plans the next step</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#8dabff" opacity="0.9">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="s2" data-shape="round" transform="translate(701,294)">
+    <rect x="1" y="1" width="237" height="56" fill="#1b1b1a" stroke="#8dabff" stroke-width="1.4"/><rect x="5" y="5" width="229" height="48" fill="none" stroke="#8dabff" stroke-width="1" opacity="0.45"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#8dabff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">Worker executes the step</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#8dabff" opacity="0.9">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="s3" data-shape="rect" transform="translate(998,459)">
+    <rect x="1" y="1" width="231" height="56" fill="#1b1b1a" stroke="#94a3b8" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">Guard destructive steps</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#94a3b8" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="s4" data-shape="rect" transform="translate(1289,459)">
+    <rect x="1" y="1" width="278" height="56" fill="#1b1b1a" stroke="#94a3b8" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">Judge: exit code, schema, hash</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#94a3b8" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="s5" data-shape="diamond" transform="translate(1627,446)">
+    <path d="M 98 1 L 195 42 L 98 83 L 1 42 Z" fill="#1b1b1a" stroke="#94a3b8" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="98" y="39.5" text-anchor="middle">Judge passes?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="s6" data-shape="round" transform="translate(1881,184)">
+    <rect x="1" y="1" width="224" height="56" fill="#1b1b1a" stroke="#8dabff" stroke-width="1.4"/><rect x="5" y="5" width="216" height="48" fill="none" stroke="#8dabff" stroke-width="1" opacity="0.45"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#8dabff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">CTO reviews the digest</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#8dabff" opacity="0.9">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="s7" data-shape="round" transform="translate(2165,294)">
+    <rect x="1" y="1" width="264" height="56" fill="#1b1b1a" stroke="#8dabff" stroke-width="1.4"/><rect x="5" y="5" width="256" height="48" fill="none" stroke="#8dabff" stroke-width="1" opacity="0.45"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#8dabff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.4 7.9V2.8h5.1l6 6-5.1 5.1Z M5.2 5.2h.1"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">Flag repeats vs restatements</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#8dabff" opacity="0.9">CLASSIFY</text>
+    
+    
+  </g>
+<g class="node" data-node="s8" data-shape="diamond" transform="translate(2489,446)">
+    <path d="M 98 1 L 195 42 L 98 83 L 1 42 Z" fill="#1b1b1a" stroke="#94a3b8" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="98" y="39.5" text-anchor="middle">Verdict ok?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="s9" data-shape="rect" transform="translate(2743,404)">
+    <rect x="1" y="1" width="231" height="56" fill="#1b1b1a" stroke="#9ba3ae" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#9ba3ae" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.6 14.1 13H1.9Z M8 6.3v3.5 M8 11.3v.1"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">Retarget: fix the input</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#9ba3ae" opacity="0.9">ERROR PATH</text>
+    
+    
+  </g>
+<g class="node" data-node="s10" data-shape="diamond" transform="translate(2759,480)">
+    <path d="M 101 1 L 201 46 L 101 91 L 1 46 Z" fill="#1b1b1a" stroke="#94a3b8" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="101" y="36.0" text-anchor="middle">Budget or</tspan><tspan x="101" y="51.0" text-anchor="middle">stop_case hit?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="s11" data-shape="rect" transform="translate(3034,184)">
+    <rect x="1" y="1" width="177" height="56" fill="#1b1b1a" stroke="#9ba3ae" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#9ba3ae" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 13.2V3.4 M4.6 6.8 8 3.4l3.4 3.4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="27.5">Stop and report</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#9ba3ae" opacity="0.9">ESCALATE</text>
+    
+    
+  </g>
+<g class="node" data-node="s12" data-shape="circle" transform="translate(3271,56)">
+    <ellipse cx="116.5" cy="38" rx="115.5" ry="37" fill="#1b1b1a" stroke="#9ba3ae" stroke-width="1.4"/>
+    <g transform="translate(14,28.5) scale(0.86)" fill="none" stroke="#9ba3ae" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5 5h6v6H5Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#ececea"><tspan x="41" y="36.5">Findings + handoff note</tspan></text>
+    <text x="41" y="53.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#9ba3ae" opacity="0.9">DONE</text>
+    
+    
+  </g>
+</svg>

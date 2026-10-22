@@ -1,0 +1,283 @@
+{
+  "version": 1,
+  "title": "CLI ↔ desktop agent handoff",
+  "lanes": [
+    {
+      "id": "agent",
+      "name": "Either agent",
+      "kind": "agent",
+      "y": 34,
+      "height": 178
+    },
+    {
+      "id": "cli",
+      "name": "CLI agent",
+      "kind": "agent",
+      "y": 220,
+      "height": 102
+    },
+    {
+      "id": "desk",
+      "name": "Desktop agent",
+      "kind": "agent",
+      "y": 330,
+      "height": 102
+    }
+  ],
+  "nodes": [
+    {
+      "id": "h0",
+      "primitive": "trigger-manual",
+      "label": "Session ends or blocks",
+      "lane": "agent",
+      "props": {},
+      "w": 226,
+      "h": 76,
+      "x": 146,
+      "y": 85
+    },
+    {
+      "id": "h1",
+      "primitive": "tool-read",
+      "label": "Read the other side",
+      "lane": "agent",
+      "props": {},
+      "w": 206,
+      "h": 58,
+      "x": 430,
+      "y": 94
+    },
+    {
+      "id": "h2",
+      "primitive": "decision",
+      "label": "Anything to hand off?",
+      "lane": "agent",
+      "props": {},
+      "w": 196,
+      "h": 92,
+      "x": 694,
+      "y": 77
+    },
+    {
+      "id": "h3",
+      "primitive": "tool-write",
+      "label": "Write a dated note",
+      "lane": "cli",
+      "props": {},
+      "w": 199,
+      "h": 58,
+      "x": 948,
+      "y": 242
+    },
+    {
+      "id": "h4",
+      "primitive": "tool-read",
+      "label": "Re-read before editing",
+      "lane": "desk",
+      "props": {
+        "why": "the other agent may have changed it"
+      },
+      "w": 226,
+      "h": 58,
+      "x": 1205,
+      "y": 352
+    },
+    {
+      "id": "h5",
+      "primitive": "decision",
+      "label": "Contains a secret?",
+      "lane": "agent",
+      "props": {},
+      "w": 196,
+      "h": 92,
+      "x": 1489,
+      "y": 77
+    },
+    {
+      "id": "h6",
+      "primitive": "escalate",
+      "label": "Stop: never put keys here",
+      "lane": "agent",
+      "props": {},
+      "w": 246,
+      "h": 58,
+      "x": 1743,
+      "y": 56
+    },
+    {
+      "id": "h7",
+      "primitive": "tool-write",
+      "label": "Append, sign with date",
+      "lane": "agent",
+      "props": {},
+      "w": 226,
+      "h": 58,
+      "x": 1753,
+      "y": 132
+    },
+    {
+      "id": "h8",
+      "primitive": "decision",
+      "label": "Finished someone's item?",
+      "lane": "agent",
+      "props": {},
+      "w": 210,
+      "h": 92,
+      "x": 2047,
+      "y": 77
+    },
+    {
+      "id": "h9",
+      "primitive": "tool-write",
+      "label": "Mark DONE, never delete",
+      "lane": "agent",
+      "props": {},
+      "w": 233,
+      "h": 58,
+      "x": 2315,
+      "y": 94
+    },
+    {
+      "id": "h10",
+      "primitive": "tool-write",
+      "label": "Update STATUS.md",
+      "lane": "agent",
+      "props": {},
+      "w": 186,
+      "h": 58,
+      "x": 2606,
+      "y": 94
+    },
+    {
+      "id": "h11",
+      "primitive": "end",
+      "label": "Folder stays consistent",
+      "lane": "agent",
+      "props": {},
+      "w": 233,
+      "h": 76,
+      "x": 2850,
+      "y": 85
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h0",
+      "to": "h1"
+    },
+    {
+      "id": "e2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h1",
+      "to": "h2"
+    },
+    {
+      "id": "e3",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "h2",
+      "to": "h3"
+    },
+    {
+      "id": "e4",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "h2",
+      "to": "h11"
+    },
+    {
+      "id": "e5",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h3",
+      "to": "h4"
+    },
+    {
+      "id": "e6",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h4",
+      "to": "h5"
+    },
+    {
+      "id": "e7",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "h5",
+      "to": "h6"
+    },
+    {
+      "id": "e8",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "h5",
+      "to": "h7"
+    },
+    {
+      "id": "e9",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h7",
+      "to": "h8"
+    },
+    {
+      "id": "e10",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "h8",
+      "to": "h9"
+    },
+    {
+      "id": "e11",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "h8",
+      "to": "h10"
+    },
+    {
+      "id": "e12",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h9",
+      "to": "h10"
+    },
+    {
+      "id": "e13",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "h10",
+      "to": "h11"
+    },
+    {
+      "id": "e14",
+      "kind": "error",
+      "label": "",
+      "fromPort": "out",
+      "from": "h6",
+      "to": "h11"
+    }
+  ],
+  "meta": {
+    "source": "",
+    "interpreter": "authored"
+  },
+  "width": 3111,
+  "height": 466
+}

@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2916" height="625" viewBox="0 0 2916 625" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
+<defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b9b93"/>
+    </marker>
+    <marker id="arrow-select" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b5bdb"/>
+    </marker>
+    <marker id="arrow-danger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b42318"/>
+    </marker>
+  </defs>
+<rect width="2916" height="625" fill="#ffffff"/>
+<g class="lane" data-lane="trigger">
+    <rect x="0" y="34" width="2916" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="34" width="196" height="102" fill="#fcfcfa"/>
+    <line x1="196" y1="34" x2="196" y2="136" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="82" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
+    <text x="18" y="98" font-size="13" font-weight="600" fill="#1b1b19">Trigger</text>
+  </g>
+<g class="lane" data-lane="gate">
+    <rect x="0" y="144" width="2916" height="227" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="144" width="196" height="227" fill="#f6f6f2"/>
+    <line x1="196" y1="144" x2="196" y2="371" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="254.5" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.9">SYSTEM</text>
+    <text x="18" y="270.5" font-size="13" font-weight="600" fill="#1b1b19">guard.py</text>
+  </g>
+<g class="lane" data-lane="cto">
+    <rect x="0" y="379" width="2916" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="379" width="196" height="102" fill="#fcfcfa"/>
+    <line x1="196" y1="379" x2="196" y2="481" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="427" font-size="9" font-weight="700" letter-spacing="0.8" fill="#1d4ed8" opacity="0.9">MODEL</text>
+    <text x="18" y="443" font-size="13" font-weight="600" fill="#1b1b19">Argon (no tools)</text>
+  </g>
+<g class="lane" data-lane="human">
+    <rect x="0" y="489" width="2916" height="102" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="489" width="196" height="102" fill="#f6f6f2"/>
+    <line x1="196" y1="489" x2="196" y2="591" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="537" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.9">HUMAN</text>
+    <text x="18" y="553" font-size="13" font-weight="600" fill="#1b1b19">Human</text>
+  </g>
+<g class="edge" data-edge="e1">
+    <path d="M 405 85 L 425 85 Q 434 85 434 94 L 434 249 Q 434 258 443 258 L 463 258" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e2">
+    <path d="M 659 278.2 L 679 278.2 Q 688 278.2 688 269.2 L 688 229 Q 688 220 697 220 L 717 220" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="677.8" y="241.1" width="20.4" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="688.0" y="252.1" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">no</text></g>
+  </g>
+<g class="edge" data-edge="e3">
+    <path d="M 659 243.3 L 688 243.3 Q 697 243.3 697 252.3 L 697 287 Q 697 296 706 296 L 734 296" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="684.2" y="261.6" width="25.6" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="697.0" y="272.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">yes</text></g>
+  </g>
+<g class="edge" data-edge="e4">
+    <path d="M 946 296 L 975 296 Q 984 296 984 305 L 984 421 Q 984 430 993 430 L 1021 430" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e5">
+    <path d="M 1301 430 L 1321 430 Q 1330 430 1330 421 L 1330 267 Q 1330 258 1339 258 L 1359 258" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e6">
+    <path d="M 1555 278.2 L 1575 278.2 Q 1584 278.2 1584 269.2 L 1584 216 Q 1584 207 1593 207 L 1613 207" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1573.8" y="234.6" width="20.4" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="1584.0" y="245.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">no</text></g>
+  </g>
+<g class="edge" data-edge="e7">
+    <path d="M 1555 243.3 L 1581 243.3 Q 1590 243.3 1590 252.3 L 1590 287 Q 1590 296 1599 296 L 1625 296" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1577.2" y="261.6" width="25.6" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="1590.0" y="272.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">yes</text></g>
+  </g>
+<g class="edge" data-edge="e8">
+    <path d="M 1821 314.5 L 1853 314.5 Q 1862 314.5 1862 305.5 L 1862 204 Q 1862 195 1871 195 L 1902 195" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1851.8" y="246.7" width="20.4" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="1862.0" y="257.7" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">no</text></g>
+  </g>
+<g class="edge" data-edge="e9">
+    <path d="M 1821 282.6 L 1849.5 282.6 Q 1856 282.6 1856 289 L 1856 289 Q 1856 295.5 1862.5 295.5 L 1890 295.5" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1825.7" y="274.6" width="25.6" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="1838.5" y="285.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">yes</text></g>
+  </g>
+<g class="edge" data-edge="e10">
+    <path d="M 2086 319 L 2106 319 Q 2115 319 2115 328 L 2115 531 Q 2115 540 2124 540 L 2144 540" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="2104.8" y="421.5" width="20.4" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="2115.0" y="432.5" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">no</text></g>
+  </g>
+<g class="edge" data-edge="e11">
+    <path d="M 2086 278.4 L 2111 278.4 Q 2120 278.4 2120 269.4 L 2120 267 Q 2120 258 2129 258 L 2154 258" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="2090.2" y="270.4" width="25.6" height="15" fill="#ffffff" stroke="#9b9b93" stroke-width="0.8"/><text x="2103.0" y="281.4" text-anchor="middle" font-size="9.5" font-weight="600" fill="#9b9b93">yes</text></g>
+  </g>
+<g class="edge" data-edge="e12">
+    <path d="M 2393 258 L 2427 258 L 2427 258 L 2461 258" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e13">
+    <path d="M 2694 258 L 2723 258 L 2723 258 L 2752 258" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e14">
+    <path d="M 963 220 L 1849 220 Q 1858 220 1858 229 L 1858 249 Q 1858 258 1867 258 L 2752 258" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 4" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e15">
+    <path d="M 1832 207 L 2283 207 Q 2292 207 2292 216 L 2292 249 Q 2292 258 2301 258 L 2752 258" fill="none" stroke="#b42318" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4" marker-end="url(#arrow-danger)"/>
+    
+  </g>
+<g class="edge" data-edge="e16">
+    <path d="M 2074 195 L 2404 195 Q 2413 195 2413 204 L 2413 249 Q 2413 258 2422 258 L 2752 258" fill="none" stroke="#b42318" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4" marker-end="url(#arrow-danger)"/>
+    
+  </g>
+<g class="edge" data-edge="e17">
+    <path d="M 2403 540 L 2569 540 Q 2578 540 2578 531 L 2578 267 Q 2578 258 2587 258 L 2752 258" fill="none" stroke="#b42318" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 4" marker-end="url(#arrow-danger)"/>
+    
+  </g>
+<g class="node" data-node="g0" data-shape="pill" transform="translate(146,56)">
+    <rect x="1" y="1" width="257" height="56" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M9.2 2 4.3 9.1H7.8L6.8 14l5-7.2H8.2Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Destructive action proposed</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#7c3aed" opacity="0.9">EVENT / WEBHOOK</text>
+    <circle cx="252" cy="7" r="2.6" fill="#be123c"><title>untrusted input</title></circle>
+    
+  </g>
+<g class="node" data-node="g1" data-shape="diamond" transform="translate(463,212)">
+    <path d="M 98 1 L 195 46 L 98 91 L 1 46 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="98" y="36.0" text-anchor="middle">Routed via</tspan><tspan x="98" y="51.0" text-anchor="middle">guard.py?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="g2" data-shape="rect" transform="translate(717,191)">
+    <rect x="1" y="1" width="244" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Unreviewed bypass, logged</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="g3" data-shape="rect" transform="translate(734,267)">
+    <rect x="1" y="1" width="210" height="56" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#475569" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 3.8h10v8.4H3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Build bounded prompt</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#475569" opacity="0.9">SUB-WORKFLOW</text>
+    
+    
+  </g>
+<g class="node" data-node="g4" data-shape="round" transform="translate(1021,401)">
+    <rect x="1" y="1" width="278" height="56" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/><rect x="5" y="5" width="270" height="48" fill="none" stroke="#1d4ed8" stroke-width="1" opacity="0.45"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Argon: allow / deny / escalate</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.9">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="g5" data-shape="diamond" transform="translate(1359,212)">
+    <path d="M 98 1 L 195 46 L 98 91 L 1 46 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="98" y="36.0" text-anchor="middle">Valid JSON</tspan><tspan x="98" y="51.0" text-anchor="middle">reply?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="g6" data-shape="rect" transform="translate(1613,178)">
+    <rect x="1" y="1" width="217" height="56" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.6 14.1 13H1.9Z M8 6.3v3.5 M8 11.3v.1"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Fail closed: deny (3)</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#57606a" opacity="0.9">ERROR PATH</text>
+    
+    
+  </g>
+<g class="node" data-node="g7" data-shape="diamond" transform="translate(1625,254)">
+    <path d="M 98 1 L 195 42 L 98 83 L 1 42 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="98" y="39.5" text-anchor="middle">Allow?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="g8" data-shape="rect" transform="translate(1902,166)">
+    <rect x="1" y="1" width="170" height="56" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 13.2V3.4 M4.6 6.8 8 3.4l3.4 3.4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Deny: stop (1)</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#57606a" opacity="0.9">ESCALATE</text>
+    
+    
+  </g>
+<g class="node" data-node="g9" data-shape="diamond" transform="translate(1890,242)">
+    <path d="M 98 1 L 195 53.5 L 98 106 L 1 53.5 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="98" y="36.0" text-anchor="middle">In project,</tspan><tspan x="98" y="51.0" text-anchor="middle">blast radius</tspan><tspan x="98" y="66.0" text-anchor="middle">known?</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="g10" data-shape="rect" transform="translate(2144,511)">
+    <rect x="1" y="1" width="257" height="56" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 13.2V3.4 M4.6 6.8 8 3.4l3.4 3.4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Escalate: human decides (2)</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#57606a" opacity="0.9">ESCALATE</text>
+    
+    
+  </g>
+<g class="node" data-node="g11" data-shape="rect" transform="translate(2154,229)">
+    <rect x="1" y="1" width="237" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.9 13.1 3.7 10 11 2.7l2.3 2.3L6 12.3Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Log to argon-guard.jsonl</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">WRITE RECORD</text>
+    
+    
+  </g>
+<g class="node" data-node="g12" data-shape="rect" transform="translate(2461,229)">
+    <rect x="1" y="1" width="231" height="56" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 4.4 7 8l-4 3.6 M9.2 11.9h3.8"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Execute the command (0)</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.9">RUN CODE</text>
+    
+    
+  </g>
+<g class="node" data-node="g13" data-shape="circle" transform="translate(2752,220)">
+    <ellipse cx="68" cy="38" rx="67" ry="37" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,28.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5 5h6v6H5Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="36.5">Recorded</tspan></text>
+    <text x="41" y="53.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#57606a" opacity="0.9">DONE</text>
+    
+    
+  </g>
+</svg>

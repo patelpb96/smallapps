@@ -13,7 +13,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 
-import { fromText } from '../src/flow/index.js';
+import { fromText, layout, normalizeSpec } from '../src/flow/index.js';
 import { renderSVG } from '../src/flow/render.js';
 import { analyze } from '../src/flow/hazards.js';
 
@@ -59,6 +59,7 @@ function parseArgs(argv) {
     else if (a === '--out' || a === '-o') out.out = argv[++i];
     else if (a === '--examples') out.examples = argv[++i];
     else if (a === '--json') out.json = true;
+    else if (a === '--spec') out.spec = argv[++i];
     else if (a === '--theme') out.theme = argv[++i] === 'dark' ? 'dark' : 'light';
     else if (a === '--help' || a === '-h') out.help = true;
   }
@@ -102,6 +103,20 @@ async function main() {
       process.stdout.write(`${demo.slug}.svg\n`);
       process.stdout.write(report(built));
     }
+    return;
+  }
+
+  if (args.spec) {
+    const raw = JSON.parse(await readFile(join(ROOT, args.spec), 'utf8'));
+    const { spec, issues } = normalizeSpec(raw);
+    const needsLayout = spec.nodes.some((n) => !Number.isFinite(n.x));
+    const finalSpec = needsLayout ? layout(spec).spec : spec;
+    const size = { w: finalSpec.width, h: finalSpec.height };
+    const svg = renderSVG(finalSpec, { width: size.w, height: size.h, theme: args.theme });
+    if (args.out) {
+      await writeFile(join(ROOT, args.out), svg, 'utf8');
+      process.stderr.write(report({ spec: finalSpec, size, analysis: analyze(finalSpec), issues }));
+    } else process.stdout.write(svg);
     return;
   }
 

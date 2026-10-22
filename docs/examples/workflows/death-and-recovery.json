@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "title": "R2S2 — death, loss and the 15-minute race",
+  "lanes": [
+    {
+      "id": "player",
+      "name": "Player",
+      "kind": "human",
+      "y": 34,
+      "height": 120
+    },
+    {
+      "id": "world",
+      "name": "World",
+      "kind": "system",
+      "y": 162,
+      "height": 330
+    },
+    {
+      "id": "others",
+      "name": "Players & NPCs",
+      "kind": "system",
+      "y": 500,
+      "height": 102
+    }
+  ],
+  "nodes": [
+    {
+      "id": "d0",
+      "primitive": "trigger-event",
+      "label": "Player dies",
+      "lane": "player",
+      "props": {},
+      "w": 152,
+      "h": 58,
+      "x": 146,
+      "y": 65
+    },
+    {
+      "id": "d1",
+      "primitive": "tool-write",
+      "label": "Drop gear into a death pile",
+      "lane": "world",
+      "props": {},
+      "w": 259,
+      "h": 58,
+      "x": 356,
+      "y": 298
+    },
+    {
+      "id": "d2",
+      "primitive": "wait",
+      "label": "15-minute timer starts",
+      "lane": "world",
+      "props": {
+        "duration": "15 min",
+        "until": "recovered, looted or expired"
+      },
+      "w": 226,
+      "h": 58,
+      "x": 673,
+      "y": 298
+    },
+    {
+      "id": "d3",
+      "primitive": "fork",
+      "label": "Pick transport",
+      "lane": "player",
+      "props": {},
+      "w": 172,
+      "h": 58,
+      "x": 957,
+      "y": 65
+    },
+    {
+      "id": "d4",
+      "primitive": "subprocess",
+      "label": "Subway: cheap, fixed stops",
+      "lane": "world",
+      "props": {},
+      "w": 253,
+      "h": 58,
+      "x": 1187,
+      "y": 184
+    },
+    {
+      "id": "d5",
+      "primitive": "subprocess",
+      "label": "Train: long distance",
+      "lane": "world",
+      "props": {},
+      "w": 212,
+      "h": 58,
+      "x": 1208,
+      "y": 260
+    },
+    {
+      "id": "d6",
+      "primitive": "subprocess",
+      "label": "Bus: dense, slow",
+      "lane": "world",
+      "props": {},
+      "w": 186,
+      "h": 58,
+      "x": 1221,
+      "y": 336
+    },
+    {
+      "id": "d7",
+      "primitive": "subprocess",
+      "label": "Uber: anywhere, pricey",
+      "lane": "world",
+      "props": {},
+      "w": 226,
+      "h": 58,
+      "x": 1201,
+      "y": 412
+    },
+    {
+      "id": "d8",
+      "primitive": "join",
+      "label": "Arrive",
+      "lane": "player",
+      "props": {},
+      "w": 136,
+      "h": 58,
+      "x": 1498,
+      "y": 65
+    },
+    {
+      "id": "d9",
+      "primitive": "decision",
+      "label": "Beat the timer?",
+      "lane": "world",
+      "props": {},
+      "w": 210,
+      "h": 84,
+      "x": 1692,
+      "y": 285
+    },
+    {
+      "id": "d10",
+      "primitive": "tool-write",
+      "label": "Anyone nearby can loot it",
+      "lane": "others",
+      "props": {},
+      "w": 246,
+      "h": 58,
+      "x": 1960,
+      "y": 522
+    },
+    {
+      "id": "d11",
+      "primitive": "tool-read",
+      "label": "Recover the loadout",
+      "lane": "player",
+      "props": {},
+      "w": 206,
+      "h": 58,
+      "x": 1980,
+      "y": 65
+    },
+    {
+      "id": "d12",
+      "primitive": "tool-write",
+      "label": "Flat loss: buy cheap again",
+      "lane": "world",
+      "props": {},
+      "w": 253,
+      "h": 58,
+      "x": 2264,
+      "y": 298
+    },
+    {
+      "id": "d13",
+      "primitive": "end",
+      "label": "Back in the world",
+      "lane": "player",
+      "props": {},
+      "w": 192,
+      "h": 76,
+      "x": 2575,
+      "y": 56
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d0",
+      "to": "d1"
+    },
+    {
+      "id": "e2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d1",
+      "to": "d2"
+    },
+    {
+      "id": "e3",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d2",
+      "to": "d3"
+    },
+    {
+      "id": "e4",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d3",
+      "to": "d4"
+    },
+    {
+      "id": "e5",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d3",
+      "to": "d5"
+    },
+    {
+      "id": "e6",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d3",
+      "to": "d6"
+    },
+    {
+      "id": "e7",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d3",
+      "to": "d7"
+    },
+    {
+      "id": "e8",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d4",
+      "to": "d8"
+    },
+    {
+      "id": "e9",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d5",
+      "to": "d8"
+    },
+    {
+      "id": "e10",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d6",
+      "to": "d8"
+    },
+    {
+      "id": "e11",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d7",
+      "to": "d8"
+    },
+    {
+      "id": "e12",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d8",
+      "to": "d9"
+    },
+    {
+      "id": "e13",
+      "kind": "sequence",
+      "label": "yes",
+      "fromPort": "true",
+      "from": "d9",
+      "to": "d11"
+    },
+    {
+      "id": "e14",
+      "kind": "sequence",
+      "label": "no",
+      "fromPort": "false",
+      "from": "d9",
+      "to": "d10"
+    },
+    {
+      "id": "e15",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d10",
+      "to": "d12"
+    },
+    {
+      "id": "e16",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d11",
+      "to": "d13"
+    },
+    {
+      "id": "e17",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out",
+      "from": "d12",
+      "to": "d13"
+    }
+  ],
+  "meta": {
+    "source": "",
+    "interpreter": "authored"
+  },
+  "width": 2795,
+  "height": 636
+}
