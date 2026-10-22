@@ -164,6 +164,50 @@ Worked examples are checked in at [`docs/examples/`](docs/examples/) as SVG, JSO
 
 ---
 
+## Embedding Flow in a host
+
+Flow is built to be mounted inside another application — specifically a meta
+harness that wants to show its own session topology. It has exactly one
+dependency on its host: a **port** with six operations.
+
+```
+total 6  ·  core 2  ·  optional 4
+```
+
+| req | method | path | port method |
+|---|---|---|---|
+| **core** | `GET` | `/v1/flow/bundle` | `getBundle` |
+| **core** | `GET` | `/v1/flow/status` | `getStatus` |
+| optional | `GET` | `/v1/flow/flow/:flowId` | `getFlow` |
+| optional | `GET` | `/v1/flow/events` | `subscribe` |
+| optional | `PUT` | `/v1/flow/bundle` | `putBundle` |
+| optional | `POST` | `/v1/flow/command` | `command` |
+
+A Tauri host needs **5 commands and 1 event channel** instead of HTTP — same six,
+different transport. Print the current tally with `npm run flow:endpoints`.
+
+Two models make it work:
+
+- **Bundles, not diagrams.** A harness has a system-level flow whose nodes are
+  agents, some of which are themselves harnesses. Containment lives on the node
+  (`subflow`), the system level is the default view, and intra-agent detail is
+  opt-in behind a chevron.
+- **Status is separate from the spec.** The harness publishes
+  `{ "flowId/nodeId": { status } }`; Flow merges it at render time. A harness
+  that says nothing leaves the diagram exactly as drawn, and one that says
+  something surprising cannot corrupt it.
+
+Full contract, mounting guide, and the host checklist:
+[`docs/INTEGRATION.md`](docs/INTEGRATION.md). A working host page, using none of
+the app's stylesheet: [`apps/flow/embed.html`](apps/flow/embed.html). A reference
+implementation of all six endpoints: `node scripts/flow-api-server.js`.
+
+The contract is enforced, not just documented —
+`test/flow-port.test.js` fails if the endpoint set, the port interface, or the
+document shapes drift.
+
+---
+
 ## Sources
 
 30 entries, 11 downloaded to [`docs/papers/`](docs/papers/). The four that most shaped the design:

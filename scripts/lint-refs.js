@@ -59,11 +59,11 @@ for (const q of QUESTIONS) {
 }
 
 // 5. HTML asset references resolve on disk.
-for (const app of ['agent-plan', 'flow']) {
-  const html = await readFile(join(ROOT, `apps/${app}/index.html`), 'utf8');
+for (const page of ['agent-plan/index.html', 'flow/index.html', 'flow/embed.html']) {
+  const html = await readFile(join(ROOT, `apps/${page}`), 'utf8');
   for (const m of html.matchAll(/(?:src|href)="(\.\/[^"]+)"/g)) {
-    const rel = join(`apps/${app}`, m[1]);
-    if (!exists(rel)) problems.push(`apps/${app}/index.html references missing asset: ${rel}`);
+    const rel = join(`apps/${page}`, '..', m[1]);
+    if (!exists(rel)) problems.push(`${page} references missing asset: ${rel}`);
   }
 }
 

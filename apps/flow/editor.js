@@ -32,6 +32,7 @@ export class DiagramEditor {
     this.onChange = handlers.onChange || (() => {});
     this.onSelect = handlers.onSelect || (() => {});
     this.onEditLabel = handlers.onEditLabel || (() => {});
+    this.onDrill = handlers.onDrill || (() => {});
 
     this.spec = { version: 1, title: '', lanes: [], nodes: [], edges: [], meta: {} };
     this.selection = new Set();
@@ -105,6 +106,21 @@ export class DiagramEditor {
   }
 
   getSpec() { return cloneSpec(this.spec); }
+
+  /**
+   * Replace the spec without treating it as a user edit: selection and viewport
+   * survive, and onChange does not fire. Used for live status merges, where the
+   * change came from the harness rather than from someone dragging a box.
+   */
+  applyExternalSpec(spec) {
+    const selected = [...this.selection];
+    const edge = this.selectedEdge;
+    this.spec = cloneSpec(spec);
+    this.selection = new Set(selected.filter((id) => this.spec.nodes.some((n) => n.id === id)));
+    this.selectedEdge = edge;
+    this._lastHash = specHash(this.spec);
+    this.render();
+  }
 
   /** Snapshot before a mutation so it can be undone. */
   commit(label = 'edit') {
@@ -512,6 +528,18 @@ export class DiagramEditor {
       return;
     }
     if (e.button !== 0) return;
+
+    // A chevron badge on a container node opens the flow inside it.
+    const drill = e.target.closest?.('.drill');
+    if (drill) {
+      const id = drill.closest('.node')?.getAttribute('data-node');
+      const node = this.spec.nodes.find((n) => n.id === id);
+      if (node?.subflow) {
+        e.stopPropagation();
+        this.onDrill(node);
+        return;
+      }
+    }
 
     const port = e.target.closest?.('.port');
     const nodeEl = e.target.closest?.('.node');

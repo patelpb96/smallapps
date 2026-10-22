@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlowEmbed — host integration demo</title>
+<!-- Deliberately not the app's stylesheet: this page stands in for someone
+     else's application, and proves Flow brings its own everything. -->
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f2f3f5; --panel: #ffffff; --ink: #16181d; --soft: #5b6270; --faint: #8a92a1;
+    --line: #dfe3e9; --accent: #2f4ecc;
+  }
+  [data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0b0d10; --panel: #14171c; --ink: #e8eaee; --soft: #a3aab8; --faint: #6d7583;
+    --line: #232932; --accent: #8aa4ff;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: grid; grid-template-rows: auto 1fr;
+    background: var(--bg); color: var(--ink);
+    font: 13px/1.5 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  }
+  header {
+    display: flex; align-items: center; gap: 14px; padding: 10px 16px;
+    background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap;
+  }
+  .hostname { font-weight: 650; letter-spacing: -0.01em; }
+  .hostname em { font-style: normal; font-weight: 400; color: var(--faint); font-size: 11px; display: block; }
+  .spacer { flex: 1; }
+  button, select {
+    font: inherit; font-size: 12px; color: inherit; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 0; padding: 5px 10px; cursor: pointer;
+  }
+  button:hover { border-color: var(--accent); }
+  button[disabled] { opacity: .45; cursor: default; }
+
+  main { display: grid; grid-template-columns: 232px minmax(0,1fr) 260px; min-height: 0; }
+  @media (max-width: 1000px) { main { grid-template-columns: 1fr; grid-template-rows: auto 60vh auto; } }
+
+  aside { background: var(--panel); border-right: 1px solid var(--line); padding: 12px; overflow: auto; }
+  aside.right { border-right: 0; border-left: 1px solid var(--line); }
+  h2 {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: .09em;
+    color: var(--faint); margin: 0 0 8px; font-weight: 700;
+  }
+  .row { display: flex; justify-content: space-between; gap: 8px; padding: 3px 0; font-size: 12px; }
+  .row span:first-child { color: var(--soft); }
+  .row b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  .stage { position: relative; min-width: 0; min-height: 0; display: grid; grid-template-rows: auto 1fr; }
+  .crumbs {
+    display: flex; align-items: center; gap: 4px; padding: 7px 12px;
+    background: var(--panel); border-bottom: 1px solid var(--line); font-size: 12px; flex-wrap: wrap;
+  }
+  .crumbs button { border: 0; padding: 2px 6px; background: transparent; color: var(--accent); }
+  .crumbs .sep { color: var(--faint); }
+  .crumbs .here { color: var(--soft); padding: 2px 6px; }
+
+  #diagram { min-height: 0; }
+
+  #log { font: 10.5px/1.45 ui-monospace, Menlo, Consolas, monospace; color: var(--soft);
+    background: var(--panel); border: 1px solid var(--line); padding: 8px; height: 220px; overflow: auto; }
+  #log div { padding: 1px 0; border-bottom: 1px solid var(--line); }
+  #log .k { color: var(--accent); }
+  .note { font-size: 11.5px; color: var(--faint); margin: 10px 0 0; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body data-theme="light">
+
+<header>
+  <div class="hostname">agent-workbench<em>a host application that embeds Flow</em></div>
+  <div class="spacer"></div>
+  <label style="font-size:12px;color:var(--soft)">port
+    <select id="port-select">
+      <option value="memory">MemoryPort (in-process)</option>
+      <option value="http">HttpPort (this page → localhost:4300)</option>
+    </select>
+  </label>
+  <button id="btn-mode" type="button">Mode: live</button>
+  <button id="btn-theme" type="button">Theme: light</button>
+  <button id="btn-focus" type="button">Command: focus running agent</button>
+</header>
+
+<main>
+  <aside class="left">
+    <h2>Session</h2>
+    <div class="row"><span>session</span><b id="s-session">demo-session</b></div>
+    <div class="row"><span>workspace</span><b id="s-workspace">agent-workbench</b></div>
+    <div class="row"><span>project</span><b id="s-project">demo</b></div>
+
+    <h2 style="margin-top:16px">Agents by state</h2>
+    <div id="summary"></div>
+
+    <p class="note">Nested flows appear as a chevron badge on the node. Click it to see what that agent does internally — the system view stays the default.</p>
+    <p class="note">This pane is the host's. Flow only reports through its event bus.</p>
+  </aside>
+
+  <section class="stage">
+    <div class="crumbs" id="crumbs"></div>
+    <div id="diagram"></div>
+  </section>
+
+  <aside class="right">
+    <h2>Flow events</h2>
+    <div id="log"></div>
+    <h2 style="margin-top:14px">Reference</h2>
+    <p class="note">Six endpoints, two of them core. See <a href="../../docs/INTEGRATION.md">docs/INTEGRATION.md</a>.</p>
+  </aside>
+</main>
+
+<script type="module" src="./embed-demo.js"></script>
+</body>
+</html>

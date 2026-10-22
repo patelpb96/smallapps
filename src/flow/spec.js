@@ -129,6 +129,11 @@ export function normalizeSpec(raw) {
     for (const k of ['x', 'y', 'w', 'h']) {
       if (Number.isFinite(n[k])) node[k] = Math.round(n[k]);
     }
+    // A node may contain another flow. Resolved by bundle.js, preserved here so
+    // a single spec round-trips without losing its nesting.
+    if (typeof n.subflow === 'string' && n.subflow.trim()) {
+      node.subflow = n.subflow.trim().slice(0, 64);
+    }
     spec.nodes.push(node);
   }
 

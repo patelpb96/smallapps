@@ -55,6 +55,10 @@ export const THEMES = {
     labelFill: '#ffffff',
     danger: '#b42318',
     select: '#3b5bdb',
+    status: {
+      idle: '#6b7280', running: '#2563eb', blocked: '#b45309',
+      done: '#0f766e', error: '#b42318', skipped: '#6b7280', unknown: '#6b7280',
+    },
   },
   dark: {
     accent: ACCENT.dark,
@@ -70,6 +74,10 @@ export const THEMES = {
     labelFill: '#1b1b1a',
     danger: '#ff8a7a',
     select: '#8dabff',
+    status: {
+      idle: '#6b7280', running: '#3b82f6', blocked: '#d97706',
+      done: '#10b981', error: '#dc2626', skipped: '#6b7280', unknown: '#6b7280',
+    },
   },
 };
 
@@ -208,20 +216,55 @@ export function renderNode(node, opts = {}) {
   const icon = `<g transform="translate(${padX},${iconY.toFixed(1)}) scale(0.86)" fill="none" stroke="${accent}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="${dimmed ? 0.3 : 0.9}"><path d="${glyphPath(prim.glyph)}"/></g>`;
 
   const effectDots = primaryEffectDots(node, rect, t);
+  const statusBadge = renderStatus(node, rect, t);
+  const drillBadge = node.subflow ? renderDrill(rect, accent) : '';
 
   const handles = connectable ? `
     <circle class="port" data-node="${node.id}" data-port="in" cx="0" cy="${rect.h / 2}" r="5" fill="${t.nodeFill}" stroke="${accent}" stroke-width="1.5"/>
     <circle class="port" data-node="${node.id}" data-port="out" cx="${rect.w}" cy="${rect.h / 2}" r="5" fill="${t.nodeFill}" stroke="${accent}" stroke-width="1.5"/>
   ` : '';
 
-  return `<g class="node" data-node="${node.id}" data-shape="${prim.shape}" transform="translate(${rect.x},${rect.y})"${dimmed ? ' opacity="0.45"' : ''}>
+  return `<g class="node" data-node="${node.id}" data-shape="${prim.shape}"${node.subflow ? ` data-subflow="${esc(node.subflow)}"` : ''} transform="translate(${rect.x},${rect.y})"${dimmed ? ' opacity="0.45"' : ''}>
     ${shapeMarkup(prim.shape, rect.w, rect.h, accent, { selected, dimmed, t })}
     ${isDiamond ? '' : icon}
     <text font-size="12.5" font-weight="520" fill="${t.ink}">${tspans}</text>
     ${captionEl}
     ${effectDots}
+    ${drillBadge}
+    ${statusBadge}
     ${handles}
   </g>`;
+}
+
+/**
+ * Live status, as a badge on the bottom edge.
+ *
+ * Filled rather than outlined on purpose: in a meta-harness view the state of an
+ * agent is the most important thing on the canvas, and a hairline border loses
+ * to a solid chip at any zoom.
+ */
+function renderStatus(node, rect, t) {
+  if (!node.status || !node.status.status) return '';
+  const raw = node.status.status;
+  const colour = t.status[raw] || t.status.unknown;
+  const text = String(node.status.label || raw).toLowerCase();
+  const w = Math.max(34, text.length * 5.3 + 14);
+  const x = (rect.w - w) / 2;
+  const y = rect.h - 7;
+  const tip = node.status.error ? `<title>${esc(node.status.error)}</title>` : '';
+  return `<g class="status status-${esc(raw)}">${tip}
+      <rect x="${x.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="14" fill="${colour}"/>
+      <text x="${(x + w / 2).toFixed(1)}" y="${(y + 10.3)}" text-anchor="middle" font-size="8.5" font-weight="700" letter-spacing="0.4" fill="#ffffff">${esc(text.toUpperCase())}</text>
+    </g>`;
+}
+
+/** Chevron badge marking a node that contains another flow. */
+function renderDrill(rect, accent) {
+  return `<g class="drill" data-drill="1" transform="translate(1,1)" style="cursor:pointer">
+      <rect width="16" height="16" fill="${accent}"/>
+      <path d="M6 4.5 L10.5 8 L6 11.5" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <title>contains a flow — drill in</title>
+    </g>`;
 }
 
 /** Small corner marks for the effects that drive the hazard checks. */

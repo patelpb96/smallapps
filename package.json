@@ -17,7 +17,9 @@
     "serve": "node scripts/serve.js",
     "docs": "node scripts/gen-docs.js",
     "check": "node --test && node scripts/lint-refs.js && node scripts/gen-docs.js --check",
-    "flow": "node scripts/flow-render.js"
+    "flow": "node scripts/flow-render.js",
+    "flow:api": "node scripts/flow-api-server.js",
+    "flow:endpoints": "node scripts/flow-endpoints.js"
   },
   "files": [
     "src",
