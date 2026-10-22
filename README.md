@@ -40,7 +40,7 @@ node bin/plan.js --answers my-answers.json --format json
 node bin/plan.js --list-presets
 
 # Checks
-npm test                       # 70 behavioural + integrity tests
+npm test                       # 82 behavioural + integrity tests
 npm run check                  # tests + referential integrity + doc freshness
 ```
 

@@ -390,7 +390,7 @@ function makeStepFactory(builder) {
   return {
     get lastActor() { return lastActor; },
     setActor(next) { lastActor = next; },
-    step(clause) {
+    step(clause, { keepHuman = false } = {}) {
       clause = clause.replace(TRAILING_CONDITION, '').trim() || clause;
       const own = findActor(clause);
       let actor = own || lastActor;
@@ -417,7 +417,7 @@ function makeStepFactory(builder) {
 
       if (!primitive) primitive = actorKind(actor) === 'human' ? 'human-task' : 'llm';
 
-      if (!own && actor && actorKind(actor) === 'human' && lastMachine
+      if (!keepHuman && !own && actor && actorKind(actor) === 'human' && lastMachine
           && MACHINE_CATEGORIES.has(getPrimitive(primitive).category)) {
         actor = lastMachine;
       }
@@ -479,6 +479,31 @@ function parseProse(text, builder) {
       if (split.rest) text = split.rest; else continue;
     }
 
+    // "either approve it or send it back" is a real fork: two arms that
+    // rejoin afterwards. Only handled at top level; nested inside a branch it
+    // falls through to the plain decision node in step().
+    if (!open && /\beither\b/i.test(text)) {
+      const pair = text.match(/\beither\b\s*(.+?)\s+\bor\b\s+(.+)$/i);
+      if (pair) {
+        const armA = factory.step(tidy(pair[1]), { keepHuman: true });
+        const armB = factory.step(tidy(pair[2]), { keepHuman: true });
+        if (armA.label && armB.label) {
+          const decision = builder.node({
+            primitive: 'decision',
+            label: tidy(text.replace(/^.*?\beither\b/i, '')),
+            actor: factory.lastActor,
+            props: { condition: `${armA.label} or ${armB.label}` },
+          });
+          builder.join(frontier, decision.id);
+          const na = builder.node(armA);
+          const nb = builder.node(armB);
+          builder.edge(decision.id, na.id, 'branch', '', 'true');
+          builder.edge(decision.id, nb.id, 'branch', '', 'false');
+          frontier = [{ node: na.id }, { node: nb.id }];
+          continue;
+        }
+      }
+    }
     if (PARALLEL_CUE.test(low()) && /\band\b/i.test(low())) {
       const parts = text
         .replace(PARALLEL_CUE, ' ')

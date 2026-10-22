@@ -144,12 +144,19 @@ export function analyze(spec) {
     return !hasErrorEdge && !downError;
   });
   if (noErrorPath.length) {
+    // A diagram with no failure handling at all is a real finding. One that
+    // handles failure somewhere but not everywhere is a note — flagging both at
+    // the same severity trains people to ignore the panel.
+    const handlesAnyFailure = spec.nodes.some((n) => n.primitive === 'error' || n.primitive === 'escalate');
     push({
       id: 'no-error-path',
-      severity: 'medium',
-      title: `${noErrorPath.length} side-effecting step${noErrorPath.length > 1 ? 's' : ''} with no failure path`,
+      severity: handlesAnyFailure ? 'note' : 'medium',
+      title: handlesAnyFailure
+        ? `${noErrorPath.length} side-effecting step${noErrorPath.length > 1 ? 's' : ''} bypasses the error path`
+        : `No failure path for ${noErrorPath.length} side-effecting step${noErrorPath.length > 1 ? 's' : ''}`,
       detail:
-        `Nothing handles a failure from ${noErrorPath.map((n) => `"${n.label}"`).join(', ')}. A timeout plus a bounded retry and a terminal state the agent can reason about — otherwise one hung dependency silently eats the run budget.`,
+        `Nothing handles a failure from ${noErrorPath.map((n) => `"${n.label}"`).join(', ')}. A timeout plus a bounded retry and a terminal state the agent can reason about — otherwise one hung dependency silently eats the run budget.`
+        + (handlesAnyFailure ? ' The flow has error handling elsewhere; route these into it.' : ''),
       nodes: noErrorPath.map((n) => n.id),
       sources: ['mcp-spec', 'owasp-aisvs-c09'],
     });

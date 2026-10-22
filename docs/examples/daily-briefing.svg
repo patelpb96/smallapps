@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2267" height="583" viewBox="0 0 2267 583" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="2482" height="610" viewBox="0 0 2482 610" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
 <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b9b93"/>
@@ -10,34 +10,34 @@
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#b42318"/>
     </marker>
   </defs>
-<rect width="2267" height="583" fill="#ffffff"/>
+<rect width="2482" height="610" fill="#ffffff"/>
 <g class="lane" data-lane="trigger">
-    <rect x="0" y="34" width="2267" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="34" width="2482" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="34" width="196" height="102" fill="#fcfcfa"/>
     <line x1="196" y1="34" x2="196" y2="136" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
     <text x="18" y="82" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
     <text x="18" y="98" font-size="13" font-weight="600" fill="#1b1b19">Trigger</text>
   </g>
 <g class="lane" data-lane="research-agent">
-    <rect x="0" y="144" width="2267" height="118" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="144" width="2482" height="118" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
     <rect x="0" y="144" width="196" height="118" fill="#f6f6f2"/>
     <line x1="196" y1="144" x2="196" y2="262" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
     <text x="18" y="200" font-size="9" font-weight="700" letter-spacing="0.8" fill="#1d4ed8" opacity="0.8">MODEL</text>
     <text x="18" y="216" font-size="13" font-weight="600" fill="#1b1b19">Research agent</text>
   </g>
 <g class="lane" data-lane="analyst">
-    <rect x="0" y="270" width="2267" height="151" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
-    <rect x="0" y="270" width="196" height="151" fill="#fcfcfa"/>
-    <line x1="196" y1="270" x2="196" y2="421" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="342.5" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.8">HUMAN</text>
-    <text x="18" y="358.5" font-size="13" font-weight="600" fill="#1b1b19">Analyst</text>
+    <rect x="0" y="270" width="2482" height="178" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="270" width="196" height="178" fill="#fcfcfa"/>
+    <line x1="196" y1="270" x2="196" y2="448" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="356" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.8">HUMAN</text>
+    <text x="18" y="372" font-size="13" font-weight="600" fill="#1b1b19">Analyst</text>
   </g>
 <g class="lane" data-lane="system">
-    <rect x="0" y="429" width="2267" height="120" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
-    <rect x="0" y="429" width="196" height="120" fill="#f6f6f2"/>
-    <line x1="196" y1="429" x2="196" y2="549" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
-    <text x="18" y="486" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
-    <text x="18" y="502" font-size="13" font-weight="600" fill="#1b1b19">System</text>
+    <rect x="0" y="456" width="2482" height="120" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="456" width="196" height="120" fill="#f6f6f2"/>
+    <line x1="196" y1="456" x2="196" y2="576" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="513" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="529" font-size="13" font-weight="600" fill="#1b1b19">System</text>
   </g>
 <g class="edge" data-edge="e1">
     <path d="M 358 85 L 378 85 Q 387 85 387 94 L 387 194 Q 387 203 396 203 L 416 203" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
@@ -52,19 +52,31 @@
     
   </g>
 <g class="edge" data-edge="e4">
-    <path d="M 1203 203 L 1223 203 Q 1232 203 1232 212 L 1232 337 Q 1232 346 1241 346 L 1261 346" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <path d="M 1203 203 L 1223 203 Q 1232 203 1232 212 L 1232 350 Q 1232 359 1241 359 L 1261 359" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
     
   </g>
 <g class="edge" data-edge="e5">
-    <path d="M 1473 346 L 1502 346 L 1502 345.5 L 1531 345.5" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <path d="M 1473 359 L 1502 359 L 1502 359 L 1531 359" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
     
   </g>
 <g class="edge" data-edge="e6">
-    <path d="M 1741 345.5 L 1761 345.5 Q 1770 345.5 1770 336.5 L 1770 212 Q 1770 203 1779 203 L 1799 203" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
-    
+    <path d="M 1733 344.3 L 1757 344.3 Q 1766 344.3 1766 335.3 L 1766 330 Q 1766 321 1775 321 L 1798 321" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1736.7" y="336.3" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1749.5" y="347.3" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
   </g>
 <g class="edge" data-edge="e7">
-    <path d="M 2045 203 L 2065 203 Q 2074 203 2074 212 L 2074 480 Q 2074 489 2083 489 L 2103 489" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <path d="M 1733 379.2 L 1753.1 379.2 Q 1762 379.2 1762 388.1 L 1762 388.1 Q 1762 397 1770.9 397 L 1791 397" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1737.3" y="371.2" width="20.4" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1747.5" y="382.2" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">no</text></g>
+  </g>
+<g class="edge" data-edge="e8">
+    <path d="M 1950 321 L 1973 321 Q 1982 321 1982 312 L 1982 212 Q 1982 203 1991 203 L 2014 203" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e9">
+    <path d="M 1956 397 L 1976 397 Q 1985 397 1985 388 L 1985 212 Q 1985 203 1994 203 L 2014 203" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e10">
+    <path d="M 2260 203 L 2280 203 Q 2289 203 2289 212 L 2289 507 Q 2289 516 2298 516 L 2318 516" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
     
   </g>
 <g class="node" data-node="n1" data-shape="pill" transform="translate(146,56)">
@@ -99,7 +111,7 @@
     
     
   </g>
-<g class="node" data-node="n5" data-shape="rect" transform="translate(1261,317)">
+<g class="node" data-node="n5" data-shape="rect" transform="translate(1261,330)">
     <rect x="1" y="1" width="210" height="56" rx="9" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M1.7 8s2.7-4.1 6.3-4.1S14.3 8 14.3 8s-2.7 4.1-6.3 4.1S1.7 8 1.7 8 M8 6.2a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 1 0 0-3.6"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Reviews the briefing</tspan></text>
@@ -107,15 +119,31 @@
     
     
   </g>
-<g class="node" data-node="n6" data-shape="diamond" transform="translate(1531,292)">
-    <path d="M 105 1 L 209 53.5 L 105 106 L 1 53.5 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+<g class="node" data-node="n6" data-shape="diamond" transform="translate(1531,313)">
+    <path d="M 101 1 L 201 46 L 101 91 L 1 46 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
     
-    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="105" y="36.0" text-anchor="middle">Either approves</tspan><tspan x="105" y="51.0" text-anchor="middle">it or sends it</tspan><tspan x="105" y="66.0" text-anchor="middle">back</tspan></text>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="101" y="36.0" text-anchor="middle">Approves it or</tspan><tspan x="101" y="51.0" text-anchor="middle">sends it back</tspan></text>
     
     
     
   </g>
-<g class="node" data-node="n7" data-shape="rect" transform="translate(1799,174)">
+<g class="node" data-node="n7" data-shape="hex" transform="translate(1798,292)">
+    <path d="M 18 1 H 134 L 151 29 L 134 57 H 18 L 1 29 Z" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 8.3 6.5 11.3 12.6 4.5"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Approves it</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#b45309" opacity="0.85">APPROVAL GATE</text>
+    
+    
+  </g>
+<g class="node" data-node="n8" data-shape="rect" transform="translate(1791,368)">
+    <rect x="1" y="1" width="163" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.2 8 13.2 2.8 10 13.2 7.5 8.6Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Sends it back</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.85">SEND MESSAGE</text>
+    <circle cx="158" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle>
+    
+  </g>
+<g class="node" data-node="n9" data-shape="rect" transform="translate(2014,174)">
     <rect x="1" y="1" width="244" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
     <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 7.1a.9.9 0 1 0 0 1.8.9.9 0 1 0 0-1.8 M5.3 5.3a3.9 3.9 0 0 0 0 5.4 M10.7 5.3a3.9 3.9 0 0 1 0 5.4 M3 3a7 7 0 0 0 0 10 M13 3a7 7 0 0 1 0 10"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Published to the intranet</tspan></text>
@@ -123,7 +151,7 @@
     <circle cx="239" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle><circle cx="231" cy="7" r="2.6" fill="#b42318"><title>irreversible</title></circle>
     
   </g>
-<g class="node" data-node="n8" data-shape="circle" transform="translate(2103,451)">
+<g class="node" data-node="n10" data-shape="circle" transform="translate(2318,478)">
     <ellipse cx="68" cy="38" rx="67" ry="37" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
     <g transform="translate(14,35.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5 5h6v6H5Z"/></g>
     <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="43.5">Done</tspan></text>

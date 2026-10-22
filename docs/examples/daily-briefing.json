@@ -21,13 +21,13 @@
       "name": "Analyst",
       "kind": "human",
       "y": 270,
-      "height": 151
+      "height": 178
     },
     {
       "id": "system",
       "name": "System",
       "kind": "system",
-      "y": 429,
+      "y": 456,
       "height": 120
     }
   ],
@@ -95,24 +95,52 @@
       "w": 212,
       "h": 58,
       "x": 1261,
-      "y": 317
+      "y": 330
     },
     {
       "id": "n6",
       "primitive": "decision",
-      "label": "Either approves it or sends it back",
+      "label": "Approves it or sends it back",
       "lane": "analyst",
       "props": {
         "actor": "Analyst",
-        "condition": ""
+        "condition": "approves it or sends it back"
       },
-      "w": 210,
-      "h": 107,
+      "w": 202,
+      "h": 92,
       "x": 1531,
-      "y": 292
+      "y": 313
     },
     {
       "id": "n7",
+      "primitive": "approval",
+      "label": "Approves it",
+      "lane": "analyst",
+      "props": {
+        "actor": "Analyst",
+        "binds": "action"
+      },
+      "w": 152,
+      "h": 58,
+      "x": 1798,
+      "y": 292
+    },
+    {
+      "id": "n8",
+      "primitive": "notify",
+      "label": "Sends it back",
+      "lane": "analyst",
+      "props": {
+        "actor": "Analyst",
+        "channel": ""
+      },
+      "w": 165,
+      "h": 58,
+      "x": 1791,
+      "y": 368
+    },
+    {
+      "id": "n9",
       "primitive": "publish",
       "label": "Published to the intranet",
       "lane": "research-agent",
@@ -122,11 +150,11 @@
       },
       "w": 246,
       "h": 58,
-      "x": 1799,
+      "x": 2014,
       "y": 174
     },
     {
-      "id": "n8",
+      "id": "n10",
       "primitive": "end",
       "label": "Done",
       "lane": "system",
@@ -135,8 +163,8 @@
       },
       "w": 136,
       "h": 76,
-      "x": 2103,
-      "y": 451
+      "x": 2318,
+      "y": 478
     }
   ],
   "edges": [
@@ -184,14 +212,38 @@
       "id": "e6",
       "from": "n6",
       "to": "n7",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e7",
+      "from": "n6",
+      "to": "n8",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "false"
+    },
+    {
+      "id": "e8",
+      "from": "n7",
+      "to": "n9",
       "kind": "sequence",
       "label": "",
       "fromPort": "out"
     },
     {
-      "id": "e7",
-      "from": "n7",
-      "to": "n8",
+      "id": "e9",
+      "from": "n8",
+      "to": "n9",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e10",
+      "from": "n9",
+      "to": "n10",
       "kind": "sequence",
       "label": "",
       "fromPort": "out"
@@ -201,6 +253,6 @@
     "source": "Every morning at 7am, the research agent searches for new filings from our watchlist and summarises each one.\nIt drafts a briefing.\nAn analyst reviews the briefing and either approves it or sends it back.\nOnce approved it is published to the intranet.",
     "interpreter": "rules@1"
   },
-  "width": 2267,
-  "height": 583
+  "width": 2482,
+  "height": 610
 }
