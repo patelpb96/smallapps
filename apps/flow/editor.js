@@ -86,9 +86,10 @@ export class DiagramEditor {
     this._lastHash = specHash(this.spec);
     this.render();
     if (!keepView) this.fit();
-    this.onSelect(null);
-    // Listeners own analysis and persistence; a replaced spec is still a change.
+    // Listeners own analysis and persistence, and the inspector reads the spec
+    // they store — so notify them before asking anyone to render a selection.
     this.onChange(this.getSpec());
+    this.onSelect(null);
   }
 
   getSpec() { return cloneSpec(this.spec); }

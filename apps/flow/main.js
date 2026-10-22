@@ -697,12 +697,26 @@ function init() {
   // ?demo=0..3 loads one of the examples, so a diagram can be shared as a link.
   const params = new URLSearchParams(location.search);
   if (params.get('tab') === 'risks') switchTab('risks');
+
   const demo = params.get('demo');
   if (demo !== null && EXAMPLE_PROMPTS[Number(demo)]) {
     const text = EXAMPLE_PROMPTS[Number(demo)];
     $('#prompt').value = text;
     state.prompt = text;
     generate();
+  }
+
+  // ?select=<id or label fragment> focuses a node, so a step can be linked to.
+  // Runs after generate() because it needs the spec that generate produced.
+  const sel = params.get('select');
+  if (sel) {
+    const target = state.spec?.nodes?.find(
+      (n) => n.id === sel || n.label.toLowerCase().includes(sel.toLowerCase()),
+    );
+    if (target) {
+      editor.select([target.id]);
+      switchTab('inspector');
+    }
   }
 
   window.addEventListener('resize', () => editor.onViewChange?.());
