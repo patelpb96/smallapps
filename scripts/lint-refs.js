@@ -11,7 +11,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import { HEURISTICS, SOURCES, QUESTIONS, PRESETS } from '../src/index.js';
+import { HEURISTICS, SOURCES, QUESTIONS, PRESETS } from '../src/agent-plan/index.js';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const problems = [];
@@ -59,10 +59,12 @@ for (const q of QUESTIONS) {
 }
 
 // 5. HTML asset references resolve on disk.
-const html = await readFile(join(ROOT, 'apps/agent-plan/index.html'), 'utf8');
-for (const m of html.matchAll(/(?:src|href)="(\.\/[^"]+)"/g)) {
-  const rel = join('apps/agent-plan', m[1]);
-  if (!exists(rel)) problems.push(`index.html references missing asset: ${rel}`);
+for (const app of ['agent-plan', 'flow']) {
+  const html = await readFile(join(ROOT, `apps/${app}/index.html`), 'utf8');
+  for (const m of html.matchAll(/(?:src|href)="(\.\/[^"]+)"/g)) {
+    const rel = join(`apps/${app}`, m[1]);
+    if (!exists(rel)) problems.push(`apps/${app}/index.html references missing asset: ${rel}`);
+  }
 }
 
 // 6. Every paper actually looks like a PDF (guards against saved error pages).
@@ -92,7 +94,7 @@ const readme = await readFile(join(ROOT, 'README.md'), 'utf8');
 const paperCount = (await readdir(join(ROOT, 'docs/papers'))).filter((f) => f.endsWith('.pdf')).length;
 const claims = [
   [/(\d+) heuristics/, HEURISTICS.length, 'heuristics'],
-  [/(\d+) entries/, Object.keys(SOURCES).length, 'source entries'],
+  [/(\d+) entries/, Object.keys(SOURCES).length, 'source entries'],
   [/(\d+) downloaded/, paperCount, 'downloaded papers'],
   [/(\d+) papers, checked in/, paperCount, 'checked-in papers'],
   [/(\d+) questions/, QUESTIONS.length, 'questions'],
@@ -102,6 +104,40 @@ for (const [re, actual, label] of claims) {
     if (Number(m[1]) !== actual) {
       problems.push(`README claims ${m[1]} ${label}, actual is ${actual}`);
     }
+  }
+}
+
+// 9. Source files must not contain stray control characters. A backspace where
+//    a word boundary was intended turns a working regex into a silent no-op,
+//    and it is invisible in review. Built with char codes so this check cannot
+//    itself be broken by an escape.
+const LF = String.fromCharCode(10);
+const TAB = String.fromCharCode(9);
+const CR = String.fromCharCode(13);
+const walk = async (dir) => {
+  const out = [];
+  for (const ent of await readdir(join(ROOT, dir), { withFileTypes: true })) {
+    const rel = join(dir, ent.name);
+    if (ent.isDirectory()) out.push(...await walk(rel));
+    else if (/\.(js|css|html)$/.test(ent.name)) out.push(rel);
+  }
+  return out;
+};
+for (const rel of [...await walk('src'), ...await walk('apps'), ...await walk('scripts')]) {
+  const text = await readFile(join(ROOT, rel), 'utf8');
+  let badAt = -1;
+  let count = 0;
+  for (let i = 0; i < text.length; i++) {
+    const code = text.charCodeAt(i);
+    const isCrlf = text[i] === CR && text[i + 1] === LF;
+    if (code < 32 && text[i] !== LF && text[i] !== TAB && !isCrlf) {
+      count += 1;
+      if (badAt < 0) badAt = i;
+    }
+  }
+  if (count) {
+    const line = text.slice(0, badAt).split(LF).length;
+    problems.push(`${rel}:${line} contains ${count} control character(s) — a \\b that became a backspace silently breaks a regex`);
   }
 }
 

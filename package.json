@@ -5,14 +5,23 @@
   "type": "module",
   "description": "Small, dependency-free apps. First: a planning tool for agentic workflows grounded in published standards.",
   "license": "MIT",
-  "engines": { "node": ">=20" },
-  "bin": { "agent-plan": "./bin/plan.js" },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "agent-plan": "./bin/plan.js"
+  },
   "scripts": {
     "plan": "node bin/plan.js",
     "test": "node --test",
     "serve": "node scripts/serve.js",
     "docs": "node scripts/gen-docs.js",
-    "check": "node --test && node scripts/lint-refs.js && node scripts/gen-docs.js --check"
+    "check": "node --test && node scripts/lint-refs.js && node scripts/gen-docs.js --check",
+    "flow": "node scripts/flow-render.js"
   },
-  "files": ["src", "bin", "apps"]
+  "files": [
+    "src",
+    "bin",
+    "apps"
+  ]
 }

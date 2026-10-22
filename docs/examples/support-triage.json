@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "title": "support triage",
+  "lanes": [
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "kind": "system",
+      "y": 34,
+      "height": 102
+    },
+    {
+      "id": "triage-agent",
+      "name": "Triage agent",
+      "kind": "agent",
+      "y": 144,
+      "height": 178
+    },
+    {
+      "id": "on-call-engineer",
+      "name": "On-call engineer",
+      "kind": "human",
+      "y": 330,
+      "height": 102
+    },
+    {
+      "id": "system",
+      "name": "System",
+      "kind": "system",
+      "y": 440,
+      "height": 120
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "primitive": "trigger-message",
+      "label": "A support ticket is created",
+      "lane": "trigger",
+      "props": {
+        "actor": "Inbox"
+      },
+      "w": 259,
+      "h": 58,
+      "x": 146,
+      "y": 56
+    },
+    {
+      "id": "n2",
+      "primitive": "classify",
+      "label": "Classifies it",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Triage agent"
+      },
+      "w": 165,
+      "h": 58,
+      "x": 463,
+      "y": 204
+    },
+    {
+      "id": "n3",
+      "primitive": "tool-read",
+      "label": "Reads the customer account",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Triage agent",
+        "scope": "read-only"
+      },
+      "w": 253,
+      "h": 58,
+      "x": 686,
+      "y": 204
+    },
+    {
+      "id": "n4",
+      "primitive": "decision",
+      "label": "It is a billing issue",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Triage agent",
+        "condition": "If it is a billing issue an on-call engineer reviews it"
+      },
+      "w": 210,
+      "h": 92,
+      "x": 997,
+      "y": 187
+    },
+    {
+      "id": "n5",
+      "primitive": "review",
+      "label": "Reviews it",
+      "lane": "on-call-engineer",
+      "props": {
+        "actor": "On-call engineer"
+      },
+      "w": 145,
+      "h": 58,
+      "x": 1279,
+      "y": 352
+    },
+    {
+      "id": "n6",
+      "primitive": "llm",
+      "label": "Drafts a reply",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Agent"
+      },
+      "w": 172,
+      "h": 58,
+      "x": 1265,
+      "y": 204
+    },
+    {
+      "id": "n7",
+      "primitive": "fork",
+      "label": "In parallel",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Agent"
+      },
+      "w": 152,
+      "h": 58,
+      "x": 1495,
+      "y": 204
+    },
+    {
+      "id": "n8",
+      "primitive": "tool-write",
+      "label": "Updates the ticket",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Agent",
+        "scope": "read-write"
+      },
+      "w": 199,
+      "h": 58,
+      "x": 1746,
+      "y": 166
+    },
+    {
+      "id": "n9",
+      "primitive": "notify",
+      "label": "Notifies the customer in Slack",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Agent",
+        "channel": ""
+      },
+      "w": 280,
+      "h": 58,
+      "x": 1705,
+      "y": 242
+    },
+    {
+      "id": "n10",
+      "primitive": "join",
+      "label": "Both complete",
+      "lane": "triage-agent",
+      "props": {
+        "actor": "Agent"
+      },
+      "w": 165,
+      "h": 58,
+      "x": 2043,
+      "y": 204
+    },
+    {
+      "id": "n11",
+      "primitive": "end",
+      "label": "Done",
+      "lane": "system",
+      "props": {
+        "actor": ""
+      },
+      "w": 136,
+      "h": 76,
+      "x": 2266,
+      "y": 462
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "n1",
+      "to": "n2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e2",
+      "from": "n2",
+      "to": "n3",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e3",
+      "from": "n3",
+      "to": "n4",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e4",
+      "from": "n4",
+      "to": "n5",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e5",
+      "from": "n4",
+      "to": "n6",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "false"
+    },
+    {
+      "id": "e6",
+      "from": "n5",
+      "to": "n7",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e7",
+      "from": "n6",
+      "to": "n7",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e8",
+      "from": "n7",
+      "to": "n8",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e9",
+      "from": "n7",
+      "to": "n9",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e10",
+      "from": "n8",
+      "to": "n10",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e11",
+      "from": "n9",
+      "to": "n10",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e12",
+      "from": "n10",
+      "to": "n11",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    }
+  ],
+  "meta": {
+    "source": "When a support ticket is created, the triage agent classifies it and reads the customer account.\nIf it is a billing issue an on-call engineer reviews it, otherwise the agent drafts a reply.\nIn parallel the agent updates the ticket and notifies the customer in Slack.",
+    "interpreter": "rules@1"
+  },
+  "width": 2430,
+  "height": 594
+}

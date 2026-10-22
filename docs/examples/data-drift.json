@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "title": "data drift",
+  "lanes": [
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "kind": "system",
+      "y": 34,
+      "height": 118
+    },
+    {
+      "id": "agent",
+      "name": "Agent",
+      "kind": "agent",
+      "y": 160,
+      "height": 254
+    },
+    {
+      "id": "engineer",
+      "name": "Engineer",
+      "kind": "human",
+      "y": 422,
+      "height": 102
+    },
+    {
+      "id": "system",
+      "name": "System",
+      "kind": "system",
+      "y": 532,
+      "height": 120
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "primitive": "trigger-schedule",
+      "label": "Hour the pipeline reads rows from the warehouse",
+      "lane": "trigger",
+      "props": {
+        "actor": "Scheduler"
+      },
+      "w": 266,
+      "h": 74,
+      "x": 146,
+      "y": 56
+    },
+    {
+      "id": "n2",
+      "primitive": "summarize",
+      "label": "Summarises the metrics and compares them to yesterday",
+      "lane": "agent",
+      "props": {
+        "actor": "Agent"
+      },
+      "w": 253,
+      "h": 74,
+      "x": 470,
+      "y": 250
+    },
+    {
+      "id": "n3",
+      "primitive": "decision",
+      "label": "Drift is detected",
+      "lane": "agent",
+      "props": {
+        "actor": "Agent",
+        "condition": "If drift is detected the agent drafts an incident note"
+      },
+      "w": 196,
+      "h": 92,
+      "x": 781,
+      "y": 241
+    },
+    {
+      "id": "n4",
+      "primitive": "llm",
+      "label": "Drafts an incident note",
+      "lane": "agent",
+      "props": {
+        "actor": "Agent"
+      },
+      "w": 233,
+      "h": 58,
+      "x": 1055,
+      "y": 182
+    },
+    {
+      "id": "n5",
+      "primitive": "approval",
+      "label": "Approves it",
+      "lane": "engineer",
+      "props": {
+        "actor": "Engineer",
+        "binds": "action"
+      },
+      "w": 152,
+      "h": 58,
+      "x": 1096,
+      "y": 444
+    },
+    {
+      "id": "n6",
+      "primitive": "llm",
+      "label": "Once approved writes an alert",
+      "lane": "agent",
+      "props": {
+        "actor": "Agent"
+      },
+      "w": 273,
+      "h": 58,
+      "x": 1035,
+      "y": 258
+    },
+    {
+      "id": "n7",
+      "primitive": "notify",
+      "label": "Emails the on-call rota",
+      "lane": "agent",
+      "props": {
+        "actor": "Agent",
+        "channel": ""
+      },
+      "w": 233,
+      "h": 58,
+      "x": 1055,
+      "y": 334
+    },
+    {
+      "id": "n8",
+      "primitive": "end",
+      "label": "Done",
+      "lane": "system",
+      "props": {
+        "actor": ""
+      },
+      "w": 136,
+      "h": 76,
+      "x": 1366,
+      "y": 554
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "n1",
+      "to": "n2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e2",
+      "from": "n2",
+      "to": "n3",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e3",
+      "from": "n3",
+      "to": "n4",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e4",
+      "from": "n3",
+      "to": "n5",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e5",
+      "from": "n3",
+      "to": "n6",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e6",
+      "from": "n3",
+      "to": "n7",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e7",
+      "from": "n7",
+      "to": "n8",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    }
+  ],
+  "meta": {
+    "source": "Every hour the pipeline reads rows from the warehouse.\nThe agent summarises the metrics and compares them to yesterday.\nIf drift is detected the agent drafts an incident note and an engineer approves it.\nOnce approved the agent writes an alert and emails the on-call rota.",
+    "interpreter": "rules@1"
+  },
+  "width": 1530,
+  "height": 686
+}

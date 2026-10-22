@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow — workflow diagrams — smallapps</title>
+<meta name="description" content="Describe a workflow in prose, get an editable swimlane diagram with the risks drawn on it.">
+<link rel="stylesheet" href="./app.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌗</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../../">
+    <span class="mark">⌗</span>
+    <span class="brand-text">Flow<em>workflow diagrams</em></span>
+  </a>
+
+  <input id="title" class="title-input" type="text" placeholder="Untitled workflow" aria-label="Diagram title" autocomplete="off">
+
+  <div class="topbar-actions">
+    <button id="btn-undo" class="ghost" type="button" title="Undo (⌘Z)">Undo</button>
+    <button id="btn-redo" class="ghost" type="button" title="Redo (⇧⌘Z)">Redo</button>
+    <span class="divider"></span>
+    <button id="btn-tidy" class="ghost" type="button" title="Re-run the automatic layout">Tidy</button>
+    <button id="btn-import" class="ghost" type="button">Import</button>
+    <div class="menu">
+      <button id="btn-export" class="primary" type="button" aria-haspopup="true" aria-expanded="false">Export ▾</button>
+      <div id="export-menu" class="menu-items" hidden>
+        <button data-export="png" type="button">PNG (2×)</button>
+        <button data-export="svg" type="button">SVG</button>
+        <button data-export="json" type="button">JSON spec</button>
+        <button data-export="prompt" type="button">LLM prompt</button>
+      </div>
+    </div>
+    <input id="file-import" type="file" accept="application/json" hidden>
+  </div>
+</header>
+
+<div class="workspace">
+
+  <!-- ── Left rail ─────────────────────────────────────────────────────── -->
+  <aside class="rail rail-left">
+    <section class="card">
+      <h2>Describe it</h2>
+      <textarea id="prompt" spellcheck="false" placeholder="When an invoice arrives, the finance agent extracts the fields, checks the PO, and if the amount is over $5k a manager approves it before it is posted to the ledger."></textarea>
+
+      <div class="row">
+        <select id="interpreter" aria-label="Interpreter">
+          <option value="rules">Rules · offline</option>
+          <option value="llm">LLM · your key</option>
+        </select>
+        <button id="generate" class="primary wide" type="button">Generate</button>
+      </div>
+
+      <p id="prompt-note" class="note">Rule-based parsing: no network, no key. Everything it produces is editable.</p>
+
+      <details id="llm-settings" hidden>
+        <summary>Model settings</summary>
+        <label>Endpoint<input id="llm-endpoint" type="url" autocomplete="off" spellcheck="false"></label>
+        <label>Model<input id="llm-model" type="text" autocomplete="off" spellcheck="false"></label>
+        <label>API key<input id="llm-key" type="password" autocomplete="off" placeholder="stored in this browser only"></label>
+        <p class="note warn">The key is kept in local storage and sent only to the endpoint above. Anything running in this page can read it — use a scoped, short-lived key.</p>
+      </details>
+    </section>
+
+    <section class="card grow">
+      <h2>Primitives</h2>
+      <p class="note">Click to add. Drop on a lane to place it there.</p>
+      <div id="palette" class="palette"></div>
+    </section>
+  </aside>
+
+  <!-- ── Canvas ────────────────────────────────────────────────────────── -->
+  <main class="canvas-wrap">
+    <svg id="canvas" role="application" aria-label="Workflow diagram canvas"></svg>
+
+    <div id="empty-state" class="empty-state">
+      <h3>Nothing here yet</h3>
+      <p>Describe a workflow on the left, or start from one of these.</p>
+      <div class="examples" id="examples"></div>
+    </div>
+
+    <div class="canvas-toolbar">
+      <button id="zoom-out" type="button" title="Zoom out">−</button>
+      <span id="zoom-level">100%</span>
+      <button id="zoom-in" type="button" title="Zoom in">+</button>
+      <button id="zoom-fit" type="button" title="Fit to view">Fit</button>
+    </div>
+
+    <div class="hint">drag to move · drag a port to connect · double-click to rename · ⌘/ctrl-wheel to zoom · space-drag to pan</div>
+  </main>
+
+  <!-- ── Right rail ────────────────────────────────────────────────────── -->
+  <aside class="rail rail-right">
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" data-tab="inspector" role="tab">Inspector</button>
+      <button class="tab" data-tab="risks" role="tab">Risks <span id="risk-count" class="badge" hidden>0</span></button>
+    </nav>
+    <div class="tabpanel is-active" data-panel="inspector"><div id="inspector"></div></div>
+    <div class="tabpanel" data-panel="risks"><div id="risks"></div></div>
+  </aside>
+
+</div>
+
+<div id="toast" class="toast"></div>
+<script type="module" src="./main.js"></script>
+</body>
+</html>

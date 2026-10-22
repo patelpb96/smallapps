@@ -13,7 +13,7 @@ import {
   buildPlan, deriveFacts, runHeuristics, HEURISTICS, SOURCES, QUESTIONS,
   defaultAnswers, PRESETS, renderMarkdown, renderChecklist, renderJson,
   AUTONOMY_TIERS, SANDBOX_TIERS, assessSandbox,
-} from '../src/index.js';
+} from '../src/agent-plan/index.js';
 
 // A fact set that touches every branch: worst case.
 const WORST = {

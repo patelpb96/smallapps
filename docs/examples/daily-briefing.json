@@ -1,0 +1,206 @@
+{
+  "version": 1,
+  "title": "daily briefing",
+  "lanes": [
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "kind": "system",
+      "y": 34,
+      "height": 102
+    },
+    {
+      "id": "research-agent",
+      "name": "Research agent",
+      "kind": "agent",
+      "y": 144,
+      "height": 118
+    },
+    {
+      "id": "analyst",
+      "name": "Analyst",
+      "kind": "human",
+      "y": 270,
+      "height": 118
+    },
+    {
+      "id": "system",
+      "name": "System",
+      "kind": "system",
+      "y": 396,
+      "height": 120
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "primitive": "trigger-schedule",
+      "label": "Morning at 7am",
+      "lane": "trigger",
+      "props": {
+        "actor": "Scheduler"
+      },
+      "w": 172,
+      "h": 58,
+      "x": 146,
+      "y": 56
+    },
+    {
+      "id": "n2",
+      "primitive": "tool-search",
+      "label": "Searches for new filings from our watchlist",
+      "lane": "research-agent",
+      "props": {
+        "actor": "Research agent"
+      },
+      "w": 273,
+      "h": 74,
+      "x": 376,
+      "y": 166
+    },
+    {
+      "id": "n3",
+      "primitive": "summarize",
+      "label": "Summarises each one",
+      "lane": "research-agent",
+      "props": {
+        "actor": "Research agent"
+      },
+      "w": 206,
+      "h": 58,
+      "x": 707,
+      "y": 174
+    },
+    {
+      "id": "n4",
+      "primitive": "llm",
+      "label": "Drafts a briefing",
+      "lane": "research-agent",
+      "props": {
+        "actor": "Research agent"
+      },
+      "w": 192,
+      "h": 58,
+      "x": 971,
+      "y": 174
+    },
+    {
+      "id": "n5",
+      "primitive": "review",
+      "label": "Reviews the briefing",
+      "lane": "analyst",
+      "props": {
+        "actor": "Analyst"
+      },
+      "w": 212,
+      "h": 58,
+      "x": 1221,
+      "y": 300
+    },
+    {
+      "id": "n6",
+      "primitive": "approval",
+      "label": "Either approves it or sends it back",
+      "lane": "analyst",
+      "props": {
+        "actor": "Analyst",
+        "binds": "action"
+      },
+      "w": 280,
+      "h": 74,
+      "x": 1491,
+      "y": 292
+    },
+    {
+      "id": "n7",
+      "primitive": "approval",
+      "label": "Once approved it is published to the intranet",
+      "lane": "analyst",
+      "props": {
+        "actor": "Analyst",
+        "binds": "action"
+      },
+      "w": 293,
+      "h": 74,
+      "x": 1829,
+      "y": 292
+    },
+    {
+      "id": "n8",
+      "primitive": "end",
+      "label": "Done",
+      "lane": "system",
+      "props": {
+        "actor": ""
+      },
+      "w": 136,
+      "h": 76,
+      "x": 2180,
+      "y": 418
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "n1",
+      "to": "n2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e2",
+      "from": "n2",
+      "to": "n3",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e3",
+      "from": "n3",
+      "to": "n4",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e4",
+      "from": "n4",
+      "to": "n5",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e5",
+      "from": "n5",
+      "to": "n6",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e6",
+      "from": "n6",
+      "to": "n7",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e7",
+      "from": "n7",
+      "to": "n8",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    }
+  ],
+  "meta": {
+    "source": "Every morning at 7am, the research agent searches for new filings from our watchlist and summarises each one.\nIt drafts a briefing.\nAn analyst reviews the briefing and either approves it or sends it back.\nOnce approved it is published to the intranet.",
+    "interpreter": "rules@1"
+  },
+  "width": 2344,
+  "height": 550
+}

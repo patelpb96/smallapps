@@ -6,6 +6,7 @@ Small, dependency-free things that each do one job. No build step, no bundler, n
 
 | App | What it does |
 |---|---|
+| [`apps/flow`](apps/flow/) | Turns a description of a workflow into an editable swimlane diagram, with structural risks drawn on it. |
 | [`apps/agent-plan`](apps/agent-plan/) | Plans agentic workflows against published standards: autonomy tier, sandbox floor, tool contracts, oversight design, evaluation gates. |
 
 ---
@@ -39,7 +40,7 @@ node bin/plan.js --answers my-answers.json --format json
 node bin/plan.js --list-presets
 
 # Checks
-npm test                       # 30 behavioural + integrity tests
+npm test                       # 70 behavioural + integrity tests
 npm run check                  # tests + referential integrity + doc freshness
 ```
 
@@ -85,7 +86,7 @@ For the same preset, the plan opens with:
 ## Repository layout
 
 ```
-src/                  the engine — pure ESM, no DOM, runs in node and browser
+src/                  engines — pure ESM, no DOM, run in node and browser
   intake.js           23 questions; every option declares the facts it asserts
   facts.js            answers → facts (the only place interpretation happens)
   heuristics.js       the 70-rule catalog
@@ -93,7 +94,15 @@ src/                  the engine — pure ESM, no DOM, runs in node and browser
   engine.js           buildPlan() → the single plan IR
   render.js           plan → markdown / checklist / json
   sources.js          30-entry citation registry
-apps/agent-plan/      web UI (thin: builds inputs, calls buildPlan, paints)
+src/flow/             diagram engine
+  primitives.js       31 typed boxes, each declaring its effects on the world
+  interpret.js        prose → spec (deterministic rules; pluggable for an LLM)
+  layout.js           swimlanes + layered placement, cycle-safe
+  geometry.js         node sizing, port anchors, orthogonal routing
+  hazards.js          structural checks against the same standards
+  render.js           SVG, shared by the editor and the exporter
+apps/agent-plan/      planner UI (thin: builds inputs, calls buildPlan, paints)
+apps/flow/            diagram editor (editor.js: canvas + direct manipulation)
 bin/plan.js           CLI
 test/                 node:test — no framework
 scripts/              serve, generate docs, lint references
@@ -103,7 +112,45 @@ docs/
   papers/             11 papers, checked in
 ```
 
-`src/` has no knowledge of the UI. Adding an output format means touching `render.js`, never a heuristic.
+Neither engine knows about its UI. Adding an output format means touching a renderer, never a rule.
+
+---
+
+## Flow
+
+Describe a workflow in prose; get a swimlane diagram you can move around with a mouse.
+
+```
+$ node scripts/flow-render.js --demo 0 -o out.svg
+invoice approval — 9 nodes, 9 edges, 2346×552
+lanes: Trigger · Finance agent · Manager · System
+flags: critical:trifecta, medium:no-error-path
+```
+
+**Interpretation is a separate layer, not a prompt.** The description goes through an interpreter that emits a plain JSON spec; the diagram framework only ever sees that spec. Two interpreters ship:
+
+- **Rules** (default) — a lexicon and a clause splitter. No network, no key, deterministic, and unit-tested. It handles triggers, actors, sequence, `if / otherwise`, "in parallel", bulleted lists, and `a -> b -> c` arrow syntax.
+- **LLM** — an OpenAI-compatible endpoint you configure, which must return the *same* spec shape. It is validated by the same normaliser and laid out identically, and a failed call falls back to the rules rather than leaving you with half a diagram. The prompt is exportable, so you can also paste it into any chat window and import the JSON.
+
+**Everything is editable, because the parser is a heuristic.** Drag nodes, drag a port to connect, double-click to rename, drop a node on a lane to reassign the actor, edit the primitive or any property in the inspector, add and rename lanes, undo. Editing is the expected path, not a fallback.
+
+**Different shapes for different tasks.** 31 primitives across triggers, human steps, model steps, tools, data, control flow, outbound, and terminal — each declaring its *effects* (reads sensitive data, can send data out, executes code, irreversible…) which is what the checks reason about, rather than the label.
+
+**The diagram is checked against the standards.** The same sources the planner cites are applied structurally: untrusted input with a path to an outbound channel *and* private data in the same flow is flagged as the lethal trifecta, naming the nodes on the path; an irreversible step with no approval upstream is critical; a cycle with no declared bound, code execution with no isolation boundary, and side effects with no failure path all surface in the Risks tab with the offending nodes outlined. Click a flag to select them.
+
+### Editor
+
+| | |
+|---|---|
+| Move / select | drag · shift-click · marquee-drag on empty canvas |
+| Connect | drag from the port on a node's right edge onto another node |
+| Rename | double-click the node |
+| Pan / zoom | space-drag or wheel · ⌘/ctrl-wheel zooms at the cursor |
+| Keyboard | `⌘Z` / `⇧⌘Z` · `⌘D` duplicate · `⌘↵` generate · arrows nudge · `Del` |
+
+Exports PNG (2×), SVG, the JSON spec, and the LLM prompt. `?demo=0..3` in the URL loads an example.
+
+Worked examples are checked in at [`docs/examples/`](docs/examples/) as both SVG and JSON — regenerate with `node scripts/flow-render.js --examples docs/examples`.
 
 ---
 

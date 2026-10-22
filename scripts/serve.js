@@ -1,7 +1,7 @@
 /**
  * Zero-dependency static server.
  *
- * The app imports ../../src/*.js relative to apps/agent-plan/, so the server
+ * The app imports ../../src/agent-plan/*.js relative to apps/agent-plan/, so the server
  * root must be the repo root, not the app directory.
  *
  *   node scripts/serve.js [port]

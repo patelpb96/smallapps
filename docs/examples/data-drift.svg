@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1530" height="686" viewBox="0 0 1530 686" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
+<defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b9b93"/>
+    </marker>
+    <marker id="arrow-select" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b5bdb"/>
+    </marker>
+    <marker id="arrow-danger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b42318"/>
+    </marker>
+  </defs>
+<rect width="1530" height="686" fill="#ffffff"/>
+<g class="lane" data-lane="trigger">
+    <rect x="0" y="34" width="1530" height="118" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="34" width="196" height="118" fill="#fcfcfa"/>
+    <line x1="196" y1="34" x2="196" y2="152" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="90" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="106" font-size="13" font-weight="600" fill="#1b1b19">Trigger</text>
+  </g>
+<g class="lane" data-lane="agent">
+    <rect x="0" y="160" width="1530" height="254" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="160" width="196" height="254" fill="#f6f6f2"/>
+    <line x1="196" y1="160" x2="196" y2="414" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="284" font-size="9" font-weight="700" letter-spacing="0.8" fill="#1d4ed8" opacity="0.8">MODEL</text>
+    <text x="18" y="300" font-size="13" font-weight="600" fill="#1b1b19">Agent</text>
+  </g>
+<g class="lane" data-lane="engineer">
+    <rect x="0" y="422" width="1530" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="422" width="196" height="102" fill="#fcfcfa"/>
+    <line x1="196" y1="422" x2="196" y2="524" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="470" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.8">HUMAN</text>
+    <text x="18" y="486" font-size="13" font-weight="600" fill="#1b1b19">Engineer</text>
+  </g>
+<g class="lane" data-lane="system">
+    <rect x="0" y="532" width="1530" height="120" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="532" width="196" height="120" fill="#f6f6f2"/>
+    <line x1="196" y1="532" x2="196" y2="652" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="589" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="605" font-size="13" font-weight="600" fill="#1b1b19">System</text>
+  </g>
+<g class="edge" data-edge="e1">
+    <path d="M 412 93 L 432 93 Q 441 93 441 102 L 441 278 Q 441 287 450 287 L 470 287" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e2">
+    <path d="M 723 287 L 752 287 L 752 287 L 781 287" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e3">
+    <path d="M 977 272.3 L 1007 272.3 Q 1016 272.3 1016 263.3 L 1016 220 Q 1016 211 1025 211 L 1055 211" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1003.2" y="233.6" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1016.0" y="244.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
+  </g>
+<g class="edge" data-edge="e4">
+    <path d="M 977 272.3 L 1028 272.3 Q 1037 272.3 1037 281.3 L 1037 464 Q 1037 473 1046 473 L 1096 473" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1024.2" y="364.6" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1037.0" y="375.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
+  </g>
+<g class="edge" data-edge="e5">
+    <path d="M 977 272.3 L 998.6 272.3 Q 1006 272.3 1006 279.6 L 1006 279.6 Q 1006 287 1013.4 287 L 1035 287" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="978.7" y="264.3" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="991.5" y="275.3" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
+  </g>
+<g class="edge" data-edge="e6">
+    <path d="M 977 272.3 L 1007 272.3 Q 1016 272.3 1016 281.3 L 1016 354 Q 1016 363 1025 363 L 1055 363" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1003.2" y="309.6" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1016.0" y="320.6" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
+  </g>
+<g class="edge" data-edge="e7">
+    <path d="M 1288 363 L 1318 363 Q 1327 363 1327 372 L 1327 583 Q 1327 592 1336 592 L 1366 592" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="node" data-node="n1" data-shape="pill" transform="translate(146,56)">
+    <rect x="1" y="1" width="264" height="72" rx="36" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
+    <g transform="translate(14,20.0) scale(0.86)" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.4a5.6 5.6 0 1 0 0 11.2A5.6 5.6 0 1 0 8 2.4M8 5v3.3l2.3 1.4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="28.0">Hour the pipeline reads rows</tspan><tspan x="41" y="43.0">from the warehouse</tspan></text>
+    <text x="41" y="60.0" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#7c3aed" opacity="0.85">SCHEDULE</text>
+    
+    
+  </g>
+<g class="node" data-node="n2" data-shape="round" transform="translate(470,250)">
+    <rect x="1" y="1" width="251" height="72" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <g transform="translate(14,20.0) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 4.8h9.4 M3 8h9.4 M3 11.2h6"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="28.0">Summarises the metrics and</tspan><tspan x="41" y="43.0">compares them to yesterday</tspan></text>
+    <text x="41" y="60.0" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">SUMMARISE</text>
+    
+    
+  </g>
+<g class="node" data-node="n3" data-shape="diamond" transform="translate(781,241)">
+    <path d="M 98 1 L 195 46 L 98 91 L 1 46 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="98" y="36.0" text-anchor="middle">Drift is</tspan><tspan x="98" y="51.0" text-anchor="middle">detected</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="n4" data-shape="round" transform="translate(1055,182)">
+    <rect x="1" y="1" width="231" height="56" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Drafts an incident note</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="n5" data-shape="hex" transform="translate(1096,444)">
+    <path d="M 18 1 H 134 L 151 29 L 134 57 H 18 L 1 29 Z" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 8.3 6.5 11.3 12.6 4.5"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Approves it</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#b45309" opacity="0.85">APPROVAL GATE</text>
+    
+    
+  </g>
+<g class="node" data-node="n6" data-shape="round" transform="translate(1035,258)">
+    <rect x="1" y="1" width="271" height="56" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Once approved writes an alert</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="n7" data-shape="rect" transform="translate(1055,334)">
+    <rect x="1" y="1" width="231" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.2 8 13.2 2.8 10 13.2 7.5 8.6Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Emails the on-call rota</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.85">SEND MESSAGE</text>
+    <circle cx="226" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle>
+    
+  </g>
+<g class="node" data-node="n8" data-shape="circle" transform="translate(1366,554)">
+    <ellipse cx="68" cy="38" rx="67" ry="37" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,35.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5 5h6v6H5Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="43.5">Done</tspan></text>
+    
+    
+    
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 /**
  * Public surface.
  *
- *   import { buildPlan, renderMarkdown } from './src/index.js';
+ *   import { buildPlan, renderMarkdown } from './src/agent-plan/index.js';
  */
 
 export { buildPlan, runHeuristics, topActions, summarize, ENGINE_VERSION } from './engine.js';

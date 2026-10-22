@@ -1,0 +1,238 @@
+{
+  "version": 1,
+  "title": "invoice approval",
+  "lanes": [
+    {
+      "id": "trigger",
+      "name": "Trigger",
+      "kind": "system",
+      "y": 34,
+      "height": 102
+    },
+    {
+      "id": "finance-agent",
+      "name": "Finance agent",
+      "kind": "agent",
+      "y": 144,
+      "height": 136
+    },
+    {
+      "id": "manager",
+      "name": "Manager",
+      "kind": "human",
+      "y": 288,
+      "height": 102
+    },
+    {
+      "id": "system",
+      "name": "System",
+      "kind": "system",
+      "y": 398,
+      "height": 120
+    }
+  ],
+  "nodes": [
+    {
+      "id": "n1",
+      "primitive": "trigger-message",
+      "label": "An invoice arrives by email",
+      "lane": "trigger",
+      "props": {
+        "actor": "Inbox"
+      },
+      "w": 259,
+      "h": 58,
+      "x": 146,
+      "y": 56
+    },
+    {
+      "id": "n2",
+      "primitive": "extract",
+      "label": "Extracts the vendor, amount and PO number",
+      "lane": "finance-agent",
+      "props": {
+        "actor": "Finance agent"
+      },
+      "w": 286,
+      "h": 74,
+      "x": 463,
+      "y": 175
+    },
+    {
+      "id": "n3",
+      "primitive": "tool-read",
+      "label": "Matches the PO in the ERP",
+      "lane": "finance-agent",
+      "props": {
+        "actor": "Finance agent",
+        "scope": "read-only"
+      },
+      "w": 246,
+      "h": 58,
+      "x": 807,
+      "y": 183
+    },
+    {
+      "id": "n4",
+      "primitive": "decision",
+      "label": "The amount is over $5,000",
+      "lane": "finance-agent",
+      "props": {
+        "actor": "Finance agent",
+        "condition": "If the amount is over $5,000 a manager approves it"
+      },
+      "w": 196,
+      "h": 92,
+      "x": 1111,
+      "y": 166
+    },
+    {
+      "id": "n5",
+      "primitive": "approval",
+      "label": "Approves it",
+      "lane": "manager",
+      "props": {
+        "actor": "Manager",
+        "binds": "action"
+      },
+      "w": 152,
+      "h": 58,
+      "x": 1372,
+      "y": 310
+    },
+    {
+      "id": "n6",
+      "primitive": "llm",
+      "label": "Auto-approves",
+      "lane": "finance-agent",
+      "props": {
+        "actor": "Finance agent"
+      },
+      "w": 165,
+      "h": 58,
+      "x": 1365,
+      "y": 183
+    },
+    {
+      "id": "n7",
+      "primitive": "notify",
+      "label": "Posts the invoice to the ledger",
+      "lane": "finance-agent",
+      "props": {
+        "actor": "Finance agent",
+        "channel": ""
+      },
+      "w": 286,
+      "h": 58,
+      "x": 1588,
+      "y": 183
+    },
+    {
+      "id": "n8",
+      "primitive": "notify",
+      "label": "Emails the vendor",
+      "lane": "finance-agent",
+      "props": {
+        "actor": "Finance agent",
+        "channel": ""
+      },
+      "w": 192,
+      "h": 58,
+      "x": 1932,
+      "y": 183
+    },
+    {
+      "id": "n9",
+      "primitive": "end",
+      "label": "Done",
+      "lane": "system",
+      "props": {
+        "actor": ""
+      },
+      "w": 136,
+      "h": 76,
+      "x": 2182,
+      "y": 420
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "n1",
+      "to": "n2",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e2",
+      "from": "n2",
+      "to": "n3",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e3",
+      "from": "n3",
+      "to": "n4",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e4",
+      "from": "n4",
+      "to": "n5",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "true"
+    },
+    {
+      "id": "e5",
+      "from": "n4",
+      "to": "n6",
+      "kind": "branch",
+      "label": "",
+      "fromPort": "false"
+    },
+    {
+      "id": "e6",
+      "from": "n5",
+      "to": "n7",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e7",
+      "from": "n6",
+      "to": "n7",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e8",
+      "from": "n7",
+      "to": "n8",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e9",
+      "from": "n8",
+      "to": "n9",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    }
+  ],
+  "meta": {
+    "source": "When an invoice arrives by email, the finance agent extracts the vendor, amount and PO number.\nIt matches the PO in the ERP.\nIf the amount is over $5,000 a manager approves it; otherwise it auto-approves.\nFinally it posts the invoice to the ledger and emails the vendor.",
+    "interpreter": "rules@1"
+  },
+  "width": 2346,
+  "height": 552
+}

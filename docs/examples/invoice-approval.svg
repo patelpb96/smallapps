@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2346" height="552" viewBox="0 0 2346 552" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Inter, Roboto, sans-serif">
+<defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#9b9b93"/>
+    </marker>
+    <marker id="arrow-select" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b5bdb"/>
+    </marker>
+    <marker id="arrow-danger" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b42318"/>
+    </marker>
+  </defs>
+<rect width="2346" height="552" fill="#ffffff"/>
+<g class="lane" data-lane="trigger">
+    <rect x="0" y="34" width="2346" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="34" width="196" height="102" fill="#fcfcfa"/>
+    <line x1="196" y1="34" x2="196" y2="136" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="82" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="98" font-size="13" font-weight="600" fill="#1b1b19">Trigger</text>
+  </g>
+<g class="lane" data-lane="finance-agent">
+    <rect x="0" y="144" width="2346" height="136" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="144" width="196" height="136" fill="#f6f6f2"/>
+    <line x1="196" y1="144" x2="196" y2="280" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="209" font-size="9" font-weight="700" letter-spacing="0.8" fill="#1d4ed8" opacity="0.8">MODEL</text>
+    <text x="18" y="225" font-size="13" font-weight="600" fill="#1b1b19">Finance agent</text>
+  </g>
+<g class="lane" data-lane="manager">
+    <rect x="0" y="288" width="2346" height="102" fill="#fcfcfa" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="288" width="196" height="102" fill="#fcfcfa"/>
+    <line x1="196" y1="288" x2="196" y2="390" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="336" font-size="9" font-weight="700" letter-spacing="0.8" fill="#b45309" opacity="0.8">HUMAN</text>
+    <text x="18" y="352" font-size="13" font-weight="600" fill="#1b1b19">Manager</text>
+  </g>
+<g class="lane" data-lane="system">
+    <rect x="0" y="398" width="2346" height="120" fill="#f6f6f2" stroke="#d8d8d1" stroke-width="1"/>
+    <rect x="0" y="398" width="196" height="120" fill="#f6f6f2"/>
+    <line x1="196" y1="398" x2="196" y2="518" stroke="#d8d8d1" stroke-width="1" opacity="0.7"/>
+    <text x="18" y="455" font-size="9" font-weight="700" letter-spacing="0.8" fill="#57606a" opacity="0.8">SYSTEM</text>
+    <text x="18" y="471" font-size="13" font-weight="600" fill="#1b1b19">System</text>
+  </g>
+<g class="edge" data-edge="e1">
+    <path d="M 405 85 L 425 85 Q 434 85 434 94 L 434 203 Q 434 212 443 212 L 463 212" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e2">
+    <path d="M 749 212 L 778 212 L 778 212 L 807 212" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e3">
+    <path d="M 1053 212 L 1082 212 L 1082 212 L 1111 212" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e4">
+    <path d="M 1307 197.3 L 1331 197.3 Q 1340 197.3 1340 206.3 L 1340 330 Q 1340 339 1349 339 L 1372 339" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1327.2" y="260.1" width="25.6" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1340.0" y="271.1" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">yes</text></g>
+  </g>
+<g class="edge" data-edge="e5">
+    <path d="M 1307 232.2 L 1327 232.2 Q 1336 232.2 1336 223.2 L 1336 221 Q 1336 212 1345 212 L 1365 212" fill="none" stroke="#7c7c74" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    <g class="edge-label"><rect x="1311.3" y="224.2" width="20.4" height="15" rx="7.5" fill="#ffffff" stroke="#7c7c74" stroke-width="0.8" opacity="0.95"/><text x="1321.5" y="235.2" text-anchor="middle" font-size="9.5" font-weight="600" fill="#7c7c74">no</text></g>
+  </g>
+<g class="edge" data-edge="e6">
+    <path d="M 1524 339 L 1547 339 Q 1556 339 1556 330 L 1556 221 Q 1556 212 1565 212 L 1588 212" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e7">
+    <path d="M 1530 212 L 1559 212 L 1559 212 L 1588 212" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e8">
+    <path d="M 1874 212 L 1903 212 L 1903 212 L 1932 212" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="edge" data-edge="e9">
+    <path d="M 2124 212 L 2144 212 Q 2153 212 2153 221 L 2153 449 Q 2153 458 2162 458 L 2182 458" fill="none" stroke="#9b9b93" stroke-width="1.5" stroke-linecap="round" marker-end="url(#arrow)"/>
+    
+  </g>
+<g class="node" data-node="n1" data-shape="pill" transform="translate(146,56)">
+    <rect x="1" y="1" width="257" height="56" rx="28" fill="#ffffff" stroke="#7c3aed" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.8 4.6h10.4v6.8H2.8Z M2.8 4.6 8 8.6l5.2-4"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">An invoice arrives by email</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#7c3aed" opacity="0.85">INBOUND MESSAGE</text>
+    <circle cx="252" cy="7" r="2.6" fill="#be123c"><title>untrusted input</title></circle>
+    
+  </g>
+<g class="node" data-node="n2" data-shape="round" transform="translate(463,175)">
+    <rect x="1" y="1" width="284" height="72" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <g transform="translate(14,20.0) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3 4.8h9.4 M3 8h9.4 M3 11.2h6"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="28.0">Extracts the vendor, amount and</tspan><tspan x="41" y="43.0">PO number</tspan></text>
+    <text x="41" y="60.0" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">EXTRACT FIELDS</text>
+    
+    
+  </g>
+<g class="node" data-node="n3" data-shape="rect" transform="translate(807,183)">
+    <rect x="1" y="1" width="244" height="56" rx="9" fill="#ffffff" stroke="#0f766e" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 4.4c0-1 2.1-1.7 4.6-1.7s4.6.7 4.6 1.7v7.2c0 1-2.1 1.7-4.6 1.7s-4.6-.7-4.6-1.7Z M3.4 4.4c0 1 2.1 1.7 4.6 1.7s4.6-.7 4.6-1.7"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Matches the PO in the ERP</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#0f766e" opacity="0.85">READ / QUERY</text>
+    <circle cx="239" cy="7" r="2.6" fill="#0e7490"><title>reads sensitive data</title></circle>
+    
+  </g>
+<g class="node" data-node="n4" data-shape="diamond" transform="translate(1111,166)">
+    <path d="M 98 1 L 195 46 L 98 91 L 1 46 Z" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+    
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="98" y="36.0" text-anchor="middle">The amount is</tspan><tspan x="98" y="51.0" text-anchor="middle">over $5,000</tspan></text>
+    
+    
+    
+  </g>
+<g class="node" data-node="n5" data-shape="hex" transform="translate(1372,310)">
+    <path d="M 18 1 H 134 L 151 29 L 134 57 H 18 L 1 29 Z" fill="#ffffff" stroke="#b45309" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#b45309" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M3.4 8.3 6.5 11.3 12.6 4.5"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Approves it</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#b45309" opacity="0.85">APPROVAL GATE</text>
+    
+    
+  </g>
+<g class="node" data-node="n6" data-shape="round" transform="translate(1365,183)">
+    <rect x="1" y="1" width="163" height="56" rx="16" fill="#ffffff" stroke="#1d4ed8" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M8 2.2 9.6 6.4 13.8 8 9.6 9.6 8 13.8 6.4 9.6 2.2 8 6.4 6.4Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Auto-approves</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#1d4ed8" opacity="0.85">LLM STEP</text>
+    
+    
+  </g>
+<g class="node" data-node="n7" data-shape="rect" transform="translate(1588,183)">
+    <rect x="1" y="1" width="284" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.2 8 13.2 2.8 10 13.2 7.5 8.6Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Posts the invoice to the ledger</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.85">SEND MESSAGE</text>
+    <circle cx="279" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle>
+    
+  </g>
+<g class="node" data-node="n8" data-shape="rect" transform="translate(1932,183)">
+    <rect x="1" y="1" width="190" height="56" rx="9" fill="#ffffff" stroke="#be123c" stroke-width="1.4"/>
+    <g transform="translate(14,19.5) scale(0.86)" fill="none" stroke="#be123c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M2.2 8 13.2 2.8 10 13.2 7.5 8.6Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="27.5">Emails the vendor</tspan></text>
+    <text x="41" y="44.5" font-size="8.5" font-weight="600" letter-spacing="0.6" fill="#be123c" opacity="0.85">SEND MESSAGE</text>
+    <circle cx="185" cy="7" r="2.6" fill="#7c3aed"><title>can send data out</title></circle>
+    
+  </g>
+<g class="node" data-node="n9" data-shape="circle" transform="translate(2182,420)">
+    <ellipse cx="68" cy="38" rx="67" ry="37" fill="#ffffff" stroke="#57606a" stroke-width="1.4"/>
+    <g transform="translate(14,35.5) scale(0.86)" fill="none" stroke="#57606a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"><path d="M5 5h6v6H5Z"/></g>
+    <text font-size="12.5" font-weight="520" fill="#1b1b19"><tspan x="41" y="43.5">Done</tspan></text>
+    
+    
+    
+  </g>
+</svg>

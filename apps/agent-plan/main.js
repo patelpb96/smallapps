@@ -1,16 +1,16 @@
 /**
  * UI shell.
  *
- * Deliberately thin: every judgement lives in ../../src/. This file builds
+ * Deliberately thin: every judgement lives in ../../src/agent-plan/. This file builds
  * inputs, calls buildPlan(), and paints the result. If a rule needs changing,
- * it changes in src/heuristics.js — never here.
+ * it changes in src/agent-plan/heuristics.js — never here.
  */
 
 import {
   QUESTIONS, GROUPS, PRESETS, defaultAnswers,
-} from '../../src/intake.js';
-import { buildPlan, ENGINE_VERSION, CATEGORIES, SOURCES } from '../../src/engine.js';
-import { renderMarkdown, renderChecklist, renderJson } from '../../src/render.js';
+} from '../../src/agent-plan/intake.js';
+import { buildPlan, ENGINE_VERSION, CATEGORIES, SOURCES } from '../../src/agent-plan/engine.js';
+import { renderMarkdown, renderChecklist, renderJson } from '../../src/agent-plan/render.js';
 
 const STORE_KEY = 'smallapps.agent-plan.v1';
 

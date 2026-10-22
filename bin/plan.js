@@ -9,9 +9,9 @@
  */
 
 import { readFile } from 'node:fs/promises';
-import { buildPlan, summarize } from '../src/engine.js';
-import { renderMarkdown, renderChecklist, renderJson } from '../src/render.js';
-import { PRESETS, defaultAnswers, QUESTIONS } from '../src/intake.js';
+import { buildPlan, summarize } from '../src/agent-plan/engine.js';
+import { renderMarkdown, renderChecklist, renderJson } from '../src/agent-plan/render.js';
+import { PRESETS, defaultAnswers, QUESTIONS } from '../src/agent-plan/intake.js';
 
 function parseArgs(argv) {
   const out = { format: 'summary', name: undefined, preset: undefined, answers: undefined, notes: undefined };
@@ -37,7 +37,7 @@ Usage
 
 Options
   -p, --preset <name>    Start from a preset: ${Object.keys(PRESETS).join(', ')}
-      --answers <file>   JSON file of answers (see src/intake.js for question ids)
+      --answers <file>   JSON file of answers (see src/agent-plan/intake.js for question ids)
       --name <string>    Name for the workflow
       --notes <string>   Free text appended to the plan
   -f, --format <fmt>     summary (default) | md | checklist | json
