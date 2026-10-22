@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent workflow planner — smallapps</title>
+<meta name="description" content="Plan agentic workflows against published standards: autonomy tiers, sandboxing floors, tool contracts, evaluation gates.">
+<link rel="stylesheet" href="./app.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◇</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">◇</span>
+    <div>
+      <h1>Agent workflow planner</h1>
+      <p>Answer for the system you actually have. Get the controls a reviewer will ask about.</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button id="btn-import" class="ghost" type="button">Import</button>
+    <button id="btn-export" class="ghost" type="button">Export answers</button>
+    <button id="btn-reset" class="ghost" type="button">Reset</button>
+    <input id="file-import" type="file" accept="application/json" hidden>
+  </div>
+</header>
+
+<div class="presets" role="group" aria-label="Start from a preset">
+  <span class="presets-label">Start from</span>
+  <div id="preset-buttons" class="preset-buttons"></div>
+  <span class="presets-label" style="margin-left:auto">or answer below</span>
+</div>
+
+<main class="layout">
+
+  <!-- ── Intake ─────────────────────────────────────────────────────── -->
+  <section class="intake" aria-label="Intake">
+    <div class="name-row">
+      <label for="wf-name">Workflow name</label>
+      <input id="wf-name" type="text" placeholder="Untitled agent workflow" autocomplete="off">
+    </div>
+    <div id="warnings" class="warnings" hidden></div>
+    <div id="form"></div>
+  </section>
+
+  <!-- ── Results ────────────────────────────────────────────────────── -->
+  <aside class="results" aria-label="Plan">
+    <div id="verdict" class="verdict"></div>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" data-tab="controls" role="tab">Controls</button>
+      <button class="tab" data-tab="risks" role="tab">Risks</button>
+      <button class="tab" data-tab="doc" role="tab">Plan</button>
+      <button class="tab" data-tab="checklist" role="tab">Checklist</button>
+    </nav>
+
+    <div class="tabpanel is-active" data-panel="controls">
+      <div class="filters" id="filters">
+        <button class="chip is-on" data-sev="must">must</button>
+        <button class="chip is-on" data-sev="should">should</button>
+        <button class="chip" data-sev="consider">consider</button>
+      </div>
+      <div id="controls"></div>
+    </div>
+
+    <div class="tabpanel" data-panel="risks">
+      <div id="risks"></div>
+    </div>
+
+    <div class="tabpanel" data-panel="doc">
+      <div class="doc-actions">
+        <button id="btn-copy-md" class="ghost small" type="button">Copy</button>
+        <button id="btn-dl-md" class="ghost small" type="button">Download .md</button>
+      </div>
+      <pre id="doc"></pre>
+    </div>
+
+    <div class="tabpanel" data-panel="checklist">
+      <div class="doc-actions">
+        <button id="btn-copy-cl" class="ghost small" type="button">Copy</button>
+        <button id="btn-dl-cl" class="ghost small" type="button">Download .md</button>
+        <button id="btn-dl-json" class="ghost small" type="button">Download .json</button>
+      </div>
+      <pre id="checklist"></pre>
+    </div>
+
+    <footer class="colophon">
+      <a href="../../docs/SOURCES.md">Sources</a> ·
+      <span id="engine-version"></span>
+    </footer>
+  </aside>
+
+</main>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>

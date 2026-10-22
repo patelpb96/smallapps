@@ -1,0 +1,312 @@
+/**
+ * Source registry.
+ *
+ * Every heuristic in this tool cites at least one entry here. The rule is:
+ * if it isn't in this file, it doesn't get to be a recommendation. That keeps
+ * the output auditable — you can argue with a citation, not with vibes.
+ *
+ * kind: standard | paper | vendor-doc | spec | framework | incident
+ */
+
+export const SOURCES = {
+  // ── Standards & regulatory ────────────────────────────────────────────────
+  'nist-ai-rmf': {
+    title: 'AI Risk Management Framework (AI RMF 1.0)',
+    publisher: 'NIST',
+    year: 2023,
+    kind: 'standard',
+    short: 'NIST',
+    url: 'https://www.nist.gov/itl/ai-risk-management-framework',
+    note: 'GOVERN / MAP / MEASURE / MANAGE. The vocabulary the rest of this tool leans on.',
+  },
+  'nist-ai-600-1': {
+    title: 'AI RMF Generative AI Profile (NIST AI 600-1)',
+    publisher: 'NIST',
+    year: 2024,
+    kind: 'standard',
+    short: 'NIST',
+    url: 'https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf',
+    local: 'docs/papers/nist-ai-600-1-genai-profile.pdf',
+    note: '13 GAI risks and ~400 suggested actions. Use it as the checklist behind the checklist.',
+  },
+  'nist-ai-100-2': {
+    title: 'Adversarial Machine Learning: A Taxonomy and Terminology of Attacks and Mitigations (NIST AI 100-2e2023)',
+    publisher: 'NIST',
+    year: 2024,
+    kind: 'standard',
+    short: 'NIST',
+    url: 'https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-2e2023.pdf',
+    note: 'Predictive-integrity (prompt injection) vs availability attacks. Names the classes you red-team against.',
+  },
+  'iso-42001': {
+    title: 'ISO/IEC 42001 — AI management system',
+    publisher: 'ISO/IEC',
+    year: 2023,
+    kind: 'standard',
+    short: 'ISO/IEC',
+    url: 'https://www.iso.org/standard/42001',
+    note: 'Org-level AI governance. Where a "named owner" requirement actually lives in an audit.',
+  },
+  'eu-ai-act-art14': {
+    title: 'EU AI Act, Article 14 — Human oversight',
+    publisher: 'European Union',
+    year: 2024,
+    kind: 'standard',
+    short: 'EU AI Act',
+    url: 'https://eur-lex.europa.eu/eli/reg/2024/1689/oj',
+    note: 'High-risk systems must be effectively overseen by natural persons. Also: oversight must be *possible*, not nominal.',
+  },
+
+  // ── OWASP ────────────────────────────────────────────────────────────────
+  'owasp-llm-top10': {
+    title: 'OWASP Top 10 for LLM Applications 2025',
+    publisher: 'OWASP GenAI Security Project',
+    year: 2025,
+    kind: 'standard',
+    short: 'OWASP LLM Top 10',
+    url: 'https://genai.owasp.org/llm-top-10/',
+    local: 'docs/papers/owasp-top10-llm-2025-genai.pdf',
+    note: 'LLM06 Excessive Agency = excessive functionality + excessive permissions + excessive autonomy.',
+  },
+  'owasp-agentic-top10': {
+    title: 'OWASP Top 10 for Agentic Applications 2026',
+    publisher: 'OWASP GenAI Security Project',
+    year: 2026,
+    kind: 'standard',
+    short: 'OWASP Agentic Top 10',
+    url: 'https://genai.owasp.org/download/52117/',
+    local: 'docs/papers/owasp-top10-agentic-apps-2026.pdf',
+    note: 'Extends LLM06 to multi-step plans and delegation chains. Tool budgets, egress allowlists, intent gates.',
+  },
+  'owasp-agent-cheatsheet': {
+    title: 'AI Agent Security Cheat Sheet',
+    publisher: 'OWASP Cheat Sheet Series',
+    year: 2026,
+    kind: 'framework',
+    short: 'OWASP',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html',
+    note: 'Concrete approval-binding rules: actor + tool + target + normalized params + expiry, consumed atomically.',
+  },
+  'owasp-mcp-cheatsheet': {
+    title: 'MCP Security Cheat Sheet',
+    publisher: 'OWASP Cheat Sheet Series',
+    year: 2026,
+    kind: 'framework',
+    short: 'OWASP',
+    url: 'https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html',
+    note: 'Tool-poisoning and rug-pull defences: hash the whole tool definition, not just the description.',
+  },
+  'owasp-aisvs-c09': {
+    title: 'AISVS C09 — Orchestration and Agentic Action',
+    publisher: 'OWASP AISVS',
+    year: 2026,
+    kind: 'standard',
+    short: 'OWASP AISVS',
+    url: 'https://github.com/OWASP/AISVS/blob/main/1.0/en/0x10-C09-Orchestration-and-Agentic-Action.md',
+    note: 'The most testable requirements set: execution budgets, reversibility classification, kill switches.',
+  },
+
+  // ── Vendor engineering guidance ──────────────────────────────────────────
+  'anthropic-effective-agents': {
+    title: 'Building Effective AI Agents',
+    publisher: 'Anthropic',
+    year: 2024,
+    kind: 'vendor-doc',
+    short: 'Anthropic',
+    url: 'https://www.anthropic.com/engineering/building-effective-agents',
+    note: 'Workflow patterns (chaining, routing, parallelisation, orchestrator-workers, evaluator-optimizer) and ACI design.',
+  },
+  'aws-scoping-matrix': {
+    title: 'Agentic AI Security Scoping Matrix',
+    publisher: 'Amazon Web Services',
+    year: 2025,
+    kind: 'framework',
+    short: 'AWS',
+    url: 'https://aws.amazon.com/ai/security/agentic-ai-scoping-matrix/',
+    note: 'Scope 1 No agency → Scope 4 Full agency. Used here as the autonomy tier mapping.',
+  },
+  'aws-four-principles': {
+    title: 'Four security principles for agentic AI systems',
+    publisher: 'Amazon Web Services',
+    year: 2026,
+    kind: 'vendor-doc',
+    short: 'AWS Security',
+    url: 'https://aws.amazon.com/blogs/security/four-security-principles-for-agentic-ai-systems/',
+    note: '"Agent safety is a box." Deterministic, external, comprehensive controls — not prompting.',
+  },
+  'google-saif-controls': {
+    title: 'SAIF — Security Controls for Generative AI Systems',
+    publisher: 'Google',
+    year: 2025,
+    kind: 'framework',
+    short: 'Google SAIF',
+    url: 'https://saif.google/secure-ai-framework/controls',
+    note: 'Agent User Control, Agent Permissions, Agent Observability.',
+  },
+  'google-secure-agents': {
+    title: "An Introduction to Google's Approach for Secure AI Agents",
+    publisher: 'Google Research',
+    year: 2025,
+    kind: 'paper',
+    short: 'Google Research',
+    url: 'https://arxiv.org/abs/2502.17832',
+    local: 'docs/papers/google-secure-ai-agents-2502.17832.pdf',
+    note: 'Well-defined human controllers, carefully limited powers, observable planning.',
+  },
+
+  // ── Specs ────────────────────────────────────────────────────────────────
+  'mcp-spec': {
+    title: 'Model Context Protocol Specification',
+    publisher: 'MCP / Anthropic',
+    year: 2025,
+    kind: 'spec',
+    short: 'MCP spec',
+    url: 'https://modelcontextprotocol.io/specification/2025-11-25',
+    note: 'Tools are model-controlled; annotations are untrusted unless the server is trusted.',
+  },
+  'mcp-security': {
+    title: 'MCP Security Best Practices',
+    publisher: 'MCP',
+    year: 2025,
+    kind: 'spec',
+    short: 'MCP',
+    url: 'https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices',
+    note: 'Confused-deputy and token-passthrough failure modes for proxied tool servers.',
+  },
+  'otel-genai-spans': {
+    title: 'Semantic Conventions for GenAI spans',
+    publisher: 'OpenTelemetry',
+    year: 2026,
+    kind: 'spec',
+    short: 'OpenTelemetry',
+    url: 'https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-spans.md',
+    note: 'gen_ai.operation.name, gen_ai.tool.name, gen_ai.tool.call.id — the minimum viable agent trace.',
+  },
+  'otel-genai-metrics': {
+    title: 'Semantic Conventions for GenAI metrics',
+    publisher: 'OpenTelemetry',
+    year: 2026,
+    kind: 'spec',
+    short: 'OpenTelemetry',
+    url: 'https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/gen-ai-metrics.md',
+    note: 'gen_ai.invoke_agent.tool_calls and token usage — what to alert on before cost surprises you.',
+  },
+
+  // ── Papers ───────────────────────────────────────────────────────────────
+  'tau-bench': {
+    title: 'τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains',
+    publisher: 'Sierra / arXiv 2406.12045',
+    year: 2024,
+    kind: 'paper',
+    short: 'Yao et al.',
+    url: 'https://arxiv.org/abs/2406.12045',
+    local: 'docs/papers/tau-bench-2406.12045.pdf',
+    note: 'Introduces pass^k. Even strong agents drop below 25% at pass^8. Reliability ≠ capability.',
+  },
+  'agent-eval-survey': {
+    title: 'Evaluation and Benchmarking of LLM Agents: A Survey',
+    publisher: 'arXiv 2507.21504',
+    year: 2025,
+    kind: 'paper',
+    short: 'arXiv survey',
+    url: 'https://arxiv.org/abs/2507.21504',
+    local: 'docs/papers/agent-eval-survey-2507.21504.pdf',
+    note: 'Maps the eval space: task performance, reliability, safety, efficiency, trajectory quality.',
+  },
+  'sandbox-escape-bench': {
+    title: 'Quantifying Frontier LLM Capabilities for Container Sandbox Escape',
+    publisher: 'UK AI Security Institute / arXiv 2603.02277',
+    year: 2026,
+    kind: 'paper',
+    short: 'UK AISI',
+    url: 'https://arxiv.org/abs/2603.02277',
+    local: 'docs/papers/sandbox-escape-bench-2603.02277.pdf',
+    note: 'Frontier models escape misconfigured Docker reliably. Treat plain container isolation as insufficient by default.',
+  },
+  'saber': {
+    title: 'Saber: Benchmarking Operational Safety of LLM Coding Agents in Stateful Project Workspaces',
+    publisher: 'arXiv 2606.01317',
+    year: 2026,
+    kind: 'paper',
+    short: 'Qing et al.',
+    url: 'https://arxiv.org/abs/2606.01317',
+    local: 'docs/papers/saber-coding-agent-safety-2606.01317.pdf',
+    note: 'Best model: 31% safe completion over 716 executable tasks. Judge the end state, not the refusal.',
+  },
+  'procedure-aware-eval': {
+    title: 'Beyond Task Completion: Revealing Corrupt Success in LLM Agents',
+    publisher: 'arXiv 2603.03116',
+    year: 2026,
+    kind: 'paper',
+    short: 'Cao et al.',
+    url: 'https://arxiv.org/abs/2603.03116',
+    local: 'docs/papers/procedure-aware-eval-2603.03116.pdf',
+    note: '27–78% of reported benchmark successes are "corrupt" — right outcome, violated procedure.',
+  },
+  'consistency-testable': {
+    title: 'Consistency as a Testable Property: Statistical Methods to Evaluate AI Agent Reliability',
+    publisher: 'arXiv 2605.10516',
+    year: 2026,
+    kind: 'paper',
+    short: 'Raj et al.',
+    url: 'https://arxiv.org/abs/2605.10516',
+    local: 'docs/papers/consistency-testable-property-2605.10516.pdf',
+    note: 'Split drift into composition (which actions) vs ordering (in what sequence). Accuracy hides both.',
+  },
+  'humans-out-of-loop': {
+    title: 'AI Agents Push Humans Out of the Loop',
+    publisher: 'arXiv 2608.23642',
+    year: 2026,
+    kind: 'paper',
+    short: 'Mitchell',
+    url: 'https://arxiv.org/abs/2608.23642',
+    local: 'docs/papers/ai-agents-humans-out-of-loop-2608.23642.pdf',
+    note: 'Approval fatigue and skill atrophy are design outcomes, not user failures.',
+  },
+
+  // ── Autonomy taxonomies ──────────────────────────────────────────────────
+  'knight-autonomy': {
+    title: 'Levels of Autonomy for AI Agents',
+    publisher: 'Knight First Amendment Institute',
+    year: 2025,
+    kind: 'paper',
+    short: 'Knight Institute',
+    url: 'https://knightcolumbia.org/content/levels-of-autonomy-for-ai-agents-1',
+    note: 'Five levels defined by the user role: operator, collaborator, consultant, approver, observer.',
+  },
+  'csa-autonomy': {
+    title: 'Autonomy Levels for Agentic AI',
+    publisher: 'Cloud Security Alliance',
+    year: 2026,
+    kind: 'framework',
+    short: 'Cloud Security Alliance',
+    url: 'https://cloudsecurityalliance.org/blog/2026/01/28/levels-of-autonomy',
+    note: 'SAE-J3016-style L0–L5. Level 3 (conditional) is where most enterprises actually land.',
+  },
+  'ai-sdlc-autonomy': {
+    title: 'AI-SDLC Progressive Autonomy Specification',
+    publisher: 'AI-SDLC',
+    year: 2026,
+    kind: 'framework',
+    short: 'AI-SDLC',
+    url: 'https://ai-sdlc.io/docs/spec/autonomy',
+    note: 'Least autonomy as a first-class principle; promotion requires evidence, demotion is automatic.',
+  },
+  'lethal-trifecta': {
+    title: 'The lethal trifecta for AI agents',
+    publisher: 'Simon Willison',
+    year: 2025,
+    kind: 'framework',
+    short: 'Willison',
+    url: 'https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/',
+    note: 'Private data + untrusted content + external communication. Any two are fine; three is the bug.',
+  },
+};
+
+/** Resolve a list of source ids, throwing on typos so bad citations fail loudly. */
+export function cite(...ids) {
+  return ids.map((id) => {
+    if (!SOURCES[id]) throw new Error(`Unknown source id: ${id}`);
+    return id;
+  });
+}

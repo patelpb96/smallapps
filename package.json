@@ -1,0 +1,18 @@
+{
+  "name": "smallapps",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Small, dependency-free apps. First: a planning tool for agentic workflows grounded in published standards.",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "bin": { "agent-plan": "./bin/plan.js" },
+  "scripts": {
+    "plan": "node bin/plan.js",
+    "test": "node --test",
+    "serve": "node scripts/serve.js",
+    "docs": "node scripts/gen-docs.js",
+    "check": "node --test && node scripts/lint-refs.js && node scripts/gen-docs.js --check"
+  },
+  "files": ["src", "bin", "apps"]
+}
