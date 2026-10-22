@@ -21,13 +21,13 @@
       "name": "Analyst",
       "kind": "human",
       "y": 270,
-      "height": 118
+      "height": 151
     },
     {
       "id": "system",
       "name": "System",
       "kind": "system",
-      "y": 396,
+      "y": 429,
       "height": 120
     }
   ],
@@ -35,12 +35,12 @@
     {
       "id": "n1",
       "primitive": "trigger-schedule",
-      "label": "Morning at 7am",
+      "label": "Every morning at 7am",
       "lane": "trigger",
       "props": {
         "actor": "Scheduler"
       },
-      "w": 172,
+      "w": 212,
       "h": 58,
       "x": 146,
       "y": 56
@@ -55,7 +55,7 @@
       },
       "w": 273,
       "h": 74,
-      "x": 376,
+      "x": 416,
       "y": 166
     },
     {
@@ -68,7 +68,7 @@
       },
       "w": 206,
       "h": 58,
-      "x": 707,
+      "x": 747,
       "y": 174
     },
     {
@@ -81,7 +81,7 @@
       },
       "w": 192,
       "h": 58,
-      "x": 971,
+      "x": 1011,
       "y": 174
     },
     {
@@ -94,36 +94,36 @@
       },
       "w": 212,
       "h": 58,
-      "x": 1221,
-      "y": 300
+      "x": 1261,
+      "y": 317
     },
     {
       "id": "n6",
-      "primitive": "approval",
+      "primitive": "decision",
       "label": "Either approves it or sends it back",
       "lane": "analyst",
       "props": {
         "actor": "Analyst",
-        "binds": "action"
+        "condition": ""
       },
-      "w": 280,
-      "h": 74,
-      "x": 1491,
+      "w": 210,
+      "h": 107,
+      "x": 1531,
       "y": 292
     },
     {
       "id": "n7",
-      "primitive": "approval",
-      "label": "Once approved it is published to the intranet",
-      "lane": "analyst",
+      "primitive": "publish",
+      "label": "Published to the intranet",
+      "lane": "research-agent",
       "props": {
-        "actor": "Analyst",
-        "binds": "action"
+        "actor": "Research agent",
+        "channel": ""
       },
-      "w": 293,
-      "h": 74,
-      "x": 1829,
-      "y": 292
+      "w": 246,
+      "h": 58,
+      "x": 1799,
+      "y": 174
     },
     {
       "id": "n8",
@@ -135,8 +135,8 @@
       },
       "w": 136,
       "h": 76,
-      "x": 2180,
-      "y": 418
+      "x": 2103,
+      "y": 451
     }
   ],
   "edges": [
@@ -201,6 +201,6 @@
     "source": "Every morning at 7am, the research agent searches for new filings from our watchlist and summarises each one.\nIt drafts a briefing.\nAn analyst reviews the briefing and either approves it or sends it back.\nOnce approved it is published to the intranet.",
     "interpreter": "rules@1"
   },
-  "width": 2344,
-  "height": 550
+  "width": 2267,
+  "height": 583
 }

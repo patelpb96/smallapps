@@ -7,27 +7,34 @@
       "name": "Trigger",
       "kind": "system",
       "y": 34,
-      "height": 118
+      "height": 102
+    },
+    {
+      "id": "pipeline",
+      "name": "Pipeline",
+      "kind": "system",
+      "y": 144,
+      "height": 102
     },
     {
       "id": "agent",
       "name": "Agent",
       "kind": "agent",
-      "y": 160,
-      "height": 254
+      "y": 254,
+      "height": 136
     },
     {
       "id": "engineer",
       "name": "Engineer",
       "kind": "human",
-      "y": 422,
+      "y": 398,
       "height": 102
     },
     {
       "id": "system",
       "name": "System",
       "kind": "system",
-      "y": 532,
+      "y": 508,
       "height": 120
     }
   ],
@@ -35,18 +42,32 @@
     {
       "id": "n1",
       "primitive": "trigger-schedule",
-      "label": "Hour the pipeline reads rows from the warehouse",
+      "label": "Every hour",
       "lane": "trigger",
       "props": {
         "actor": "Scheduler"
       },
-      "w": 266,
-      "h": 74,
+      "w": 145,
+      "h": 58,
       "x": 146,
       "y": 56
     },
     {
       "id": "n2",
+      "primitive": "tool-read",
+      "label": "Reads rows from the warehouse",
+      "lane": "pipeline",
+      "props": {
+        "actor": "Pipeline",
+        "scope": "read-only"
+      },
+      "w": 273,
+      "h": 58,
+      "x": 349,
+      "y": 166
+    },
+    {
+      "id": "n3",
       "primitive": "summarize",
       "label": "Summarises the metrics and compares them to yesterday",
       "lane": "agent",
@@ -55,11 +76,11 @@
       },
       "w": 253,
       "h": 74,
-      "x": 470,
-      "y": 250
+      "x": 680,
+      "y": 285
     },
     {
-      "id": "n3",
+      "id": "n4",
       "primitive": "decision",
       "label": "Drift is detected",
       "lane": "agent",
@@ -69,11 +90,11 @@
       },
       "w": 196,
       "h": 92,
-      "x": 781,
-      "y": 241
+      "x": 991,
+      "y": 276
     },
     {
-      "id": "n4",
+      "id": "n5",
       "primitive": "llm",
       "label": "Drafts an incident note",
       "lane": "agent",
@@ -82,11 +103,11 @@
       },
       "w": 233,
       "h": 58,
-      "x": 1055,
-      "y": 182
+      "x": 1245,
+      "y": 293
     },
     {
-      "id": "n5",
+      "id": "n6",
       "primitive": "approval",
       "label": "Approves it",
       "lane": "engineer",
@@ -96,24 +117,25 @@
       },
       "w": 152,
       "h": 58,
-      "x": 1096,
-      "y": 444
-    },
-    {
-      "id": "n6",
-      "primitive": "llm",
-      "label": "Once approved writes an alert",
-      "lane": "agent",
-      "props": {
-        "actor": "Agent"
-      },
-      "w": 273,
-      "h": 58,
-      "x": 1035,
-      "y": 258
+      "x": 1536,
+      "y": 420
     },
     {
       "id": "n7",
+      "primitive": "notify",
+      "label": "Writes an alert",
+      "lane": "agent",
+      "props": {
+        "actor": "Agent",
+        "channel": ""
+      },
+      "w": 179,
+      "h": 58,
+      "x": 1746,
+      "y": 293
+    },
+    {
+      "id": "n8",
       "primitive": "notify",
       "label": "Emails the on-call rota",
       "lane": "agent",
@@ -123,11 +145,11 @@
       },
       "w": 233,
       "h": 58,
-      "x": 1055,
-      "y": 334
+      "x": 1983,
+      "y": 293
     },
     {
-      "id": "n8",
+      "id": "n9",
       "primitive": "end",
       "label": "Done",
       "lane": "system",
@@ -136,8 +158,8 @@
       },
       "w": 136,
       "h": 76,
-      "x": 1366,
-      "y": 554
+      "x": 2274,
+      "y": 530
     }
   ],
   "edges": [
@@ -161,13 +183,13 @@
       "id": "e3",
       "from": "n3",
       "to": "n4",
-      "kind": "branch",
+      "kind": "sequence",
       "label": "",
-      "fromPort": "true"
+      "fromPort": "out"
     },
     {
       "id": "e4",
-      "from": "n3",
+      "from": "n4",
       "to": "n5",
       "kind": "branch",
       "label": "",
@@ -175,24 +197,32 @@
     },
     {
       "id": "e5",
-      "from": "n3",
+      "from": "n5",
       "to": "n6",
-      "kind": "branch",
+      "kind": "sequence",
       "label": "",
-      "fromPort": "true"
+      "fromPort": "out"
     },
     {
       "id": "e6",
-      "from": "n3",
+      "from": "n6",
       "to": "n7",
-      "kind": "branch",
+      "kind": "sequence",
       "label": "",
-      "fromPort": "true"
+      "fromPort": "out"
     },
     {
       "id": "e7",
       "from": "n7",
       "to": "n8",
+      "kind": "sequence",
+      "label": "",
+      "fromPort": "out"
+    },
+    {
+      "id": "e8",
+      "from": "n8",
+      "to": "n9",
       "kind": "sequence",
       "label": "",
       "fromPort": "out"
@@ -202,6 +232,6 @@
     "source": "Every hour the pipeline reads rows from the warehouse.\nThe agent summarises the metrics and compares them to yesterday.\nIf drift is detected the agent drafts an incident note and an engineer approves it.\nOnce approved the agent writes an alert and emails the on-call rota.",
     "interpreter": "rules@1"
   },
-  "width": 1530,
-  "height": 686
+  "width": 2438,
+  "height": 662
 }

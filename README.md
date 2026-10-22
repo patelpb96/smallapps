@@ -127,6 +127,10 @@ lanes: Trigger · Finance agent · Manager · System
 flags: critical:trifecta, medium:no-error-path
 ```
 
+![Support triage workflow](docs/examples/support-triage.png)
+
+<sub>Generated from four sentences of prose. The red dots mark effects — untrusted input, sensitive read, outbound send — and the `yes`/`no` chips are the branch the parser inferred.</sub>
+
 **Interpretation is a separate layer, not a prompt.** The description goes through an interpreter that emits a plain JSON spec; the diagram framework only ever sees that spec. Two interpreters ship:
 
 - **Rules** (default) — a lexicon and a clause splitter. No network, no key, deterministic, and unit-tested. It handles triggers, actors, sequence, `if / otherwise`, "in parallel", bulleted lists, and `a -> b -> c` arrow syntax.

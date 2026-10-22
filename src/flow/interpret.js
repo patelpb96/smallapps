@@ -20,6 +20,15 @@ import { getPrimitive } from './primitives.js';
 // ── Lexicons ────────────────────────────────────────────────────────────────
 
 /** Longer phrases first so "triage agent" wins over "agent". */
+const W = String.fromCharCode(92);
+
+/** "once approved, it is published" → the prefix qualifies the flow, not the step. */
+const TRAILING_CONDITION = new RegExp(
+  "^(?:once|if|when|after)" + W + "s+(?:approved|authorised|authorized|signed off|reviewed)"
+    + W + "b[,:]?" + W + "s*(?:it" + W + "s+is" + W + "s+)?",
+  "i",
+);
+
 const ACTOR_NOUNS = [
   'on-call engineer', 'on-call', 'triage agent', 'support agent', 'coding agent',
   'research agent', 'review agent', 'safety agent', 'orchestrator', 'supervisor',
@@ -218,6 +227,22 @@ export function splitClauses(text) {
     // A sentence that says "in parallel" keeps its "and" so the fork handler
     // downstream can see both branches.
     const parallel = PARALLEL_CUE.test(s);
+
+    // "Every hour the pipeline reads rows" → the schedule is the trigger and
+    // the reading is the first step. Keeping them fused loses the step.
+    const schedule = s.match(
+      /^((?:every|each)\s+(?:[a-z]+\s+)?(?:hour|day|week|month|morning|evening|night|minute)s?(?:\s+at\s+[0-9]{1,2}(?::[0-9]{2})?\s*(?:am|pm)?)?)(?=\s|,|$)/i,
+    );
+    if (schedule && s.length > schedule[1].length + 4) {
+      const rest = s.slice(schedule[1].length).replace(/^[\s,]+/, '');
+      if (rest && /[a-z]/i.test(rest)) {
+        out.push({ text: tidy(schedule[1]), bullet: false });
+        for (const piece of splitConjunction(rest)) {
+          out.push({ text: tidy(piece.replace(/\.$/, '')), bullet: false });
+        }
+        continue;
+      }
+    }
     for (const unit of splitSequence(s)) {
       for (const part of splitComma(unit)) {
         const pieces = parallel ? [part] : splitConjunction(part);
@@ -301,7 +326,18 @@ class Builder {
       return 'trigger';
     }
 
-    const phrase = actor?.phrase || 'System';
+    // A node with no actor gets the shared System lane; only a *named* system
+    // actor (pipeline, scheduler, CRM) earns its own row.
+    if (!actor) {
+      if (!this.lanes.has('system')) {
+        const lane = { id: 'system', name: 'System', kind: 'system' };
+        this.lanes.set('system', lane);
+        this.spec.lanes.push(lane);
+      }
+      return 'system';
+    }
+
+    const phrase = actor.phrase;
     const kind = actorKind(actor);
 
     if (GENERIC_ACTORS[kind]?.has(phrase.toLowerCase())) {
@@ -346,14 +382,22 @@ class Builder {
 
 // ── Shared clause → step ────────────────────────────────────────────────────
 
+const MACHINE_CATEGORIES = new Set(['io', 'tool', 'data']);
+
 function makeStepFactory(builder) {
   let lastActor = null;
+  let lastMachine = null;
   return {
     get lastActor() { return lastActor; },
     setActor(next) { lastActor = next; },
     step(clause) {
-      const actor = findActor(clause) || lastActor;
-      if (actor) lastActor = actor;
+      clause = clause.replace(TRAILING_CONDITION, '').trim() || clause;
+      const own = findActor(clause);
+      let actor = own || lastActor;
+      if (own) {
+        lastActor = own;
+        if (actorKind(own) !== 'human') lastMachine = own;
+      }
       let primitive = classifyVerb(clause);
 
       if (!builder.spec.nodes.length && TRIGGER_CUES.test(clause)) {
@@ -363,6 +407,8 @@ function makeStepFactory(builder) {
             ? 'trigger-message'
             : 'trigger-event';
       }
+      // "either X or Y" is a choice, even when one arm sounds like an approval.
+      if (/(^|[^a-z])either[^]*or([^a-z]|$)/i.test(clause)) primitive = 'decision';
 
       const ownActor = findActor(clause);
       if (primitive === 'approval' && (/\bauto-?approv/i.test(clause) || (ownActor && actorKind(ownActor) !== 'human'))) {
@@ -371,8 +417,15 @@ function makeStepFactory(builder) {
 
       if (!primitive) primitive = actorKind(actor) === 'human' ? 'human-task' : 'llm';
 
+      if (!own && actor && actorKind(actor) === 'human' && lastMachine
+          && MACHINE_CATEGORIES.has(getPrimitive(primitive).category)) {
+        actor = lastMachine;
+      }
+
       let label = stripActor(clause, actor);
-      if (primitive.startsWith('trigger-')) label = tidy(clause.replace(TRIGGER_CUES, '')) || clause;
+      if (!label) label = stripActor(clause, actor);
+      if (primitive === 'trigger-schedule') label = clause;
+      else if (primitive.startsWith('trigger-')) label = tidy(clause.replace(TRIGGER_CUES, '')) || clause;
       return { primitive, label, actor };
     },
   };
@@ -452,7 +505,9 @@ function parseProse(text, builder) {
 
     if (open) {
       const port = open.branch === 'true' ? 'true' : 'false';
-      builder.edge(open.id, n.id, 'branch', '', port);
+      const last = port === 'true' ? open.lastTrue : open.lastFalse;
+      if (last) builder.edge(last, n.id);
+      else builder.edge(open.id, n.id, 'branch', '', port);
       if (port === 'true') open.lastTrue = n.id; else open.lastFalse = n.id;
       frontier = [{ node: n.id }];
     } else {
@@ -528,7 +583,9 @@ function parseList(text, builder) {
 
     if (open && isSubItem) {
       const port = open.branch === 'true' ? 'true' : 'false';
-      builder.edge(open.id, node.id, 'branch', '', port);
+      const last = port === 'true' ? open.lastTrue : open.lastFalse;
+      if (last) builder.edge(last, node.id);
+      else builder.edge(open.id, node.id, 'branch', '', port);
       if (port === 'true') open.lastTrue = node.id; else open.lastFalse = node.id;
     } else {
       builder.join(frontier, node.id);
