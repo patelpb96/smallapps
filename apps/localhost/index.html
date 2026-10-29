@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>localhost — everything listening — smallapps</title>
+<meta name="description" content="Lists every server listening on localhost, remembers where you've been, and shows the script that started each one.">
+<script>
+  // Resolve the theme before first paint: the CSS keys off this attribute, so
+  // there is no flash of the wrong background.
+  (function () {
+    try {
+      var forced = new URLSearchParams(location.search).get('theme');
+      var dark = forced === 'dark'
+        || (forced !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    } catch (e) {
+      document.documentElement.dataset.theme = 'light';
+    }
+  })();
+</script>
+<link rel="stylesheet" href="./app.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌗</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="../../">
+    <span class="mark">⌗</span>
+    <span class="brand-text">localhost<em>everything listening</em></span>
+  </a>
+
+  <form class="address" id="address-form" autocomplete="off">
+    <input id="address" type="text" spellcheck="false" aria-label="Address"
+           placeholder="3000  ·  :3000/path  ·  localhost:3000/x" autocomplete="off">
+    <button class="primary" id="btn-go" type="submit">Go</button>
+  </form>
+
+  <div class="topbar-actions">
+    <button id="btn-back" class="ghost" type="button" title="Back">←</button>
+    <button id="btn-forward" class="ghost" type="button" title="Forward">→</button>
+    <span class="divider"></span>
+    <button id="btn-rescan" class="ghost" type="button" title="Scan again">Rescan</button>
+    <button id="btn-newtab" class="ghost" type="button" title="Open the current address in a new tab">Open in new tab</button>
+    <button id="btn-save" class="ghost" type="button" title="Save this place">★ Save</button>
+  </div>
+</header>
+
+<p id="notice" class="notice" role="status" hidden></p>
+
+<div class="app">
+
+  <!-- ── Left column ──────────────────────────────────────────────────── -->
+  <aside class="side">
+    <div class="tabs" role="tablist">
+      <button id="tab-live" class="tab on" type="button" role="tab" aria-selected="true">Live<span id="live-count" class="count"></span></button>
+      <button id="tab-places" class="tab" type="button" role="tab" aria-selected="false">Places<span id="places-count" class="count"></span></button>
+    </div>
+
+    <div class="side-scroll">
+      <section id="panel-live" class="panel" role="tabpanel">
+        <p class="side-hint" id="live-hint">Looking for listening ports…</p>
+        <div id="live-list" class="rows"></div>
+      </section>
+
+      <section id="panel-places" class="panel" role="tabpanel" hidden>
+        <h2 class="group" id="group-saved" hidden>Saved</h2>
+        <div id="places-saved" class="rows"></div>
+        <h2 class="group" id="group-recent" hidden>Recent</h2>
+        <div id="places-recent" class="rows"></div>
+        <p class="side-hint" id="places-hint">Nothing visited yet. Open a port and it will be remembered here.</p>
+      </section>
+    </div>
+  </aside>
+
+  <!-- ── Viewer ───────────────────────────────────────────────────────── -->
+  <main class="viewer">
+    <div class="viewer-bar">
+      <span id="viewer-url" class="viewer-url">No page open</span>
+      <span id="viewer-meta" class="viewer-meta"></span>
+    </div>
+    <div class="frame-wrap">
+      <iframe id="frame" title="localhost preview" referrerpolicy="no-referrer"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
+      <p class="frame-empty" id="frame-empty">Pick a port on the left, or type one above.</p>
+    </div>
+    <p class="frame-hint">If this stays blank the site blocks framing — <button id="btn-hint-newtab" class="link" type="button">Open in new tab</button>.</p>
+  </main>
+
+  <!-- ── Script drawer ────────────────────────────────────────────────── -->
+  <aside id="drawer" class="drawer" hidden>
+    <div class="drawer-head">
+      <h2 id="drawer-title">Script</h2>
+      <button id="drawer-close" class="ghost" type="button" title="Close">×</button>
+    </div>
+    <div class="drawer-body">
+      <dl class="meta" id="drawer-meta"></dl>
+      <div class="drawer-actions">
+        <button id="drawer-folder" class="ghost" type="button" hidden>Open folder</button>
+        <span id="drawer-note" class="drawer-note"></span>
+      </div>
+      <h3 class="drawer-sub" id="drawer-chain-title" hidden>Process chain</h3>
+      <ol class="chain" id="drawer-chain"></ol>
+      <h3 class="drawer-sub" id="drawer-text-title" hidden>Contents</h3>
+      <pre class="code" id="drawer-text"></pre>
+    </div>
+  </aside>
+
+</div>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>

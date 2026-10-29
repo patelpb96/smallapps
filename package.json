@@ -15,6 +15,7 @@
     "plan": "node bin/plan.js",
     "test": "node --test",
     "serve": "node scripts/serve.js",
+    "localhost": "node scripts/localhost-server.js",
     "docs": "node scripts/gen-docs.js",
     "check": "node --test && node scripts/lint-refs.js && node scripts/gen-docs.js --check",
     "flow": "node scripts/flow-render.js",
