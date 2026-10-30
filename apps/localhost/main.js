@@ -576,6 +576,8 @@ async function openDrawer({ path, kind, entry }) {
   state.drawer = { path, kind, entry };
   ui.drawer.hidden = false;
   document.querySelector('.app').classList.add('drawer-open');
+  // Asking for a script means wanting to see it, even if the panel was minimized.
+  setPanel('drawer', { collapsed: false });
   ui.drawerTitle.textContent = baseName(path) || (kind === 'folder' ? 'Folder' : 'Script');
   ui.drawerMeta.replaceChildren();
   ui.drawerText.textContent = 'Reading…';
@@ -607,6 +609,104 @@ function closeDrawer() {
   state.drawer = null;
   ui.drawer.hidden = true;
   document.querySelector('.app').classList.remove('drawer-open');
+  applyLayout();
+}
+
+// ── Panel layout: drag to resize, minimize to a rail, remembered ───────────
+
+const LAYOUT_KEY = 'localhost-browser.layout';
+const RAIL_PX = 28;
+const SNAP_PX = 120; // dragged narrower than this, a panel minimizes
+const PANELS = {
+  side: { el: () => $('#side'), splitter: () => $('#split-side'), min: 180, max: 640, width: 320, edge: 'left' },
+  drawer: { el: () => ui.drawer, splitter: () => $('#split-drawer'), min: 240, max: 900, width: 380, edge: 'right' },
+};
+
+const layout = (() => {
+  const fallback = { side: { width: 320, collapsed: false }, drawer: { width: 380, collapsed: false } };
+  try {
+    const saved = JSON.parse(localStorage.getItem(LAYOUT_KEY) || 'null');
+    if (saved && saved.side && saved.drawer) return { ...fallback, ...saved };
+  } catch { /* storage blocked or corrupt: defaults */ }
+  return fallback;
+})();
+
+const clampWidth = (name, px) => Math.round(Math.min(PANELS[name].max, Math.max(PANELS[name].min, px)));
+
+function applyLayout() {
+  const app = $('.app');
+  for (const [name, panel] of Object.entries(PANELS)) {
+    const { width, collapsed } = layout[name];
+    app.style.setProperty(`--${name}-col`, collapsed ? `${RAIL_PX}px` : `${clampWidth(name, width)}px`);
+    panel.el().classList.toggle('collapsed', collapsed);
+    const splitter = panel.splitter();
+    splitter.setAttribute('aria-valuenow', String(collapsed ? 0 : clampWidth(name, width)));
+  }
+  $('#split-drawer').hidden = ui.drawer.hidden;
+}
+
+function setPanel(name, changes) {
+  Object.assign(layout[name], changes);
+  if (changes.width != null) layout[name].width = clampWidth(name, changes.width);
+  applyLayout();
+  try { localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout)); } catch { /* not remembered, still works */ }
+}
+
+const togglePanel = (name) => setPanel(name, { collapsed: !layout[name].collapsed });
+
+function wireSplitter(name) {
+  const panel = PANELS[name];
+  const splitter = panel.splitter();
+  const app = $('.app');
+
+  splitter.addEventListener('pointerdown', (event) => {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    splitter.setPointerCapture(event.pointerId);
+    app.classList.add('dragging');
+    splitter.classList.add('active');
+    const box = app.getBoundingClientRect();
+    // A drag that ends minimized must not leave behind the narrow widths it
+    // passed through on the way, or restoring would come back tiny.
+    const startWidth = layout[name].width;
+
+    const move = (e) => {
+      // Width is the distance from the app's edge on the panel's side to the pointer.
+      const px = panel.edge === 'left' ? e.clientX - box.left : box.right - e.clientX;
+      if (px < SNAP_PX) setPanel(name, { collapsed: true, width: startWidth });
+      else setPanel(name, { collapsed: false, width: px });
+    };
+    const end = () => {
+      app.classList.remove('dragging');
+      splitter.classList.remove('active');
+      splitter.removeEventListener('pointermove', move);
+      splitter.removeEventListener('pointerup', end);
+      splitter.removeEventListener('pointercancel', end);
+    };
+    splitter.addEventListener('pointermove', move);
+    splitter.addEventListener('pointerup', end);
+    splitter.addEventListener('pointercancel', end);
+  });
+
+  splitter.addEventListener('dblclick', () => togglePanel(name));
+
+  splitter.addEventListener('keydown', (event) => {
+    // Arrow keys move the splitter itself, so "grow" depends on which side the panel is.
+    const grow = panel.edge === 'left' ? 'ArrowRight' : 'ArrowLeft';
+    const shrink = panel.edge === 'left' ? 'ArrowLeft' : 'ArrowRight';
+    const stepPx = event.shiftKey ? 64 : 16;
+    if (event.key === grow || event.key === shrink) {
+      event.preventDefault();
+      const delta = event.key === grow ? stepPx : -stepPx;
+      setPanel(name, { collapsed: false, width: (layout[name].collapsed ? panel.min : layout[name].width) + delta });
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      togglePanel(name);
+    }
+  });
+
+  splitter.setAttribute('aria-valuemin', String(panel.min));
+  splitter.setAttribute('aria-valuemax', String(panel.max));
 }
 
 // ── Tabs and wiring ────────────────────────────────────────────────────────
@@ -668,13 +768,26 @@ ui.drawerFolder.addEventListener('click', () => {
   openFolder(state.drawer.entry && state.drawer.entry.folder ? state.drawer.entry.folder : folderOf(path));
 });
 
+$('#side-collapse').addEventListener('click', () => setPanel('side', { collapsed: true }));
+$('#side-expand').addEventListener('click', () => setPanel('side', { collapsed: false }));
+$('#drawer-collapse').addEventListener('click', () => setPanel('drawer', { collapsed: true }));
+$('#drawer-expand').addEventListener('click', () => setPanel('drawer', { collapsed: false }));
+wireSplitter('side');
+wireSplitter('drawer');
+
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && state.drawer) closeDrawer();
+  // [ and ] toggle the panels, unless the key is being typed into something.
+  const typing = event.target.closest && event.target.closest('input, textarea, select, [contenteditable]');
+  if (typing || event.ctrlKey || event.metaKey || event.altKey) return;
+  if (event.key === '[') togglePanel('side');
+  if (event.key === ']' && state.drawer) togglePanel('drawer');
 });
 
 // ── Boot ───────────────────────────────────────────────────────────────────
 
 setTab('live');
+applyLayout();
 renderViewer();
 renderChrome();
 loadPorts().then(loadHistory);

@@ -51,10 +51,15 @@
 <div class="app">
 
   <!-- ── Left column ──────────────────────────────────────────────────── -->
-  <aside class="side">
+  <aside class="side" id="side">
+    <div class="rail" id="side-rail">
+      <button id="side-expand" class="ghost rail-btn" type="button" title="Show sidebar  [">›</button>
+      <span class="rail-label">Live · Places</span>
+    </div>
     <div class="tabs" role="tablist">
       <button id="tab-live" class="tab on" type="button" role="tab" aria-selected="true">Live<span id="live-count" class="count"></span></button>
       <button id="tab-places" class="tab" type="button" role="tab" aria-selected="false">Places<span id="places-count" class="count"></span></button>
+      <button id="side-collapse" class="ghost tab-collapse" type="button" title="Minimize sidebar  [">‹</button>
     </div>
 
     <div class="side-scroll">
@@ -73,6 +78,9 @@
     </div>
   </aside>
 
+  <div class="splitter" id="split-side" role="separator" aria-orientation="vertical"
+       aria-label="Resize sidebar" tabindex="0" title="Drag to resize · double-click to minimize"></div>
+
   <!-- ── Viewer ───────────────────────────────────────────────────────── -->
   <main class="viewer">
     <div class="viewer-bar">
@@ -88,10 +96,20 @@
   </main>
 
   <!-- ── Script drawer ────────────────────────────────────────────────── -->
+  <div class="splitter" id="split-drawer" role="separator" aria-orientation="vertical"
+       aria-label="Resize script panel" tabindex="0" title="Drag to resize · double-click to minimize" hidden></div>
+
   <aside id="drawer" class="drawer" hidden>
+    <div class="rail" id="drawer-rail">
+      <button id="drawer-expand" class="ghost rail-btn" type="button" title="Show script panel  ]">‹</button>
+      <span class="rail-label">Script</span>
+    </div>
     <div class="drawer-head">
       <h2 id="drawer-title">Script</h2>
-      <button id="drawer-close" class="ghost" type="button" title="Close">×</button>
+      <span class="drawer-head-actions">
+        <button id="drawer-collapse" class="ghost" type="button" title="Minimize  ]">›</button>
+        <button id="drawer-close" class="ghost" type="button" title="Close">×</button>
+      </span>
     </div>
     <div class="drawer-body">
       <dl class="meta" id="drawer-meta"></dl>

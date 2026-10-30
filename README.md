@@ -10,7 +10,7 @@ Working on this repo? Read [`AGENTS.md`](AGENTS.md) first — it holds the two r
 |---|---|
 | [`apps/flow`](apps/flow/) | Turns a description of a workflow into an editable swimlane diagram, with structural risks drawn on it. |
 | [`apps/agent-plan`](apps/agent-plan/) | Plans agentic workflows against published standards: autonomy tier, sandbox floor, tool contracts, oversight design, evaluation gates. |
-| [`apps/localhost`](apps/localhost/) | Lists every server listening on localhost, remembers where you've been, and shows the script that started each one. Run it with `node scripts/localhost-server.js` (on Windows, double-click `scripts/localhost.cmd`) — it needs the local server, so the hosted copy cannot do it. |
+| [`apps/localhost`](apps/localhost/) | Lists every server listening on localhost, remembers where you've been, and shows the script that started each one. Works on Windows, macOS and Linux (WSL included): run `npm run localhost -- --open`, or double-click `scripts/localhost.cmd` on Windows, or run `scripts/localhost.sh` elsewhere. It needs the local server, so the hosted copy cannot do it. |
 
 ---
 

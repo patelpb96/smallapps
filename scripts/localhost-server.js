@@ -6,7 +6,10 @@
  * it, and where that script lives. The last one is remembered in history, so a
  * server you stopped is still a folder you can open and a script you can read.
  *
- *   node scripts/localhost-server.js [port]        # default 4180
+ *   node scripts/localhost-server.js [port] [--open]   # default 4180; --open starts a browser
+ *
+ * Windows, macOS and Linux (including WSL). Sockets come from netstat on
+ * Windows, /proc on Linux, and lsof on macOS; see collect().
  *
  * It binds 127.0.0.1 only. Every /api request is checked against the Host
  * header so a page on another origin cannot rebind DNS to reach it.
@@ -16,7 +19,7 @@ import { execFile, spawn } from 'node:child_process';
 import { createServer } from 'node:http';
 import { connect as netConnect } from 'node:net';
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, readdir, rename, stat, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, readlink, rename, stat, writeFile } from 'node:fs/promises';
 import { request as httpRequest } from 'node:http';
 import { homedir } from 'node:os';
 import { extname, join, normalize, resolve, sep } from 'node:path';
@@ -24,7 +27,9 @@ import { pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
 
 const ROOT = resolve(import.meta.dirname, '..');
-const PORT = Number(process.argv[2] || process.env.PORT || 4180);
+const ARGS = process.argv.slice(2);
+const PORT = Number(ARGS.find((a) => /^\d+$/.test(a)) || process.env.PORT || 4180);
+const OPEN = ARGS.includes('--open');
 
 const execFileP = promisify(execFile);
 
@@ -120,6 +125,12 @@ export function dirName(value) {
   const head = text.slice(0, cut);
   if (/^[A-Za-z]:$/.test(head)) return head + BACKSLASH;
   return head;
+}
+
+/** Last path segment, for both separator styles. */
+export function baseName(value) {
+  const text = String(value || '');
+  return text.slice(Math.max(text.lastIndexOf('/'), text.lastIndexOf(BACKSLASH)) + 1);
 }
 
 function joinPath(dir, name) {
@@ -418,43 +429,157 @@ async function collectWindows() {
   return { listeners, processes };
 }
 
-async function collectPosix() {
+/** `lsof -F pcn` output: a `p<pid>` line, then `n<host:port>` lines for that pid. */
+export function parseLsof(text) {
   const listeners = [];
-
-  const lsof = await runCapture('lsof', ['-nP', '-iTCP', '-sTCP:LISTEN', '-F', 'pcn']);
   let pid = 0;
-  for (const line of lsof.split('\n')) {
+  for (const line of String(text || '').split('\n')) {
     if (!line) continue;
     const tag = line[0];
-    const value = line.slice(1);
+    const value = line.slice(1).trim();
     if (tag === 'p') pid = Number(value) || 0;
     else if (tag === 'n') {
       const parsed = parseHostPort(value);
-      if (parsed && pid) listeners.push({ ...parsed, pid });
+      if (parsed) listeners.push({ ...parsed, pid });
     }
   }
+  return listeners;
+}
 
+/**
+ * `ps -axo pid=,ppid=,comm=` and `ps -axo pid=,args=`, joined by pid. comm and
+ * args go last because both can contain spaces — on macOS comm is the full
+ * executable path, `/Applications/Google Chrome.app/...` included.
+ */
+export function parsePs(commText, argsText) {
   const processes = new Map();
-  const ps = await runCapture('ps', ['-eo', 'pid=,ppid=,comm=,args=']);
-  for (const line of ps.split('\n')) {
-    const match = line.match(/^\s*(\d+)\s+(\d+)\s+(\S+)\s*(.*)$/);
-    if (!match) continue;
-    const id = Number(match[1]);
-    processes.set(id, {
-      pid: id,
-      ppid: Number(match[2]) || 0,
-      name: match[3] || '',
-      commandLine: match[4] || '',
-      exe: '',
+  for (const line of String(commText || '').split('\n')) {
+    const m = line.match(/^\s*(\d+)\s+(\d+)\s+(.+?)\s*$/);
+    if (!m) continue;
+    const comm = m[3];
+    const pid = Number(m[1]);
+    processes.set(pid, {
+      pid,
+      ppid: Number(m[2]) || 0,
+      name: baseName(comm),
+      commandLine: '',
+      exe: isAbsolutePath(comm) ? comm : '',
     });
   }
+  for (const line of String(argsText || '').split('\n')) {
+    const m = line.match(/^\s*(\d+)\s+(.*?)\s*$/);
+    const proc = m && processes.get(Number(m[1]));
+    if (proc) proc.commandLine = m[2];
+  }
+  return processes;
+}
 
+/** macOS, the BSDs, and Linux without /proc: lsof and ps. */
+async function collectPosix() {
+  const [lsof, comm, args] = await Promise.all([
+    runCapture('lsof', ['-nP', '-iTCP', '-sTCP:LISTEN', '-F', 'pcn']),
+    runCapture('ps', ['-axo', 'pid=,ppid=,comm=']),
+    runCapture('ps', ['-axo', 'pid=,args=']),
+  ]);
+  return { listeners: parseLsof(lsof), processes: parsePs(comm, args) };
+}
+
+// ── Linux: read /proc directly, no lsof or ss needed ───────────────────────
+
+const hexByte = (hex, at) => parseInt(hex.slice(at, at + 2), 16);
+
+/** /proc/net/tcp addresses: IPv4 is one little-endian word; IPv6 is four. */
+export function procAddress(hex) {
+  if (hex.length === 8) return [6, 4, 2, 0].map((at) => hexByte(hex, at)).join('.');
+  if (hex.length !== 32) return '';
+  const bytes = [];
+  for (let word = 0; word < 4; word++) for (const at of [6, 4, 2, 0]) bytes.push(hexByte(hex, word * 8 + at));
+  if (bytes.every((b) => b === 0)) return '::';
+  if (bytes.slice(0, 15).every((b) => b === 0) && bytes[15] === 1) return '::1';
+  if (bytes.slice(0, 10).every((b) => b === 0) && bytes[10] === 255 && bytes[11] === 255) return bytes.slice(12).join('.');
+  const groups = [];
+  for (let i = 0; i < 16; i += 2) groups.push(((bytes[i] << 8) | bytes[i + 1]).toString(16));
+  return groups.join(':');
+}
+
+/** Listening rows (state 0A) of /proc/net/tcp or tcp6: address, port, socket inode. */
+export function parseProcNetTcp(text) {
+  const out = [];
+  for (const line of String(text || '').split('\n').slice(1)) {
+    const cols = line.trim().split(/\s+/);
+    if (cols.length < 10 || cols[3] !== '0A') continue;
+    const [addr, portHex] = cols[1].split(':');
+    out.push({ address: procAddress(addr), port: parseInt(portHex, 16), inode: cols[9] });
+  }
+  return out;
+}
+
+/** /proc/<pid>/stat: the name sits in parentheses and may itself contain them. */
+export function parseProcStat(text) {
+  const s = String(text || '');
+  const open = s.indexOf('(');
+  const close = s.lastIndexOf(')');
+  if (open < 0 || close < open) return null;
+  const rest = s.slice(close + 2).split(' ');
+  return { name: s.slice(open + 1, close), ppid: Number(rest[1]) || 0 };
+}
+
+/** /proc/<pid>/cmdline is NUL-separated; quote arguments with spaces so splitCommandLine gets them back. */
+export function procCommandLine(raw) {
+  return String(raw || '').split('\0').filter((a, i, all) => a !== '' || i < all.length - 1)
+    .map((a) => (/[\s"]/.test(a) ? `"${a.replace(/"/g, '\\"')}"` : a)).join(' ');
+}
+
+const realFs = {
+  read: (p) => readFile(p, 'utf8'),
+  list: (p) => readdir(p),
+  link: (p) => readlink(p),
+};
+
+/**
+ * Sockets from /proc/net/tcp{,6}; owners by finding each listening socket's
+ * inode among /proc/<pid>/fd links (only readable for your own processes, so
+ * others are left to guessOwner). `fsx` is swappable so tests can feed it a
+ * recorded /proc.
+ */
+export async function collectLinux(fsx = realFs, root = '/proc') {
+  const quiet = (p) => p.catch(() => null);
+  const [tcp4, tcp6, entries] = await Promise.all([
+    quiet(fsx.read(`${root}/net/tcp`)), quiet(fsx.read(`${root}/net/tcp6`)), quiet(fsx.list(root)),
+  ]);
+  const sockets = [...parseProcNetTcp(tcp4), ...parseProcNetTcp(tcp6)];
+  const owners = new Map(sockets.map((s) => [`socket:[${s.inode}]`, 0]));
+
+  const processes = new Map();
+  await Promise.all((entries || []).filter((e) => /^\d+$/.test(e)).map(async (dir) => {
+    const pid = Number(dir);
+    const [stat, cmdline, exe, fds] = await Promise.all([
+      quiet(fsx.read(`${root}/${dir}/stat`)),
+      quiet(fsx.read(`${root}/${dir}/cmdline`)),
+      quiet(fsx.link(`${root}/${dir}/exe`)),
+      owners.size ? quiet(fsx.list(`${root}/${dir}/fd`)) : null,
+    ]);
+    const parsed = parseProcStat(stat);
+    if (!parsed) return;
+    processes.set(pid, { pid, ppid: parsed.ppid, name: parsed.name, commandLine: procCommandLine(cmdline), exe: exe || '' });
+    await Promise.all((fds || []).map(async (fd) => {
+      const target = await quiet(fsx.link(`${root}/${dir}/fd/${fd}`));
+      if (target && owners.has(target) && !owners.get(target)) owners.set(target, pid);
+    }));
+  }));
+
+  const listeners = sockets.map((s) => ({ address: normalizeBind(s.address), port: s.port, pid: owners.get(`socket:[${s.inode}]`) || 0 }));
   return { listeners, processes };
 }
 
 async function collect() {
   try {
-    return process.platform === 'win32' ? await collectWindows() : await collectPosix();
+    if (process.platform === 'win32') return await collectWindows();
+    if (process.platform === 'linux') {
+      const proc = await collectLinux();
+      if (proc.processes.size) return proc; // no /proc (rare): fall through to lsof + ps
+    }
+    return await collectPosix();
   } catch {
     return { listeners: [], processes: new Map() };
   }
@@ -898,11 +1023,58 @@ export function originAllowed(originHeader, port) {
   return origin === `http://127.0.0.1:${port}` || origin === `http://localhost:${port}`;
 }
 
-function launchExplorer(target) {
-  const options = { windowsHide: true };
-  if (process.platform === 'win32') return execFileP('explorer.exe', ['/select,' + target], options).catch(() => {});
-  if (process.platform === 'darwin') return execFileP('open', ['-R', target], options).catch(() => {});
-  return execFileP('xdg-open', [dirName(target)], options).catch(() => {});
+/** WSL has no desktop of its own, but it can hand paths and URLs to Windows. */
+const isWsl = () => process.platform === 'linux' && !!(process.env.WSL_DISTRO_NAME || process.env.WSL_INTEROP);
+
+/**
+ * Start a program and report only whether it could be found and started.
+ * Exit codes are ignored: explorer.exe returns 1 even when it opened the window.
+ */
+function startDetached(file, args) {
+  return new Promise((finish) => {
+    let child;
+    try {
+      child = spawn(file, args, { stdio: 'ignore', detached: true, windowsHide: true });
+    } catch {
+      finish(false);
+      return;
+    }
+    child.once('error', () => finish(false));
+    child.once('spawn', () => { child.unref(); finish(true); });
+  });
+}
+
+/** Try each [file, args] in turn; true once one starts. */
+async function startFirst(candidates) {
+  for (const [file, args] of candidates) if (await startDetached(file, args)) return true;
+  return false;
+}
+
+async function wslWindowsPath(target) {
+  const out = (await runCapture('wslpath', ['-w', target])).trim();
+  return out || null;
+}
+
+/** Show `target` in the platform's file manager, selected where the platform can. */
+async function launchExplorer(target) {
+  if (process.platform === 'win32') return startFirst([['explorer.exe', ['/select,' + target]]]);
+  if (process.platform === 'darwin') return startFirst([['open', ['-R', target]]]);
+  const folder = dirName(target);
+  const candidates = [];
+  if (isWsl()) {
+    const win = await wslWindowsPath(target);
+    if (win) candidates.push(['explorer.exe', ['/select,' + win]]);
+  }
+  candidates.push(['xdg-open', [folder]], ['gio', ['open', folder]], ['kde-open', [folder]]);
+  return startFirst(candidates);
+}
+
+/** Open a URL in the default browser, everywhere. */
+function openBrowser(url) {
+  if (process.platform === 'win32') return startFirst([['explorer.exe', [url]]]);
+  if (process.platform === 'darwin') return startFirst([['open', [url]]]);
+  const candidates = isWsl() ? [['explorer.exe', [url]], ['wslview', [url]]] : [];
+  return startFirst([...candidates, ['xdg-open', [url]], ['gio', ['open', url]]]);
 }
 
 async function describePath(target) {
@@ -965,6 +1137,20 @@ export function createLocalhostServer() {
     return scanning;
   };
 
+  // A request that arrives while a scan is running shares it instead of
+  // starting a second one (page load + auto-refresh, or the startup warm-up).
+  let fullScanning = null;
+  const fullScan = (selfPort) => {
+    if (!fullScanning) {
+      fullScanning = (async () => {
+        const extraPorts = (await loadHistory()).map((e) => Number(e.port)).filter(Boolean);
+        lastScan = await scanPorts({ selfPort, extraPorts });
+        return lastScan;
+      })().finally(() => { fullScanning = null; });
+    }
+    return fullScanning;
+  };
+
   const server = createServer(async (req, res) => {
     let pathname;
     try {
@@ -985,10 +1171,7 @@ export function createLocalhostServer() {
 
       try {
         if (pathname === '/api/ports' && req.method === 'GET') {
-          const extraPorts = (await loadHistory()).map((e) => Number(e.port)).filter(Boolean);
-          const result = await scanPorts({ selfPort: port, extraPorts });
-          lastScan = result;
-          return sendJson(res, 200, result);
+          return sendJson(res, 200, await fullScan(port));
         }
 
         if (pathname === '/api/history' && req.method === 'GET') {
@@ -1021,8 +1204,11 @@ export function createLocalhostServer() {
           const scan = await ensureScan();
           const allowed = allowedPaths(scan, await loadHistory());
           if (!isAllowedPath(body.path, allowed)) return sendJson(res, 403, { error: 'path not in the scan' });
-          await launchExplorer(resolve(body.path));
-          return sendJson(res, 200, { opened: resolve(body.path) });
+          const target = resolve(body.path);
+          if (!(await launchExplorer(target))) {
+            return sendJson(res, 501, { error: `no file manager could be started here — the path is ${target}`, path: target });
+          }
+          return sendJson(res, 200, { opened: target });
         }
 
         if (pathname === '/api/script' && req.method === 'GET') {
@@ -1077,6 +1263,10 @@ export function createLocalhostServer() {
 
   server.on('listening', () => {
     try { boundPort = server.address().port; } catch { boundPort = 0; }
+    // Warm up: start the PowerShell worker and run one full scan now, so the
+    // first page load finds quiet ports already known and does not wait on them.
+    prewarm();
+    fullScan(boundPort).catch(() => {});
   });
 
   return server;
@@ -1091,7 +1281,8 @@ function runDirectly() {
 if (runDirectly()) {
   const server = createLocalhostServer();
   server.listen(PORT, '127.0.0.1', () => {
-    process.stdout.write(`localhost browser → http://localhost:${server.address().port}/\n`);
-    prewarm();
+    const url = `http://localhost:${server.address().port}/`;
+    process.stdout.write(`localhost browser → ${url}\n`);
+    if (OPEN) openBrowser(url);
   });
 }

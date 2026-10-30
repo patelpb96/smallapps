@@ -63,7 +63,11 @@ body {
   font-size: 13.5px;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
+  /* Side by side, the page is exactly one window tall and each panel scrolls
+     inside itself. Stacked (narrow), the page scrolls instead. */
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -190,17 +194,65 @@ button[disabled] { opacity: .4; cursor: default; }
 
 /* ── Layout ───────────────────────────────────────────────────────────── */
 
+/* Column widths come from main.js (dragged, minimized, remembered). */
 .app {
+  --side-col: 320px;
+  --drawer-col: 380px;
   display: grid;
-  grid-template-columns: minmax(290px, 340px) minmax(0, 1fr) minmax(0, 0fr);
+  grid-template-columns: var(--side-col) 5px minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
   flex: 1 1 auto;
   min-height: 0;
 }
 
-.app.drawer-open { grid-template-columns: minmax(290px, 340px) minmax(0, 1fr) minmax(320px, 420px); }
+.app.drawer-open { grid-template-columns: var(--side-col) 5px minmax(0, 1fr) 5px var(--drawer-col); }
+
+/* While dragging, the iframe would swallow the pointer. */
+.app.dragging { cursor: col-resize; user-select: none; }
+.app.dragging iframe { pointer-events: none; }
+
+.splitter {
+  background: var(--line);
+  cursor: col-resize;
+  touch-action: none;
+}
+.splitter[hidden] { display: none; }
+.splitter:hover,
+.splitter:focus-visible,
+.app.dragging .splitter.active { background: var(--accent); outline: 0; }
+
+/* A minimized sidebar is a rail: one button and a sideways label. */
+.rail {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  height: 100%;
+}
+.rail-btn { width: 22px; padding: 2px 0; }
+.rail-label {
+  writing-mode: vertical-rl;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ink-faint);
+}
+.collapsed > .rail { display: flex; }
+.collapsed > :not(.rail) { display: none !important; }
+
+.tab-collapse {
+  flex: 0 0 auto;
+  border: 0;
+  border-left: 1px solid var(--line);
+  padding: 0 10px;
+}
+
+.drawer-head-actions { display: flex; gap: 4px; }
 
 .side {
-  border-right: 1px solid var(--line);
+  min-width: 0;
+  overflow: hidden;
   background: var(--bg-raise);
   display: flex;
   flex-direction: column;
@@ -469,7 +521,6 @@ button[disabled] { opacity: .4; cursor: default; }
 /* ── Drawer ───────────────────────────────────────────────────────────── */
 
 .drawer {
-  border-left: 1px solid var(--line);
   background: var(--bg-raise);
   display: flex;
   flex-direction: column;
@@ -574,11 +625,18 @@ button[disabled] { opacity: .4; cursor: default; }
 /* ── Narrow: stack, never scroll sideways ─────────────────────────────── */
 
 @media (max-width: 860px) {
+  body { height: auto; min-height: 100vh; overflow: visible; }
+
   .app,
-  .app.drawer-open { grid-template-columns: minmax(0, 1fr); }
+  .app.drawer-open { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+
+  /* Stacked: no side-by-side widths to drag; minimizing still works, and a
+     minimized panel becomes a thin horizontal bar. */
+  .splitter { display: none !important; }
+  .rail { flex-direction: row; height: auto; padding: 4px 8px; }
+  .rail-label { writing-mode: horizontal-tb; }
 
   .side {
-    border-right: 0;
     border-bottom: 1px solid var(--line);
     max-height: 46vh;
   }

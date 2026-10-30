@@ -14,6 +14,7 @@ import assert from 'node:assert/strict';
 import {
   splitCommandLine, findLauncher, extractTitle, isLocalUrl, isAbsolutePath, dirName,
   portsInCommandLine, guessOwner, parseNetstat,
+  procAddress, parseProcNetTcp, parseProcStat, procCommandLine, collectLinux, parseLsof, parsePs,
 } from '../scripts/localhost-server.js';
 
 const existsIn = (paths) => {
@@ -233,4 +234,77 @@ test('netstat listeners are read by foreign port 0, not by the state word', () =
     { LocalAddress: '::1', LocalPort: 4321, OwningProcess: 0 },
   ]);
   assert.deepEqual(parseNetstat(''), []);
+});
+
+// ── Linux /proc and macOS lsof/ps ──────────────────────────────────────────
+
+test('/proc addresses decode for IPv4, IPv6 loopback, wildcard and v4-mapped', () => {
+  assert.equal(procAddress('0100007F'), '127.0.0.1');
+  assert.equal(procAddress('00000000'), '0.0.0.0');
+  assert.equal(procAddress('00000000000000000000000001000000'), '::1');
+  assert.equal(procAddress('00000000000000000000000000000000'), '::');
+  assert.equal(procAddress('0000000000000000FFFF00000100007F'), '127.0.0.1');
+});
+
+test('/proc/net/tcp keeps only listening rows, with port and inode', () => {
+  const text = [
+    '  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode',
+    '   0: 00000000:1F90 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 17410 1 0 100 0 0 10 0',
+    '   1: 0100007F:10CB 00000000:0000 0A 00000000:00000000 00:00000000 00000000  1000        0 19513 1 0 100 0 0 10 0',
+    '   2: 0100007F:10CB 0100007F:C350 01 00000000:00000000 00:00000000 00000000  1000        0 19600 1 0 100 0 0 10 0',
+  ].join('\n');
+  assert.deepEqual(parseProcNetTcp(text), [
+    { address: '0.0.0.0', port: 8080, inode: '17410' },
+    { address: '127.0.0.1', port: 4299, inode: '19513' },
+  ]);
+});
+
+test('/proc/<pid>/stat names may contain spaces and parentheses', () => {
+  assert.deepEqual(parseProcStat('812 (tmux: server) S 1 812 812 0 -1'), { name: 'tmux: server', ppid: 1 });
+  assert.deepEqual(parseProcStat('9 (a) b) R 4 9 9'), { name: 'a) b', ppid: 4 });
+  assert.equal(parseProcStat(''), null);
+});
+
+test('/proc cmdline arguments with spaces survive the round trip', () => {
+  const line = procCommandLine('python3\0/srv/my app/run.py\0--port\x003000\0');
+  assert.equal(line, 'python3 "/srv/my app/run.py" --port 3000');
+  assert.deepEqual(splitCommandLine(line), ['python3', '/srv/my app/run.py', '--port', '3000']);
+});
+
+test('collectLinux finds a socket owner through /proc/<pid>/fd', async () => {
+  const files = {
+    '/proc/net/tcp': 'header\n   0: 0100007F:0BB8 00000000:0000 0A 0:0 0:0 0 1000 0 555 1\n',
+    '/proc/10/stat': '10 (bash) S 1 10',
+    '/proc/10/cmdline': 'bash\0',
+    '/proc/11/stat': '11 (node) S 10 11',
+    '/proc/11/cmdline': 'node\0/srv/app/server.js\0',
+  };
+  const dirs = { '/proc': ['10', '11', 'net', 'self'], '/proc/10/fd': ['0'], '/proc/11/fd': ['0', '7'] };
+  const links = { '/proc/10/fd/0': '/dev/pts/0', '/proc/11/fd/0': '/dev/null', '/proc/11/fd/7': 'socket:[555]', '/proc/11/exe': '/usr/bin/node' };
+  const miss = () => Promise.reject(new Error('ENOENT'));
+  const fsx = {
+    read: (p) => (p in files ? Promise.resolve(files[p]) : miss()),
+    list: (p) => (p in dirs ? Promise.resolve(dirs[p]) : miss()),
+    link: (p) => (p in links ? Promise.resolve(links[p]) : miss()),
+  };
+  const { listeners, processes } = await collectLinux(fsx);
+  assert.deepEqual(listeners, [{ address: '127.0.0.1', port: 3000, pid: 11 }]);
+  assert.deepEqual(processes.get(11), { pid: 11, ppid: 10, name: 'node', commandLine: 'node /srv/app/server.js', exe: '/usr/bin/node' });
+});
+
+test('lsof -F output: wildcard and bracketed IPv6 binds', () => {
+  assert.deepEqual(parseLsof('p501\ncnode\nn*:5173\nn[::1]:3000\np77\ncPython\nn127.0.0.1:8000\n'), [
+    { address: '0.0.0.0', port: 5173, pid: 501 },
+    { address: '::1', port: 3000, pid: 501 },
+    { address: '127.0.0.1', port: 8000, pid: 77 },
+  ]);
+});
+
+test('macOS ps: comm is a full path that can contain spaces', () => {
+  const comm = '  501     1 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome\n  612   501 node\n';
+  const args = '  501 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --flag\n  612 node vite --port 5173\n';
+  const procs = parsePs(comm, args);
+  assert.equal(procs.get(501).name, 'Google Chrome');
+  assert.equal(procs.get(501).exe, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome');
+  assert.deepEqual(procs.get(612), { pid: 612, ppid: 501, name: 'node', commandLine: 'node vite --port 5173', exe: '' });
 });
