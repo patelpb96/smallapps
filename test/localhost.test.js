@@ -13,7 +13,7 @@ import assert from 'node:assert/strict';
 
 import {
   splitCommandLine, findLauncher, extractTitle, isLocalUrl, isAbsolutePath, dirName,
-  portsInCommandLine, guessOwner,
+  portsInCommandLine, guessOwner, parseNetstat,
 } from '../scripts/localhost-server.js';
 
 const existsIn = (paths) => {
@@ -216,4 +216,21 @@ test('a shell that names the port hands ownership to its child', () => {
   assert.equal(guessOwner(8766, procs), 11);
   assert.equal(guessOwner(5173, procs), 12);
   assert.equal(guessOwner(9999, procs), 0);
+});
+
+test('netstat listeners are read by foreign port 0, not by the state word', () => {
+  const text = [
+    'Active Connections',
+    '  Proto  Local Address          Foreign Address        State           PID',
+    '  TCP    127.0.0.1:8765         0.0.0.0:0              LISTENING       27500',
+    '  TCP    0.0.0.0:5173           0.0.0.0:0              ABHÖREN         412',
+    '  TCP    127.0.0.1:50000        127.0.0.1:8765         ESTABLISHED     99',
+    '  TCP    [::1]:4321             [::]:0                 LISTENING       0',
+  ].join('\r\n');
+  assert.deepEqual(parseNetstat(text), [
+    { LocalAddress: '127.0.0.1', LocalPort: 8765, OwningProcess: 27500 },
+    { LocalAddress: '0.0.0.0', LocalPort: 5173, OwningProcess: 412 },
+    { LocalAddress: '::1', LocalPort: 4321, OwningProcess: 0 },
+  ]);
+  assert.deepEqual(parseNetstat(''), []);
 });

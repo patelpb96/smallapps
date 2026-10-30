@@ -12,7 +12,7 @@
  * header so a page on another origin cannot rebind DNS to reach it.
  */
 
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { createServer } from 'node:http';
 import { connect as netConnect } from 'node:net';
 import { existsSync } from 'node:fs';
@@ -254,7 +254,105 @@ const PS_SCRIPT = [
   '[pscustomobject]@{ conns = $conns; procs = $procs } | ConvertTo-Json -Depth 3 -Compress',
 ].join('; ');
 
+// The process list alone, for the warm worker. Sockets come from netstat, which
+// answers in ~20 ms where Get-NetTCPConnection takes ~600 ms.
+const PS_PROCS = '@(Get-CimInstance Win32_Process -ErrorAction SilentlyContinue | Select-Object ProcessId,ParentProcessId,Name,CommandLine,ExecutablePath) | ConvertTo-Json -Depth 2 -Compress';
+
 const asArray = (value) => (Array.isArray(value) ? value : value == null ? [] : [value]);
+
+/**
+ * Listening sockets out of `netstat -ano -p TCP` / `-p TCPv6`. A row is a
+ * listener when its foreign port is 0 — the state column is translated on
+ * non-English Windows, the foreign address is not.
+ */
+export function parseNetstat(text) {
+  const out = [];
+  for (const line of String(text || '').split(/\r?\n/)) {
+    const cols = line.trim().split(/\s+/);
+    if (cols.length < 5 || !/^TCP/i.test(cols[0])) continue;
+    const local = cols[1].match(/^(.*):(\d+)$/);
+    if (!local || !/:0$/.test(cols[2])) continue;
+    const pid = Number(cols[cols.length - 1]);
+    out.push({
+      LocalAddress: local[1].replace(/^\[|\]$/g, ''),
+      LocalPort: Number(local[2]),
+      OwningProcess: Number.isInteger(pid) ? pid : 0,
+    });
+  }
+  return out;
+}
+
+/**
+ * One long-lived PowerShell that runs a command per request. Starting
+ * powershell.exe costs ~250 ms and its first CIM query ~300 ms more; a warm one
+ * answers the process list in ~180 ms. If it dies or stalls, it is replaced.
+ */
+class PowerShellWorker {
+  constructor() {
+    this.child = null;
+    this.buffer = '';
+    this.queue = [];
+  }
+
+  start() {
+    if (this.child) return;
+    const child = spawn('powershell.exe', ['-NoProfile', '-NonInteractive', '-NoLogo', '-Command', '-'], {
+      stdio: ['pipe', 'pipe', 'ignore'],
+      windowsHide: true,
+    });
+    this.child = child;
+    this.buffer = '';
+    child.stdout.setEncoding('utf8');
+    child.stdout.on('data', (chunk) => {
+      this.buffer += chunk;
+      let at;
+      while ((at = this.buffer.indexOf(WORKER_END)) >= 0) {
+        const out = this.buffer.slice(0, at);
+        this.buffer = this.buffer.slice(at + WORKER_END.length);
+        const job = this.queue.shift();
+        if (job) job.finish(out);
+      }
+    });
+    const fail = () => {
+      if (this.child !== child) return;
+      this.child = null;
+      for (const job of this.queue.splice(0)) job.finish(null);
+    };
+    child.on('exit', fail);
+    child.on('error', fail);
+    child.stdin.on('error', fail);
+    child.unref();
+    child.stdout.unref?.();
+    child.stdin.unref?.();
+    child.stdin.write('$ProgressPreference = "SilentlyContinue"; [Console]::OutputEncoding = [System.Text.Encoding]::UTF8\n');
+  }
+
+  /** Output of `command`, or null if the worker failed or took over `timeoutMs`. */
+  run(command, timeoutMs = 8000) {
+    this.start();
+    return new Promise((finish) => {
+      const job = { finish: (out) => { clearTimeout(timer); finish(out); } };
+      const timer = setTimeout(() => {
+        // A stalled worker would wedge every later scan: kill it, the next run respawns.
+        const child = this.child;
+        this.child = null;
+        for (const queued of this.queue.splice(0)) queued.finish(null);
+        try { child && child.kill(); } catch { /* already gone */ }
+      }, timeoutMs);
+      timer.unref?.();
+      this.queue.push(job);
+      this.child.stdin.write(`${command}; '${WORKER_END}'\n`);
+    });
+  }
+}
+
+const WORKER_END = '<<localhost-scan-end>>';
+const psWorker = new PowerShellWorker();
+
+/** Start PowerShell and run one query now, so the first real scan is warm. */
+export function prewarm() {
+  if (process.platform === 'win32') psWorker.run(PS_PROCS);
+}
 
 async function runCapture(file, args, maxBuffer = 48 * 1024 * 1024) {
   try {
@@ -274,10 +372,28 @@ async function collectWindows() {
     return { conns: asArray(data.conns), procs: asArray(data.procs) };
   };
 
-  let snapshot = await read();
-  // A completely empty answer means the query failed, not that nothing is
-  // listening on this machine — Windows PowerShell does that now and then.
-  if (!snapshot.conns.length && !snapshot.procs.length) snapshot = await read();
+  const parseProcs = (out) => {
+    try { return asArray(JSON.parse(String(out || '').trim() || '[]')); } catch { return []; }
+  };
+
+  // Sockets and processes in parallel: netstat on its own, the process list on
+  // the warm worker.
+  const [netstat4, netstat6, procsOut] = await Promise.all([
+    runCapture('netstat.exe', ['-ano', '-p', 'TCP']),
+    runCapture('netstat.exe', ['-ano', '-p', 'TCPv6']),
+    psWorker.run(PS_PROCS),
+  ]);
+  let snapshot = { conns: parseNetstat(netstat4 + '\n' + netstat6), procs: parseProcs(procsOut) };
+
+  // A completely empty answer means a query failed, not that nothing is
+  // listening on this machine. Fall back to the one-shot PowerShell script.
+  if (!snapshot.conns.length || !snapshot.procs.length) {
+    const cold = await read();
+    snapshot = {
+      conns: snapshot.conns.length ? snapshot.conns : cold.conns,
+      procs: snapshot.procs.length ? snapshot.procs : cold.procs,
+    };
+  }
 
   const listeners = [];
   for (const conn of snapshot.conns) {
@@ -437,6 +553,10 @@ export function probeHttp(port, timeoutMs = PROBE_TIMEOUT_MS) {
 // connects to ports it has reason to expect, and attributes owners by reading
 // the port number out of command lines.
 
+/** Ports that accepted a connection but sent no HTTP: port -> { pid, at }. */
+const silentPorts = new Map();
+const SILENT_TTL_MS = 60_000;
+
 /** Dev-server ports worth a connect even when nothing names them. */
 export const COMMON_PORTS = [
   3000, 3001, 3002, 4000, 4173, 4200, 4321, 5000, 5001, 5173, 5174, 5175,
@@ -490,15 +610,20 @@ export function tcpOpen(port, timeoutMs = 400) {
 /** One entry per listening port, loopback or wildcard, minus our own port. */
 export async function scanPorts({ selfPort = 0, probe = true, extraPorts = [] } = {}) {
   const scannedAt = new Date().toISOString();
-  const { listeners, processes } = await collect();
+  const openPorts = async (list) => (await Promise.all(list.map(async (p) => ((await tcpOpen(p)) ? p : 0)))).filter(Boolean);
 
-  // Connect to every port we have a reason to expect but the table did not list.
+  // Connect to the ports we expect while the socket table and process list load;
+  // ports named in command lines are only known afterwards, so they go second.
+  const known = [...new Set([...COMMON_PORTS, ...extraPorts])].filter((p) => p !== selfPort);
+  const [{ listeners, processes }, openKnown] = await Promise.all([collect(), openPorts(known)]);
+
+  const named = new Set();
+  for (const proc of processes.values()) for (const p of portsInCommandLine(proc.commandLine)) named.add(p);
   const listed = new Set(listeners.map((l) => l.port));
-  const candidates = new Set([...COMMON_PORTS, ...extraPorts]);
-  for (const proc of processes.values()) for (const p of portsInCommandLine(proc.commandLine)) candidates.add(p);
-  const unlisted = [...candidates].filter((p) => p !== selfPort && !listed.has(p));
-  const open = await Promise.all(unlisted.map(async (p) => ((await tcpOpen(p)) ? p : 0)));
-  for (const p of open) if (p) listeners.push({ port: p, address: '127.0.0.1', pid: 0, found: 'connect' });
+  const openNamed = await openPorts([...named].filter((p) => p !== selfPort && !known.includes(p)));
+  for (const p of [...openKnown, ...openNamed]) {
+    if (!listed.has(p)) listeners.push({ port: p, address: '127.0.0.1', pid: 0, found: 'connect' });
+  }
 
   const byPort = new Map();
   for (const listener of listeners) {
@@ -572,7 +697,13 @@ export async function scanPorts({ selfPort = 0, probe = true, extraPorts = [] } 
 
   if (probe) {
     await Promise.all(ports.map(async (entry) => {
+      // A port that did not answer HTTP last time, still owned by the same process,
+      // would only make us wait out the timeout again.
+      const quiet = silentPorts.get(entry.port);
+      if (quiet && quiet.pid === entry.pid && Date.now() - quiet.at < SILENT_TTL_MS) return;
       entry.http = await probeHttp(entry.port);
+      if (entry.http) silentPorts.delete(entry.port);
+      else silentPorts.set(entry.port, { pid: entry.pid, at: Date.now() });
     }));
   }
 
@@ -961,5 +1092,6 @@ if (runDirectly()) {
   const server = createLocalhostServer();
   server.listen(PORT, '127.0.0.1', () => {
     process.stdout.write(`localhost browser → http://localhost:${server.address().port}/\n`);
+    prewarm();
   });
 }
